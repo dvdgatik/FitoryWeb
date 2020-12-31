@@ -1,0 +1,155 @@
+{% extends "baseAdmin3.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+<section class="reporteros">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="titulo-prin" style="text-align:center">Reportes</h4>
+            </div>
+            <div class="col-md-12"><br></div>
+            <div class="col-md-12">
+                <form name="filtrarReporte" action="/filtrarReporte/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="date" name="inicio" id="inicio" required="required" onchange="validarFechasInicio();">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="date" name="final" id="final" required="required" onchange="validarFechasFin();">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="md-form">
+                                <input type="submit" value="Buscar" id="filtrar" class="btn btn-sm btn-black" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="text-suc">Filtrar por:</p>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="text-suc">Club</p>
+                                    <select class="browser-default custom-select" name="club" id="club">
+                                        <option value="0">Elije una opción</option>
+                                        {%if clubes%}
+                                            {%for c in clubes%}
+                                                <option value="{{c.id}}">{{c.nombre}}</option>
+                                            {%endfor%}
+                                        {%else%}
+                                            <option value="0">No hay arreglo registrados</option>
+                                        {%endif%}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="text-suc">Servicio</p>
+                                    <select class="browser-default custom-select" name="servicio" id="servicio">
+                                        <option value="0">Elije una opción</option>
+                                        <option value="1">Mensual</option>
+                                        <option value="2">Diario</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="text-suc">Estatus</p>
+                                    <select class="browser-default custom-select" name="estatus" id="estatus">
+                                        <option value="0">Elije una opción</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12"><br></div>
+            <div class="col-md-12">
+                {%if arreglo%}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>CLUB</th>
+                                    <th>SUCURSAL</th>
+                                    <th>CLIENTE</th>
+                                    <th>SERVICIO</th>
+                                    <th>TOTAL</th>
+                                    <th>FECHA DE CADUCIDAD</th>
+                                    <th>SESIONES RESTANTES</th>
+                                    <th>ESTATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for a in arreglo%}
+                                    <tr>
+                                        <td>{{a.id}}</td>
+                                        <td>{{a.club}}</td>
+                                        <td>{{a.sucursal}}</td>
+                                        <td>{{a.cliente}}</td>
+                                        <td>{{a.servicio}}</td>
+                                        <td>{{a.total}}</td>
+                                        <td>{{a.fechaCaducidad}}</td>
+                                        <td>{{a.sesionesRestantes}}</td>
+                                        <td>{{a.estatus}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <div class="container" style="text-align:center">
+                                    {%if arreglo.has_other_pages%}
+                                        <ul class="pagination">
+                                            {% if arreglo.number == 1 %}
+                                                <li class="disabled"><span>⇤</span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                            {% endif %}
+                                            {% if arreglo.has_previous %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' arreglo.previous_page_number %}">&laquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&laquo;</span></li>
+                                            {% endif %}
+                                            {% for i in arreglo.paginator|proper_paginate:arreglo.number %}
+                                                {% if arreglo.number == i %}
+                                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                                {% else %}
+                                                    <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if arreglo.has_next %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' arreglo.next_page_number %}">&raquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&raquo;</span></li>
+                                            {% endif %}
+                                            {% if arreglo.number == arreglo.paginator.num_pages %}
+                                                <li class="disabled"><span>⇥</span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' arreglo.paginator.num_pages %}">⇥</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                {%else%}
+                    <div class="col-md-12" style="text-align:center">
+                        <p>Sin resultados.</p>
+                    </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

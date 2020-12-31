@@ -1,0 +1,27 @@
+{% extends "baseSucursal.html" %}
+{% block content %}
+{% load staticfiles %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 offset-4">
+                <div class="col-md-12">
+                    <br>
+                </div>
+                <div class="col-md-12" style="text-align:center">
+                    <h2 class="black-text">
+                        Bienvenido<br>{{usuario}}
+                    </h2>
+                </div>
+                <div class="col-md-12" style="text-align:center">
+                    <p>
+                        <b>Login Usuario Sucursal:</b><br>
+                        https://www.fitory.com/loginSucursal/
+                    </p>
+                    {%if usuario.Legal == False%}
+                        <button class="btn btn-sm btn-black" data-toggle="modal" data-target="#Legal">Aceptar Terminos y Condiciones</button>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

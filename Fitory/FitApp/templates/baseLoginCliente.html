@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Fitory</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/style.css' %}" rel="stylesheet">
+        <style>
+        @font-face {
+            font-family: 'RalewayBold';
+            src: url("{% static 'FitApp/font/RalewayBold.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayBold.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayBold.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayBold.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayBold.svg#RalewayBold'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewayMedium';
+            src: url("{% static 'FitApp/font/RalewayMedium.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayMedium.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayMedium.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayMedium.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayMedium.svg#RalewayMedium'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewaySemiBold';
+            src: url("{% static 'FitApp/font/RalewaySemiBold.eot' %}");
+            src: url("{% static 'FitApp/font/RalewaySemiBold.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewaySemiBold.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewaySemiBold.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewaySemiBold.svg#RalewaySemiBold'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewayRegular';
+            src: url("{% static 'FitApp/font/RalewayRegular.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayRegular.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayRegular.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayRegular.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayRegular.svg#RalewayRegular'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .raleway-regular{
+            font-family: RalewayRegular;
+        }
+        .raleway-bold {
+            font-family: RalewayBold;
+        }
+        .raleway-semibold {
+            font-family: RalewaySemibold;
+        }
+        .raleway-medium {
+            font-family: RalewayMedium;
+        }            
+        /* nav */
+        .nav-princ{
+            position: absolute;
+            z-index: 9;
+            width: 100%;
+            box-shadow: none!important;
+        }
+        .img-cont{
+            width: 20%;
+            text-align: center;
+        }
+
+        .img-logo-nav{
+            width: 70%;
+            margin-top: .3rem;
+        }
+        /* nav */
+        .section-login{
+            background-color: rgb(55, 189, 194);
+            position: relative;
+            min-height: 100vh;
+            height: auto;
+            padding-top: 150px
+        }
+        .tit-inc{
+            color: #fff;
+            letter-spacing: .2rem;
+            font-family: RalewayMedium;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .input-log ,.input-log-eml, .input-log-2{
+            font-family: RalewayRegular;
+            color: #fff!important; 
+            border-bottom: 1px solid #fff!important;
+            padding-left: 50px;
+            box-sizing: border-box!important;
+        }
+        .input-log-3 {
+            font-family: RalewayRegular;
+            color: #fff!important; 
+            border-bottom: 1px solid #fff!important;
+            text-align: center;
+            box-sizing: border-box!important;
+        }
+        .input-log[type="email"]{
+            background-image: url("{% static 'FitApp/img/iconoNombre.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .input-log[type="text"]{
+            background-image: url("{% static 'FitApp/img/iconoNombre.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .input-log[type="password"]{
+            background-image: url("{% static 'FitApp/img/iconoContrasena.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .input-log-eml[type="email"]{
+            background-image: url("{% static 'FitApp/img/iconoCorreo.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .input-log-2[type="text"]{
+            background-image: url("{% static 'FitApp/img/iconoPhone.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .input-selct-log{
+            background: transparent;
+            border: 0px;
+            border-bottom: 1px solid #fff;
+            font-family: RalewayRegular;
+            color: #fff!important;
+            padding-left: 50px;
+        }
+        .input-selct-log:focus{
+            background: transparent;
+            border: 0px;
+            border-bottom: 1px solid #fff!important;
+            font-family: RalewayRegular;
+            color: #fff!important;
+            padding-left: 50px;
+        }
+        select.input-selct-log{
+            background-image: url("{% static 'FitApp/img/iconoObjetivo.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        select.input-selct-log:focus{
+            background-image: url("{% static 'FitApp/img/iconoObjetivo.png' %}");
+            background-repeat: no-repeat;
+            background-size: 28px;
+            background-position: 10px;
+            background-position-y: top;
+        }
+        .custom-select:focus{
+            border-color: transparent;
+            outline: 0;
+            box-shadow: none;
+
+        }
+        .input-log::placeholder{
+            font-family: RalewayRegular;
+            color: #fff!important;
+        }
+        .input-log-eml::placeholder{
+            font-family: RalewayRegular;
+            color: #fff!important;
+        }
+        .input-log-2::placeholder{
+            font-family: RalewayRegular;
+            color: #fff!important;
+        }
+        .input-log-3::placeholder{
+            font-family: RalewayRegular;
+            color: #fff!important;
+        }
+        .lin-rg{
+            background-color: #fff;
+            height: 7px;
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+            width: 1.5px;
+        }
+        .lin-lf{
+            background-color: #fff;
+            height: 7px;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            width: 1.5px;
+        }
+        .text-olv{
+            color:#fff!important;
+            font-family: RalewayRegular;
+            letter-spacing: 1px;
+            font-size: .95rem;
+        }
+        .btn-sesion{
+            background-color: #000;
+            color: #fff;
+            border-radius: 20px;
+            font-family: RalewayMedium;
+            text-transform: uppercase;
+            padding:12px 60px;
+            border: 0px;
+            cursor: pointer;
+            margin-top: 20px;  
+        }
+        .enlace-registro{
+            color: #000;
+            border-bottom: 1.5px solid;
+            font-family: RalewaySemibold;
+        }
+        .img-ses{
+            width: 90%;
+            margin-bottom: .5rem;
+        }
+        .img-ses-modal{
+            width: 85%;
+            margin-bottom: 1rem;
+        }
+        .tit-elj-mod{
+            font-family: RalewaySemibold;
+            color: #000;
+            letter-spacing: 2px;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .pred-modal{
+            border-bottom: 0px!important;
+            padding-bottom: 0px;
+        }
+        .modal.show .modal-dialog{
+            transform: translate(0,-50%);
+            top: 50%;
+        }
+        .md-form label{
+            top: 0px!important;
+            color: #fff;
+            font-family: RalewayRegular;
+        }
+        [type=checkbox]+label:before{
+            z-index: 0;
+            border: 1px solid #fff;
+        }
+        [type=checkbox]:checked+label:before{
+            border-color: transparent #fff #fff transparent;
+        }
+        .form-check-input:disabled~.form-check-label{
+            color: #ffff;
+        }
+        [type=checkbox]:disabled:not(:checked)+label:before{
+            background-color: #fff;
+        }
+        /* codigo */
+        .codigo{
+            background-color: rgb(55, 189, 194);
+            position: relative;
+            min-height: 100vh;
+            height: auto;
+        }
+        .text-codigo{
+            font-family: RalewayRegular;
+            color: #fff!important;
+            text-align: center;
+        }
+        @media(min-width:1440px){
+            .img-ses-modal{
+                width: 75%;
+            }
+            .img-ses{
+                width: 83%;
+            }
+            .text-olv{
+                font-size: 1rem;
+            }
+        }
+        @media(min-width:1920px){
+            .img-logo-nav{
+                width: 60%;
+            }
+            .img-ses{
+                width: 65%;
+            }
+            .text-olv{
+                font-size: 1.1rem;
+            }
+            .enlace-registro{
+                font-size: 1.2rem;
+            }
+        }
+        @media (min-width:2300px){
+            /* .tit-fito{
+                font-family: Raleway-Bold;
+                color: #000;
+                font-size: 4rem;
+                margin-bottom: 5rem;
+            }
+            .text-fito{
+                font-family: Raleway-Medium;
+                color: #fff;
+                font-size: 1.7rem;
+                text-align: justify;
+                margin-bottom: 5rem;
+            }
+            .img-LogoFitory{
+                width: 60%;
+                margin-bottom: 4rem;
+            }
+            .img-BotonGooglePlay{
+                width: 65%;
+            }
+            .img-BotonAppStore{
+                width: 65%;
+            } */
+            .img-logo-nav{
+                width: 55%;
+            }
+            .input-log ,.input-log-eml, .input-log-2, .input-log-3{
+                font-size: 1.2rem!important;
+            }
+            [type=checkbox]+label, [type=radio]+label{
+                font-size: 1.2rem!important;
+            }
+            .img-ses{
+                width: 70%;
+            }
+            .login-form{
+                width: 65%;
+                margin: auto;
+            }
+            .img-ses-modal{
+                width: 80%;
+            }
+        }
+        @media(max-width:550px){
+            .section-login{
+                padding-top: 20px;
+            }
+            .login-form{
+                padding: 0px 25px;
+            }
+            .img-ses{
+                width: 80%;
+            }
+            .btn-sesion{
+                padding: 10px 50px;
+                font-size: .9rem;
+            }
+            .img-cont{
+                width: 35%;
+            }
+            .tit-elj-mod{
+                font-size: 1.2rem;
+            }
+            .btn-sesionñ{
+                margin-top: 0px;
+            }
+            .tit-inc{
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+            }
+            .top-reg{
+                padding-top: 40px;
+            }
+            .input-log[type="email"],.input-log[type="text"],.input-log[type="password"],.input-log-eml[type="email"],.input-log-2[type="text"],select.input-selct-log,select.input-selct-log:focus{
+                background-size: 24px;
+                background-position: 10px;
+                background-position-y: center;
+            }
+            
+        }
+        </style>
+        <meta name="google-site-verification" content="P8E2H0cEznCG8Y1nCp5mmVa_axqHltOP4r_Afy8F5qI" />
+    </head>
+    <body>
+        <!-- Start your project here-->
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg nav-princ">
+            <a class="navbar-brand img-cont" href="/"><img src="{% static 'FitApp/img/LogoFitory.png' %}" alt="logoFitory" class="img-logo-nav"></a>
+        </nav>
+        <!-- /Navbar -->
+        {% block content %}
+        {% endblock %}
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+        {%if respuesta%}
+        <script>
+            alert("{{respuesta}}");
+            window.location.href = "/";
+        </script>
+        {%endif%}
+        {%if error%}
+        <script>
+            alert("{{error}}");
+        </script>
+        {%endif%}
+        <script>   
+            $(document).ready(function() {
+                $('#hombre').change(function(){
+                    if($(this).prop("checked")){
+                        $('#mujer').prop('disabled', true);
+                        $('#hombre').prop('value', "True");
+                        $('#registrarse').prop('disabled', false);
+                    }else{
+                        $('#mujer').prop('disabled', false);
+                        $('#hombre').prop('value', "False");
+                        $('#registrarse').prop('disabled', true);
+
+                    }
+                });
+                $('#mujer').change(function(){
+                    if($(this).prop("checked")){
+                        $('#hombre').prop('disabled', true);
+                        $('#mujer').prop('value', "True");
+                        $('#registrarse').prop('disabled', false);
+                    }else{
+                        $('#hombre').prop('disabled', false);
+                        $('#mujer').prop('value', "False");
+                        $('#registrarse').prop('disabled', true);
+                    }
+                });
+                $("#registrarse").submit(function(){
+                    var hombre = $("#hombre").val();
+                    var mujer = $("#mujer").val();
+
+                    if(hombre == "True" || mujer == "False"){
+                        $('#registrarse').prop('disabled', false);
+                    }else if (mujer == "True" || hombre == "False"){
+                        $('#registrarse').prop('disabled', false);
+                    }
+                    return false;
+                });
+            });
+
+        </script>
+    <script>
+    window.fbAsyncInit = function() {
+        // FB JavaScript SDK configuration and setup
+        FB.init({
+            appId      : '2232574700399840', // FB App ID
+            cookie     : true,  // enable cookies to allow the server to access the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v3.2' // use graph api version 2.8
+        });
+        
+        // Check whether the user already logged in
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                //display user data
+                getFbUserData();
+            }
+        });
+    };
+    
+    // Load the JavaScript SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/es_ES/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    
+    // Facebook login with JavaScript SDK
+    function fbLogin() {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                // Get and display the user profile data
+                var idFace = response.authResponse.userID;
+                var email = response.authResponse.email;
+                var contra = response.authResponse.accessToken;
+                location.reload();
+            } else {
+                document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.';
+            }
+        }, {scope: 'email'});
+    }
+    
+    // Fetch the user profile data from facebook
+    function getFbUserData(){
+        FB.api('/me', {locale: 'es_ES', fields: 'id,first_name,last_name,email,link,gender,locale,picture'},
+        function (response) {
+            // document.getElementById('fbLink').setAttribute("onclick","fbLogout()");
+            // document.getElementById('fbLink').innerHTML = 'Logout from Facebook';
+            // document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.first_name + '!';
+            // document.getElementById('userData').innerHTML = '<p><b>FB ID:</b> '+response.id+'</p><p><b>Name:</b> '+response.first_name+' '+response.last_name+'</p><p><b>Email:</b> '+response.email+'</p><p><b>Gender:</b> '+response.gender+'</p><p><b>Locale:</b> '+response.locale+'</p><p><b>Picture:</b> <img src="'+response.picture.data.url+'"/></p><p><b>FB Profile:</b> <a target="_blank" href="'+response.link+'">click to view profile</a></p>';
+            // document.getElementById('username').value = response.first_name + ' ' + response.last_name;
+            // document.getElementById('correo').value = response.email;
+            // document.getElementById('facebok').value = response.id ;
+            // document.getElementById('username2').value = response.first_name + ' ' + response.last_name;
+            // document.getElementById('correo2').value = response.email;
+            // document.getElementById('facebok2').value = response.id ;
+            var correo = response.email;
+            var  idFace = response.id;
+            var  nombre = response.first_name;
+            var apellido = response.last_name
+            console.log(response)
+            request_url = '/consultaFacebook/' + idFace + '/' +correo+ '/' + nombre + '/' + apellido+ '/';
+            location.href = request_url;
+
+        });
+    }
+    
+    // Logout from facebook
+    function logout(){
+        FB.logout(function(response){
+        setElements(false);
+        
+        });
+        location.href = "/LogoutPerfil/";
+    }
+    </script>
+    <script>
+        // function onSignIn(googleUser) {
+        //     var profile = googleUser.getBasicProfile();
+        //     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        //     console.log('Name: ' + profile.getName());
+        //     console.log('Image URL: ' + profile.getImageUrl());
+        //     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        // }
+        // function signOut() {
+        //     var auth2 = gapi.auth2.getAuthInstance();
+        //     auth2.signOut().then(function () {
+        //     console.log('User signed out.');
+        //     });
+        // }
+        var GoogleAuth;
+        var SCOPE = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+        // var request = gapi.client.drive.about.get({'fields': 'user'});
+        function handleClientLoad() {
+            // Load the API's client and auth2 modules.
+            // Call the initClient function after the modules load.
+            gapi.load('client:auth2', initClient);
+        }
+        
+        function initClient() {
+            // Retrieve the discovery document for version 3 of Google Drive API.
+            // In practice, your app can retrieve one or more discovery documents.
+            var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+
+            // Initialize the gapi.client object, which app uses to make API requests.
+            // Get API key and client ID from API Console.
+            // 'scope' field specifies space-delimited list of access scopes.
+            gapi.client.init({
+                'apiKey': 'AIzaSyBpkpY7zQ0N56EReUSqnLdrvD5iFHWqyo8',
+                'discoveryDocs': [discoveryUrl],
+                'clientId': '437431816927-j2n5nuc6fr56d2dklujaujj1n46ehqjp.apps.googleusercontent.com',
+                'scope': SCOPE
+            }).then(function () {
+            GoogleAuth = gapi.auth2.getAuthInstance();
+            // s072m_Ycy7M5EbKCtiRxkIz5
+            // Listen for sign-in state changes.
+            GoogleAuth.isSignedIn.listen(updateSigninStatus);
+
+            // Handle initial sign-in state. (Determine if user is already signed in.)
+            var user = GoogleAuth.currentUser.get();
+            setSigninStatus();
+
+            // Call handleAuthClick function when user clicks on
+            //      "Sign In/Authorize" button.
+                $('#sign-in-or-out-button').click(function() {
+                    handleAuthClick();
+                    
+                }); 
+                $('#revoke-access-button').click(function() {
+                    revokeAccess();
+                }); 
+            });
+        }
+        
+        // request.execute(function(response) {
+        //     console.log(response);
+        // });
+        function handleAuthClick() {
+            if (GoogleAuth.isSignedIn.get()) {
+            // User is authorized and has clicked 'Sign out' button.
+            GoogleAuth.signOut();
+            } else {
+            // User is not signed in. Start Google auth flow.
+            GoogleAuth.signIn();
+                
+            }
+            // var user = GoogleAuth.currentUser.get();
+            // idGoogle = user.getId();
+            // request_url = '/consultaGoogle/';
+            // if(user){
+            //     $.ajax({
+            //     type:"POST",
+            //     url: request_url,
+            //     data: {
+            //         csrfmiddlewaretoken: '{{ csrf_token }}',
+            //         idGoogle: idGoogle,
+            //     },
+            //     success: function(data){
+            //             if(data.Resultado == 1){
+                            
+            //                 location.href = "/PerfilUsuario/";
+            //             }else{
+            //                 location.href = "/Registrarse/";
+            //             }
+            //         }
+            //     });
+            // }
+           
+        }
+
+        function revokeAccess() {
+            GoogleAuth.disconnect();
+        }
+
+        function setSigninStatus(isSignedIn) {
+            var user = GoogleAuth.currentUser.get();
+            var isAuthorized = user.hasGrantedScopes(SCOPE);
+            var profile = GoogleAuth.currentUser.get().getBasicProfile();
+            console.log(user.getId())
+                // console.log('ID: ' + profile.getId());
+                // console.log('Full Name: ' + profile.getName());
+                // console.log('Given Name: ' + profile.getGivenName());
+                // console.log('Family Name: ' + profile.getFamilyName());
+                // console.log('Image URL: ' + profile.getImageUrl());
+                // console.log('Email: ' + profile.getEmail());
+            if (isAuthorized) {
+                // $('#').html('Sign out');
+                // $('#revoke-access-button').css('display', 'inline-block');
+                // $('#auth-status').html('You are currently signed in and have granted ' +
+                //     'access to this app.');
+                // document.getElementById('username').value = profile.getName();
+                // document.getElementById('correo').value = profile.getEmail();
+                // document.getElementById('google').value = profile.getId() ;
+                var idGoogle = profile.getId();
+                var correo =  profile.getEmail();
+                var nombre = profile.getGivenName();
+                var apellido = profile.getFamilyName();
+                console.log(profile)
+                request_url = '/consultaGoogle/' + idGoogle + '/' + correo + '/' + nombre + '/' + apellido + '/';
+                location.href = request_url;
+            
+            } else {
+            // $('#').html('Sign In/Authorize');
+            // $('#revoke-access-button').css('display', 'none');
+            // $('#auth-status').html('' +
+            //     '');
+            }
+        }
+
+        function updateSigninStatus(isSignedIn) {
+            setSigninStatus();
+            if (isSignedIn) {
+                isAuthorized = true;
+                if (currentApiRequest) {
+                sendAuthorizedApiRequest(currentApiRequest);
+                }
+            } else {
+                isAuthorized = false;
+            }
+        }
+    </script>
+</body>
+</html>

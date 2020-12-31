@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<div class="clubesHeight d-flex">        
+        <div class="container">
+            <form action="/BuscadorClub/" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-1 col-md-1"></div>      
+                    <div class="col-lg-10 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 cols-sm-4 col-12">
+                                <h2 class="tit-clb raleway-semibold">CLUBES</h2>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-5">   
+                                <select id="estado" name="estado" class="browser-default disen-select">
+                                    <option value="">ESTADO</option>
+                                    {%if estados%}
+                                        {%for e in estados%}
+                                            <option value="{{e.id}}">{{e.nombre}}</option>
+                                        {%endfor%}
+                                    {%endif%}
+                                </select>                           
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-5"> 
+                                <select id="ciudad" name="ciudad" class="browser-default disen-select">
+                                    <option value="">CIUDAD</option>
+                                    {%if ciudad%}
+                                        {%for c in ciudad%}
+                                            <option value="{{c.id}}">{{c.nombre}}</option>
+                                        {%endfor%}
+                                    {%endif%}
+                                </select>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-2">
+                                <button type="submit" name="action" class="search-btn" id="buscar"><i class="fa fa-3 fa-search"></i></button>                                
+                            </div>    
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1"></div>                    
+                </div>     
+            </form>        
+            <div class="row mt-5">    
+                <div class="col-lg-1 col-md-1"></div>      
+                <div class="col-lg-10 col-md-12 col-sm-12">
+                    <div class="row">
+                        {%if sucursales%}
+                            {%for sucursal in sucursales%}     
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-4">
+                                    <a href="/Clubes/{{sucursal.id}}">
+                                        <figure>
+                                            <img  src="{{sucursal.logo.url}}" alt="{{sucursal.nombre}}" class="imgSucursal">
+                                        </figure>
+                                    </a>                        
+                                    <input type="hidden"  name="sucursalId" value="{{sucursal.id}}">                    
+                                    
+                                    <h3 class="raleway-bold tit-club">{{sucursal.nombre}}</h3>
+                                    <label class="raleway-regular text-club">{{sucursal.calle}} #{{sucursal.numExt}} {{sucursal.colonia}} {{sucursal.ciudad.nombre}}</label>
+                                </div>                   
+                            {%endfor%}
+                        {%else%}
+                            <h5 class="raleway-medium">Sin sucursales</h5>
+                        {%endif%} 
+                    </div>
+                </div>   
+                <div class="col-lg-1 col-md-1"></div>        
+            </div>   
+        </div>
+    </div>
+
+{% endblock%}

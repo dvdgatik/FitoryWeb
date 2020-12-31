@@ -1,0 +1,52 @@
+{% extends "baseLoginCliente.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="codigo d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                {%if usuario.telefono == "..."%}
+                    <form name="verificacion" action="/usuarioTelefono/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="usuario" value="{{usuario.id}}">
+                        <p class="text-codigo">
+                            {{error}}
+                        </p>
+                        <div class="md-form">
+                            <p class="text-codigo">Ingrese su número de teléfono para recibir su codigo de verificación</p>
+                            <input type="text" placeholder="Teléfono 10 digitos" name="telefono" class="input-log-3" required minlength="10" maxlength="10">
+                            <div class="lin-rg"></div>
+                            <div class="lin-lf"></div>
+                        </div>
+                        <div class="md-form text-center">
+                            <button type="submit" name="action"  class="btn btn-sesion">Guardar</button>
+                        </div>
+                    </form>
+                {%else%}
+                    <form name="verificacion" action="/codigoVerificacion/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="usuario" value="{{usuario.id}}">
+                        <input type="hidden" name="token" value="{{tok}}">
+                        <p class="text-codigo">
+                            {{error}}
+                        </p>
+                        <div class="md-form">
+                            <p class="text-codigo"> A continuación ingrese el codigo de verificación.</p>
+                            <input type="text" name="codigo" value="" id="veri" required class="input-log-3" maxlength="4">
+                            <div class="lin-rg"></div>
+                            <div class="lin-lf"></div>
+                        </div>
+                        <div class="md-form text-center">
+                            <button type="submit" name="action"  class="btn btn-sesion">Verificar</button>
+                        </div>
+                    </form>
+                {%endif%}
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

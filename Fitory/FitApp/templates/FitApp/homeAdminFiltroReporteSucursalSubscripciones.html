@@ -1,0 +1,81 @@
+{% extends "baseAdmin3.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="reporteros">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <!-- <a href="/homeAdminReportes/" class="btn-atras">
+                    <i class="fa fa-chevron-left color-atras"></i>
+                </a> -->
+            </div>
+            <div class="col-lg-4 col-md-4 text-center">
+                <h4 class="titulo-prin">Reportes</h4>
+                <h5 class="titulo-sec" style="text-align:center">{{sucursal}}</h5>
+                <h6 class="titulo-sec" style="text-align:center">Subscripciones <br>{{inicioF|date:'d-m-Y'}} al {{finalF|date:'d-m-Y'}}</h6>
+            </div>
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6" style="text-align:left">
+                        <form action="/filtrarReporte/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="inicio" value="{{inicio}}">
+                            <input type="hidden" name="final" value="{{final}}">
+                            <input type="submit" value="Atrás" class="btn btn-sm btn-secondary">
+                        </form>
+                    </div>
+                    <div class="col-md-6" style="text-align:right">
+                        {%if subscripciones%}
+                            <a href="/filtrarReporte/excel/sucursal/{{sucursal.id}}/subscripciones/inicio={{inicio}}/final={{final}}/" download="Reporte_Sucursal_{{sucursal.id}}_Subscripciones_{{inicioF|date:'d-m-Y'}}_al_{{finalF|date:'d-m-Y'}}" class="btn btn-sm btn-success">Excel</a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12"><br></div>
+            {%if subscripciones%}
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Total a Cobrar</th>
+                                    <th>Total Gym</th>
+                                    <th>Fecha Subscripción</th>
+                                    <th>Fecha Renovación</th>
+                                    <th>Estatus</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for s in subscripciones%}
+                                    <tr>
+                                        <td>{{s.id}}</td>
+                                        <td>{{s.cliente.nombre}} {{s.cliente.apellido}}</td>
+                                        <td>{{s.totalCobrar}}</td>
+                                        <td>{{s.totalGym}}</td>
+                                        <td>{{s.fechaSubscripcion|date:'d-m-Y'}}</td>
+                                        <td>{{s.fechaRenovacion|date:'d-m-Y'}}</td>
+                                        <td>
+                                            {%if s.activa == True%}
+                                                Activa
+                                            {%else%}
+                                                Inactiva
+                                            {%endif%}
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12">
+                    <p style="text-align:center">No hay resultados.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+</section>
+{% endblock%}

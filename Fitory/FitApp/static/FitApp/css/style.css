@@ -1,0 +1,43 @@
+/* Your custom styles */
+@font-face {
+    font-family: RalewayBold;
+    src: url('../font/RalewayBold.eot');
+    src: url('../font/RalewayBold.eot?#iefix%') format('embedded-opentype'),
+    url('../font/RalewayBold.woff') format('woff'),
+    url('../font/RalewayBold.ttf') format('truetype'),
+    url('../font/RalewayBold.svg#RalewayBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: RalewayMedium;
+    src: url('../font/RalewayMedium.eot');
+    src: url('../font/RalewayMedium.eot?#iefix') format('embedded-opentype'),
+    url('../font/RalewayMedium.woff') format('woff'),
+    url('../font/RalewayMedium.ttf') format('truetype'),
+    url('../font/RalewayMedium.svg#RalewayMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: RalewaySemiBold;
+    src: url('../font/RalewaySemiBold.eot');
+    src: url('../font/RalewaySemiBold.eot?#iefix') format('embedded-opentype'),
+    url('../font/RalewaySemiBold.woff') format('woff'),
+    url('../font/RalewaySemiBold.ttf') format('truetype'),
+    url('../font/RalewaySemiBold.svg#RalewaySemiBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: RalewayRegular;
+    src: url('../font/RalewayRegular.eot');
+    src: url('../font/RalewayRegular.eot?#iefix%') format('embedded-opentype'),
+    url('../font/RalewayRegular.woff') format('woff'),
+    url('../font/RalewayRegular.ttf') format('truetype'),
+    url('../font/RalewayRegular.svg#RalewayRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  

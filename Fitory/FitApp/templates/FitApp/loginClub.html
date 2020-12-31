@@ -1,0 +1,48 @@
+{% extends "baseLogin.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="section-login d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <a href="/index/" class="btn btn-atras">Atrás</a>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="cardLogin rgba-white-strong animated fadeIn">
+                    <form class="col-sm-12" action="/loginClub/" method="post" autocomplete="off" style="background: #fff;">
+                        {% csrf_token %}
+                        <div class="card-content black-text"></div>
+                        <div class="md-form">
+                            <br><br>
+                        </div>
+                        <div class="md-form">
+                            <div style="text-align:center">
+                            <h2 class="textoBienvenido gris1">
+                                Bienvenido Club
+                            </h2>
+                            </div>
+                        </div>
+                        <div class="md-form">
+                            <input id="username" type="text" required name="username" class="validate inputUsername" placeholder="Correo">
+                        </div>
+                        <div class="md-form">
+                            <input id="password" required name="password" type="password" class="validate inputPassword" placeholder="Contraseña">
+                        </div>
+                        <div class="md-form mb-0">
+                            <div class="col-md-12" style="text-align:center">
+                                <button type="submit" name="action" class="btn btn-lg btn-entrar">
+                                    Entrar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-form" style="text-align:center">
+                            <a href="/RestaurarContrasena/" class="text-recuperar">Recuperar Contraseña</a> 
+                        </div>
+                    </form>
+                    <a href="/Legal/usuarios/" class="text-terminos">TÉRMINOS Y CONDICIONES</a>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock%}

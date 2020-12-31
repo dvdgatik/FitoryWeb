@@ -1,0 +1,158 @@
+{% extends "basePerfil.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="tarjetas">
+    <div class="container">
+        <div class="row align-items-center con-tar-row">
+            <div class="col-lg-4 col-md-4" id="none-list">
+                <h5 class="tit-perf">Mi Perfil</h5>
+                <ul class="list-nav-per">
+                    <li><a href="/PerfilUsuario/" class="enlc-nav"><label class="line-dark"></label> Editar mi Perfil</a></li>
+                    <li><a href="/Favoritos/" class="enlc-nav "><label class="line-dark"></label> Mis favoritos</a></li>
+                    <li><a href="/Suscripciones/" class="enlc-nav "><label class="line-dark"></label> Mis Suscripciones</a></li>
+                    <li><a href="/Mis-tarjetas/" class="enlc-nav enlc-nav-active"><label class="line-dark active-link"></label> Mis Tarjetas</a></li>
+                    <li><a href="/Calendario/" class="enlc-nav "><label class="line-dark"></label> Calendario</a></li>
+                    <li><a onclick="logout(),signOut()" class="enlc-nav "><label class="line-dark"></label> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-1">
+                
+            </div>
+            <div class="col-12 col-sm-12 text-center cont-mob-cat">
+                <h5 class="tit-cat">
+                    Mis tarjetas
+                </h5>
+            </div>
+            <div class="col-lg-5 col-md-6">
+                    
+               <div class="col-lg-12 col-md-12 col-sm-12 mb-5">
+                    <h5 class="tit-tarjetas">Tarjetas existentes</h5>
+                    {%if listaMetodos%}
+                    <div class="table-responsive border-bod-table">
+                        <table class="table">
+                            <tbody class="text-center">
+                                {%for m in listaMetodos%}
+                                <tr class="table-body-cart">
+                                    <td class="raleway-semibold">{{m.brand}}</td>
+                                    <td class="raleway-regular">{{m.last4}}</td>
+                                    <td class="raleway-regular color-closed"><a data-toggle="modal" data-target="#myModalDelete{{m.id}}">x</a></td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    {%else%}
+                        <p>
+                            No Hay Tarjetas
+                        </p>   
+                    {%endif%}
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                    <a data-toggle="modal" data-target="#addtarjetas" class="btn-tarjeta">
+                        Agregar Tarjeta
+                    </a>
+               </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="addtarjetas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form {%if not usuario.idCustomer%} action="/AddTarjetas/"{%else%}action="/MetodosPagoConekta/"{%endif%} enctype="multipart/form-data" autocomplete="off" method="post" id="payment-form">
+            {% csrf_token %}
+            <input type="hidden" id="usuario" value="{{usuario.id}}" name="usuario">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <span class="card-errors"></span>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <h5 class="tit-add-tarjetas">Agregar Tarjeta</h5>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="md-form">
+                        <input type="text" size="20" data-conekta="card[name]" name="nombre de la tarjeta" required="required" value="" class="input-edit-user" placeholder="Nombre titular de la tarjeta">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="md-form">
+                        <input type="text" size="20" data-conekta="card[number]" required="required" maxlength="16" class="input-edit-user" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Número de tarjeta">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="md-form">
+                        <input type="text" size="2" data-conekta="card[exp_month]" required="required" class="input-edit-user" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Vencimiento (MM)" maxlength="2">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="md-form">
+                        <input type="text" size="4" data-conekta="card[exp_year]" required="required" class="input-edit-user"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Vencimiento (AAAA)" maxlength="4">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="md-form">
+                        <input type="password" size="4" data-conekta="card[cvc]" required="required"  maxlength="4" class="input-edit-user" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="Código de Seguridad">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 text-center">
+                    <button type="submit" name="action" class="btn btn-addTarjeta">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{%if listaMetodos%}
+    {%for m in listaMetodos%}
+        <div class="modal fade" id="myModalDelete{{m.id}}" role="dialog" style="top:20%">
+            <div class="modal-dialog" role="document">    
+                <!--  Modal content  -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar Tarjetas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/eliminarPagos/" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="usuario" value="{{usuario.id}}">
+                            <input type="hidden" name="metodo" value="{{m.id}}">
+                            <div align="center">
+                                <p class="text-modal">¿Desea eliminar la Tarjeta {{m.brand}}?</p>
+                            </div>
+                            <div class="col-md-12" align="center">
+                                <button class="btn btn-addTarjeta" type="submit">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+
+            </div>
+        </div>
+    {%endfor%}
+{%endif%}
+{%endblock%}

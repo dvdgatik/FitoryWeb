@@ -1,0 +1,87 @@
+{% extends "baseClub.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-block">
+                    <h4 class="card-title" style="text-align:center">Pagos</h4>
+                </div>
+            </div>
+            {%if pagos%}
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>Nº Transacción</td>
+                                    <th>Sucursal</th>
+                                    <th>Fecha</th>
+                                    <th>Cantidad</th>
+                                    <th>Nº Rastreo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for p in pagos%}
+                                    <tr>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.sucursal}}</td>
+                                        <td>{{p.fecha|date:'d-m-Y'}}</td>
+                                        <td>{{p.pagar}}</td>
+                                        <td>{{p.numRastreo}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="container" style="text-align:center">
+                                {%if pagos.has_other_pages%}
+                                    <ul class="pagination">
+                                        {% if pagos.number == 1 %}
+                                            <li class="disabled"><span>⇤</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                        {% endif %}
+                                        {% if pagos.has_previous %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' pagos.previous_page_number %}">&laquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in pagos.paginator|proper_paginate:pagos.number %}
+                                            {% if pagos.number == i %}
+                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if pagos.has_next %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' pagos.next_page_number %}">&raquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                        {% if pagos.number == pagos.paginatop.num_pages %}
+                                            <li class="disabled"><span>⇥</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' pagos.paginatop.num_pages %}">⇥</a></li>
+                                        {% endif %}
+                                    </ul>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12">
+                    <p style="text-align:center">No hay pagos registrados.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+{% endblock%}

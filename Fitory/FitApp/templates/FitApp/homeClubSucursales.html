@@ -1,0 +1,2449 @@
+{% extends "baseClub2.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">{{club}}</h4>
+                <h5 class="titulo-prin" style="text-align: center">Sucursales ({{sucursalesT|length}})</h5>        
+            </div>
+            <div class="col-lg-4  col-md-4" style="text-align:right;">
+                <a data-toggle="modal" data-target="#myModalSucursal" class="btn btn-sm btn-blue">
+                    Agregar
+                </a>
+            </div>
+            {%if sucursales%}
+                <div class="col-md-12" style="padding-top:3%;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Detalles</th>
+                                    <th>Servicios</th>
+                                    <th>Actividades</th>
+                                    <th>Horario</th>
+                                    <th>Fotos</th>
+                                    <th>Usuarios</th>
+                                    <th>Editar</th>
+                                    <th>Recortar Foto</th>
+                                    <th>Cambiar Estatus</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for s in sucursales%}
+                                    <tr>
+                                        <td>{{s.id}}</td>
+                                        <td>{{s.nombre}}</td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#detallesSucursal{{s.id}}" class="btn btn-sm btn-info">
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#serviciosClub{{s.id}}" class="btn btn-sm btn-orange">
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#actividadesClub{{s.id}}" class="btn btn-sm btn-purple">
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#sucursalHorario{{s.id}}" class="btn btn-sm btn-black">
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#fotosSucursal{{s.id}}" class="btn btn-sm btn-yellow">Ver</a>
+                                        </td>
+                                        <td>
+                                            <a href="/homeClub/{{club.id}}/Sucursal/{{s.id}}/Usuarios/" class="btn btn-sm btn-brown">Ver</a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#editSucursal{{s.id}}" class="btn btn-sm btn-green">
+                                                Editar
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/homeClub/{{club.id}}/Sucursal/{{s.id}}/RecortarLogo/" class="btn btn-sm btn-cyan">
+                                                Recortar
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <!-- {%if sucursalDatos%}
+                                                {%for sucursal,respuesta in sucursalDatos%}
+                                                    {%if sucursal == s and respuesta == True%}
+                                                        <a data-toggle="tooltip" data-placement="top" title="No se pueden borrar sucursales con fotos, usuarios y horarios relacionados, se deben borrar primero los datos relacionados." class="btn btn-sm btn-email">
+                                                            Borrar
+                                                        </a>
+                                                    {%elif sucursal == s and respuesta == False%}
+                                                        <a data-toggle="modal" data-target="#deleteSucursal{{s.id}}" class="btn btn-sm btn-red">
+                                                            Borrar
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endif%} -->
+                                            <a data-toggle="modal" data-target="#editEstatusSucursal{{s.id}}" class="btn btn-sm btn-blue">
+                                                Editar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="container" style="text-align:center">
+                                {%if sucursales.has_other_pages%}
+                                    <ul class="pagination">
+                                        {% if sucursales.number == 1 %}
+                                            <li class="disabled"><span>⇤</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                        {% endif %}
+                                        {% if sucursales.has_previous %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' sucursales.previous_page_number %}">&laquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in sucursales.paginator|proper_paginate:sucursales.number %}
+                                            {% if sucursales.number == i %}
+                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if sucursales.has_next %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' sucursales.next_page_number %}">&raquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                        {% if sucursales.number == sucursales.paginator.num_pages %}
+                                            <li class="disabled"><span>⇥</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' sucursales.paginator.num_pages %}">⇥</a></li>
+                                        {% endif %}
+                                    </ul>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12" style="text-align: center">
+                    <p>No hay sucursales registradas.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalSucursal" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Sucursal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddSucursal" action="/addSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" name="club" value="{{club.id}}">
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Descripción</p>
+                            <textarea type="text" id="descripcion" name="descripcion" class="md-textarea form-control" rows="3"></textarea>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Tips</p>
+                            <textarea type="text" id="tips" name="tips" class="md-textarea form-control" rows="3"></textarea>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Correo electrónico</p>
+                            <input type="text" id="correo" name="correo" required="required" class="form-modal" placeholder="Correo electrónico">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Teléfono</p>
+                            <input type="text" id="telefono" name="telefono" required="required" class="form-modal" placeholder="Teléfono">
+                        </div>
+                        <div class="md-form">
+                            <p>Estado</p>
+                            <select class="browser-default custom-select" name="estado" id="estado" required="required">
+                                <option value="" disabled selected>Elija una opción</option>
+                                {%if estados%}
+                                    {%for e in estados%}
+                                        <option value="{{e.id}}">{{e.nombre}}</option>
+                                    {%endfor%}
+                                {%else%}
+                                    <option value="">No hay estados registrados.</option>
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <p>Ciudad</p>
+                            <select class="browser-default custom-select" name="ciudad" id="ciudad" disabled="disabled">
+                                <option selected>Elija una opción</option>
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Municipio</p>
+                            <input type="text" id="municipio" name="municipio" required="required" class="form-modal" placeholder="Municipio">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Calle</p>
+                            <input type="text" id="calle" name="calle" required="required" class="form-modal" placeholder="Calle">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Num. Externo</p>
+                            <input type="text" id="numExt" name="numExt" required="required" class="form-modal" placeholder="Num. Externo">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Num. Interno</p>
+                            <input type="text" id="numInt" name="numInt" class="form-modal" placeholder="Num. Interno">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Colonia</p>
+                            <input type="text" id="colonia" name="colonia" required="required" class="form-modal" placeholder="Colonia">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Código Postal</p>
+                            <input type="text" id="cp" name="cp" required="required" class="form-modal" placeholder="Código Postal">
+                        </div>
+                        <div class="md-form">
+                            <div class="file-field">
+                                <div class="btn btn-lg btn-blue">
+                                    <span>Elija un archivo</span>
+                                    <input type="file" id="logo" name="logo" accept="image/x-png,image/jpeg">
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Elija un archivo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md-form">
+                            <div id="mapa" class="z-depth-1" style="height:300px;width:100%"></div>
+                            <input type="hidden" name="latitud" id="lat">
+                            <input type="hidden" name="longitud" id="lng">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-form-aut">Servicios</p>
+                            <select class="mdb-select" multiple searchable="Search here.." name="servicios">
+                                <option value="" disabled>Elija las opciones</option>
+                                {%if servicios%}
+                                    {%for s in servicios%}
+                                        <option value="{{s.id}}">{{s.nombre}}</option>
+                                    {%endfor%}
+                                {%else%}
+                                    <option value="" disabled>No hay servicios para seleccionar.</option>
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-form-aut">Actividades</p>
+                            <select class="mdb-select" multiple searchable="Search here.." name="actividades">
+                                <option value="" disabled>Elija las opciones</option>
+                                {%if actividades%}
+                                    {%for a in actividades%}
+                                        <option value="{{a.id}}">{{a.nombre}}</option>
+                                    {%endfor%}
+                                {%else%}
+                                    <option value="" disabled>No hay actividades para seleccionar.</option>
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Mensualidad</p>
+                            <input type="number" id="mensualidad" name="mensualidad" class="form-modal" min="0" step="any" placeholder="Mensualidad" required="required">
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        {%if estados and servicios and actividades%}
+                            <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                        {%else%}
+                            <button type="submit" name="action" class="btn btn-sm btn-email" disabled="disabled">GUARDAR</button>
+                        {%endif%}
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+    {%if sucursales%}
+        {%for s in sucursales%}
+            <!-- Modal -->
+            <div class="modal fade" id="detallesSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Detalles Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="md-form">
+                                <div class="row">
+                                    <div class="col-md-12"><p><b>Nombre: </b><br>{{s.nombre}}</p></div>
+                                    <div class="col-md-12"><p><b>Descripción: </b><br>{{s.descripcion|linebreaks}}</p></div>
+                                    <div class="col-md-12"><p><b>Tips: </b><br>{{s.tips|linebreaks}}</p></div>
+                                    <div class="col-md-6"><p><b>Correo electrónico:</b><br>{{s.correo}}</p></div>
+                                    <div class="col-md-6"><p><b>Teléfono</b><br>{{s.telefono}}</p></div>
+                                    <div class="col-md-4"><p><b>Estado:</b><br>{{s.estado.nombre}}</p></div>
+                                    <div class="col-md-4"><p><b>Ciudad:</b><br>{{s.ciudad.nombre}}</p></div>
+                                    <div class="col-md-4"><p><b>Municipio:</b><br>{{s.municipio}}</p></div>
+                                    <div class="col-md-3"><p><b>Calle:</b><br>{{s.calle}}</p></div>
+                                    <div class="col-md-3"><p><b>Nº Externo:</b><br>{{s.numExt}}</p></div>
+                                    <div class="col-md-3"><p><b>Nº Interno</b><br>{{s.numInt}}</p></div>
+                                    <div class="col-md-3"><p><b>Colonia:</b><br>{{s.colonia}}</p></div>
+                                    <div class="col-md-6"><p><b>Código Postal:</b><br>{{s.cp}}</p></div>
+                                    <div class="col-md-6"><p><b>Calificación</b><br>{{s.calificacion}}</p></div>
+                                    <div class="col-md-12"><p><b>Activa:</b><br>{%if s.activa == True%}Si{%else%}No{%endif%}</p></div>
+                                    <div class="col-md-6"><p><b>Foto:</b><br><img src="{{s.logo.url}}" alt="{{s.nombre}}" style="width:50%"></p></div>
+                                    <div class="col-md-6"><p><b>Foto Recorte:</b><br><img src="{{s.cropURL}}" alt="{{s.nombre}}" style="width:50%"></p></div>
+                                    <div class="col-md-12">
+                                        <p><b>Ubicación:</b></p>
+                                        <div class="container">
+                                            <img width="100%" src="https://maps.googleapis.com/maps/api/staticmap?center={{s.latitud}},{{s.longitud}}&zoom=15&scale=false&size=600x300&maptype=roadmap&key=AIzaSyBpkpY7zQ0N56EReUSqnLdrvD5iFHWqyo8&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C{{s.latitud}},{{s.longitud}}" alt="Google Map of {{s.nombre}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="serviciosClub{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Servicios Club {{s.club.nombre}} Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {%if clubServicios%}
+                                {%for suc,servicios in clubServicios%}
+                                    {%if suc == s and not servicios == None%}
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="tabla-head">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nombre</th>
+                                                        <th>Icono</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tabla-body">
+                                                    {%for srv in servicios%}
+                                                        <tr>
+                                                            <td>{{srv.servicio.id}}</td>
+                                                            <td>{{srv.servicio.nombre}}</td>
+                                                            <td>
+                                                                <img src="{{srv.servicio.icono.url}}" alt="{{srv.servicio.nombre}}" style="width:20px">
+                                                            </td>
+                                                        </tr>
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {%elif suc == s and servicios == None%}
+                                        <div class="md-form">
+                                            <p style="text-align:center">No hay servicios en esta sucursal.</p>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="actividadesClub{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Actividades Club {{s.club.nombre}} Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {%if clubActividades%}
+                                {%for suc,actividades in clubActividades%}
+                                    {%if suc == s and not actividades == None%}
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="tabla-head">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nombre</th>
+                                                        <th>Icono</th>
+                                                        <th>Horarios</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tabla-body">
+                                                    {%for a in actividades%}
+                                                        <tr>
+                                                            <td>{{a.actividad.id}}</td>
+                                                            <td>{{a.actividad.nombre}}</td>
+                                                            <td>
+                                                                <img src="{{a.actividad.icono.url}}" alt="{{a.actividad.nombre}}" style="width:20px">
+                                                            </td>
+                                                            <td>
+                                                                <a data-toggle="modal" data-target="#actividadHorarios{{a.id}}" class="btn btn-sm btn-info">Ver</a>
+                                                            </td>
+                                                        </tr>
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {%elif suc == s and actividades == None%}
+                                        <div class="md-form">
+                                            <p style="text-align:center">No hay actividades en esta sucursal.</p>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="editSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Editar Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditSucursal" action="/editSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="sucursal" value="{{s.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{s.id}}" name="nombre" value="{{s.nombre}}" required="required" class="form-modal" placeholder="Nombre">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Descripción</p>
+                                    <textarea type="text" id="descripcion{{s.id}}" name="descripcion" class="md-textarea form-control" rows="3">{%if s.descripcion%}{{s.descripcion}}{%endif%}</textarea>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Tips</p>
+                                    <textarea type="text" id="tips{{s.id}}" name="tips" class="md-textarea form-control" rows="3">{%if s.tips%}{{s.tips}}{%endif%}</textarea>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Correo electrónico</p>
+                                    <input type="email" id="correo{{s.id}}" name="correo" value="{{s.correo}}" required="required" class="form-modal" placeholder="Correo electrónico">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Teléfono</p>
+                                    <input type="text" id="telefono{{s.id}}" name="telefono" value="{{s.telefono}}" required="required" class="form-modal" placeholder="Teléfono">
+                                </div>
+                                <div class="md-form">
+                                    <p>Estado</p>
+                                    <select class="browser-default custom-select" name="estado" id="estado{{s.id}}" required="required">
+                                        <option value="" disabled selected>Elija una opción</option>
+                                        {%if estados%}
+                                            {%for e in estados%}
+                                                {%if e == s.estado%}
+                                                    <option value="{{e.id}}" selected="selected">{{e.nombre}}</option>
+                                                {%else%}
+                                                    <option value="{{e.id}}">{{e.nombre}}</option>
+                                                {%endif%}
+                                            {%endfor%}
+                                        {%else%}
+                                            <option value="">No hay estados registrados.</option>
+                                        {%endif%}
+                                    </select>
+                                </div>
+                                <div class="md-form">
+                                    <p>Ciudad</p>
+                                    {%if sucursalCiudades%}
+                                        {%for sucursal,ciudades in sucursalCiudades%}
+                                            {%if sucursal == s and not ciudades == None%}
+                                                <select class="browser-default custom-select" name="ciudad" id="ciudad{{s.id}}" required="required">
+                                                    <option value="">Elija una opción</option>
+                                                    {%for c in ciudades%}
+                                                        {%if c == s.ciudad%}
+                                                            <option value="{{c.id}}" selected="selected">{{c.nombre}}</option>
+                                                        {%else%}
+                                                            <option value="{{c.id}}">{{c.nombre}}</option>
+                                                        {%endif%}
+                                                    {%endfor%}
+                                                </select>
+                                            {%elif sucursal == s and ciudades == None%}
+                                                <select class="browser-default custom-select" name="ciudad" id="ciudad{{s.id}}" disabled="disabled">
+                                                    <option value="" selected>Elija una opción</option>
+                                                </select>
+                                            {%endif%}
+                                        {%endfor%}
+                                    {%endif%}
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Municipio</p>
+                                    <input type="text" id="municipio{{s.id}}" name="municipio" value="{{s.municipio}}" required="required" class="form-modal" placeholder="Municipio">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Calle</p>
+                                    <input type="text" id="calle{{s.id}}" name="calle" value="{{s.calle}}" required="required" class="form-modal" placeholder="Calle">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Num. Externo</p>
+                                    <input type="text" id="numExt{{s.id}}" name="numExt" value="{{s.numExt}}" required="required" class="form-modal" placeholder="Num. Externo">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Num. Interno</p>
+                                    <input type="text" id="numInt{{s.id}}" name="numInt" {%if not s.numInt == '...'%}value="{{s.numInt}}"{%endif%} class="form-modal" placeholder="Num. Interno">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Colonia</p>
+                                    <input type="text" id="colonia{{s.id}}" name="colonia" value="{{s.colonia}}" required="required" class="form-modal" placeholder="Colonia">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Código Postal</p>
+                                    <input type="text" id="cp{{s.id}}" name="cp" value="{{s.cp}}" required="required" class="form-modal" placeholder="Código Postal">
+                                </div>
+                                <div class="md-form">
+                                    <p>
+                                        Foto actual: <br>
+                                        <a href="{{s.logo.url}}" target="_blank">{{s.logo.url}}</a>
+                                    </p>
+                                </div>
+                                <div class="md-form">
+                                    <div class="file-field">
+                                        <div class="btn btn-lg btn-blue">
+                                            <span>Elija un archivo</span>
+                                            <input type="file" id="logo{{s.id}}" name="logo" accept="image/x-png,image/jpeg">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Elija un archivo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md-form">
+                                    <div id="mapa{{s.id}}" class="z-depth-1" style="height:300px;width:100%"></div>
+                                    <input type="hidden" name="latitud" id="lat{{s.id}}" value="{{s.latitud}}">
+                                    <input type="hidden" name="longitud" id="lng{{s.id}}" value="{{s.longitud}}">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-form-aut">Servicios</p>
+                                    <select class="mdb-select" multiple searchable="Search here.." name="servicios" id="servicios{{c.id}}">
+                                        <option value="" disabled>Elija las opciones</option>
+                                        {%if clubServicios%}
+                                            {%for sucursal,servs in clubServicios%}
+                                                {%if sucursal == s and not servs == None%}
+                                                    {%for se in servs%}
+                                                        <option value="{{se.servicio.id}}" selected="selected">{{se.servicio.nombre}}</option>
+                                                    {%endfor%}
+                                                    {%if clubServiciosDisponbles%}
+                                                        {%for suc,srv in clubServiciosDisponbles%}
+                                                            {%if suc == s%}
+                                                                {%for sr in srv%}
+                                                                    <option value="{{sr.id}}">{{sr.nombre}}</option>
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    {%endif%}
+                                                {%elif sucursal == s and servs == None%}
+                                                    {%if servicios%}
+                                                        {%for s in servicios%}
+                                                            <option value="{{s.id}}">{{s.nombre}}</option>
+                                                        {%endfor%}
+                                                    {%else%}
+                                                        <option value="" disabled>No hay servicios para seleccionar.</option>
+                                                    {%endif%}
+                                                {%endif%}
+                                            {%endfor%}
+                                        {%endif%}
+                                    </select>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-form-aut">Actividades</p>
+                                    <select class="mdb-select" multiple searchable="Search here.." name="actividades" id="actividades{{c.id}}">
+                                        <option value="" disabled>Elija las opciones</option>
+                                        {%if clubActividades%}
+                                            {%for sucursal,acts in clubActividades%}
+                                                {%if sucursal == s and not acts == None%}
+                                                    {%for a in acts%}
+                                                        <option value="{{a.actividad.id}}" selected="selected">{{a.actividad.nombre}}</option>
+                                                    {%endfor%}
+                                                    {%if clubActividadesDisponibles%}
+                                                        {%for suc,actv in clubActividadesDisponibles%}
+                                                            {%if suc == s%}
+                                                                {%for a in actv%}
+                                                                    <option value="{{a.id}}">{{a.nombre}}</option>
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    {%endif%}
+                                                {%elif sucursal == s and acts == None%}
+                                                    {%if actividades%}
+                                                        {%for a in actividades%}
+                                                            <option value="{{a.id}}">{{a.nombre}}</option>
+                                                        {%endfor%}
+                                                    {%else%}
+                                                        <option value="" disabled>No hay actividades para seleccionar.</option>
+                                                    {%endif%}
+                                                {%endif%}
+                                            {%endfor%}
+                                        {%endif%}
+                                    </select>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Mensualidad</p>
+                                    <input type="number" id="mensualidad" name="mensualidad" class="form-modal" min="0" step="any" value="{{s.mensualidad}}" placeholder="Mensualidad" required="required">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Diario</p>
+                                    <input type="number" id="dia" name="dia" class="form-modal" min="0" step="any" value="{{s.dia}}" placeholder="Diario" required="required">
+                                </div>
+                                <div class="md-form">
+                                    <div class="form-inline">
+                                        {%if s.activa == True%}
+                                            <input type="radio" class="form-check-input" id="activa{{s.id}}" name="estatus" value="1" checked="checked">
+                                            <label class="form-check-label" for="activa{{s.id}}">Activa</label>
+                                            <input type="radio" class="form-check-input" id="inactiva{{s.id}}" name="estatus" value="0">
+                                            <label class="form-check-label" for="inactiva{{s.id}}">Inactiva</label>
+                                        {%else%}
+                                            <input type="radio" class="form-check-input" id="activa{{s.id}}" name="estatus" value="1">
+                                            <label class="form-check-label" for="activa{{s.id}}">Activa</label>
+                                            <input type="radio" class="form-check-input" id="inactiva{{s.id}}" name="estatus" value="0" checked="checked">
+                                            <label class="form-check-label" for="inactiva{{s.id}}">Inactiva</label>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                {%if estados and servicios and actividades%}
+                                    <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                                {%else%}
+                                    <button type="submit" name="action" class="btn btn-sm btn-email" disabled="disabled">GUARDAR</button>
+                                {%endif%}
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="editEstatusSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Editar Estatus Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditEstatusSucursal" action="/editEstatusSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="sucursal" value="{{s.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <div class="form-inline">
+                                        {%if s.activa == True%}
+                                            <input type="radio" class="form-check-input" id="estatusactiva{{s.id}}" name="estatus" value="1" checked="checked">
+                                            <label class="form-check-label" for="estatusactiva{{s.id}}">Activa</label>
+                                            <input type="radio" class="form-check-input" id="estatusinactiva{{s.id}}" name="estatus" value="0">
+                                            <label class="form-check-label" for="estatusinactiva{{s.id}}">Inactiva</label>
+                                        {%else%}
+                                            <input type="radio" class="form-check-input" id="estatusactiva{{s.id}}" name="estatus" value="1">
+                                            <label class="form-check-label" for="estatusactiva{{s.id}}">Activa</label>
+                                            <input type="radio" class="form-check-input" id="estatusinactiva{{s.id}}" name="estatus" value="0" checked="checked">
+                                            <label class="form-check-label" for="estatusinactiva{{s.id}}">Inactiva</label>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Borrar Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea eliminar la sucursal {{s.id}} <br> "{{s.nombre}}" ?</p>
+                            <a href="/deleteSucursal2/{{s.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="sucursalHorario{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Horario Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="md-form">
+                                {%if sucursalHorario%}
+                                    {%for sucursal,horario in sucursalHorario%}
+                                        {%if sucursal == s and not horario == None%}
+                                            <div class="row">
+                                                <div class="col-md-4" style="text-align:center">
+                                                    {%if horario.tipo == 'Corrido'%}
+                                                        <button data-toggle="modal" data-target="#editHorarioSucursal{{s.id}}" class="btn btn-sm btn-primary">Editar Horario</button>
+                                                    {%elif horario.tipo == 'Mixto'%}
+                                                        <button data-toggle="modal" data-target="#editHorarioMixtoSucursal{{s.id}}" class="btn btn-sm btn-primary">Editar Horario</button>
+                                                    {%endif%}
+                                                </div>
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-4" style="text-align:center">
+                                                    <button data-toggle="modal" data-target="#deleteHorarioSucursal{{s.id}}" class="btn btn-sm btn-danger">Borrar Horario</button>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                {%if horario.tipo == 'Corrido'%}
+                                                    <table class="table">
+                                                        <thead class="tabla-head">
+                                                            <tr>
+                                                                <th>Día</th>
+                                                                <th>Apertura</th>
+                                                                <th>Cierre</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="tabla-body">
+                                                            {%if sucursalRegistrosHorario%}
+                                                                {%for suc,dia,tipo,registros in sucursalRegistrosHorario%}
+                                                                    {%if suc == s and tipo == horario.tipo%}
+                                                                        <tr>
+                                                                            <td>{{dia}}</td>
+                                                                            <td>
+                                                                                {%if registros%}
+                                                                                    {{registros.apertura|time:'h:i a'}}
+                                                                                {%else%}
+                                                                                    -
+                                                                                {%endif%}
+                                                                            </td>
+                                                                            <td>
+                                                                                {%if registros%}
+                                                                                    {{registros.cierre|time:'h:i a'}}
+                                                                                {%else%}
+                                                                                    -
+                                                                                {%endif%}
+                                                                            </td>
+                                                                        </tr>
+                                                                    {%endif%}
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        </tbody>
+                                                    </table>
+                                                {%elif horario.tipo == 'Mixto'%}
+                                                    <table class="table">
+                                                        <thead class="tabla-head">
+                                                            <tr>
+                                                                <th>Día</th>
+                                                                <th>Apertura</th>
+                                                                <th>Cierre</th>
+                                                                <th>Apertura</th>
+                                                                <th>Cierre</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="tabla-body">
+                                                            {%if sucursalRegistrosHorario%}
+                                                                {%for suc,dia,tipo,registros in sucursalRegistrosHorario%}
+                                                                    {%if suc == s and tipo == horario.tipo%}
+                                                                        <tr>
+                                                                            <td>{{dia}}</td>
+                                                                            {%if registros%}
+                                                                                {%for r in registros%}
+                                                                                    <td>
+                                                                                        {{r.apertura|time:'h:i a'}}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{r.cierre|time:'h:i a'}}
+                                                                                    </td>
+                                                                                {%endfor%}
+                                                                            {%else%}
+                                                                                <td>-</td>
+                                                                                <td>-</td>
+                                                                                <td>-</td>
+                                                                                <td>-</td>
+                                                                            {%endif%}
+                                                                        </tr>
+                                                                    {%endif%}
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        </tbody>
+                                                    </table>
+                                                {%endif%}
+                                            </div>
+                                        {%elif sucursal == s and horario == None%}
+                                            <p style="text-align:center">
+                                                Sin horario registrado.
+                                            </p>
+                                            <p style="text-align:center">
+                                                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addHorarioSucursal{{s.id}}">Registrar Horario Corrido</button>
+                                                <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#addHorarioMixtoSucursal{{s.id}}">Registrar Horario Mixto</button>
+                                            </p>
+                                        {%endif%}
+                                    {%endfor%}
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="fotosSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Fotos Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="md-form">
+                                {%if sucursalFotos%}
+                                    {%for sucursal,fotos in sucursalFotos%}
+                                        {%if sucursal == s and not fotos == None%}
+                                            <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addFotoSucursal{{s.id}}">
+                                                Subir foto(s)
+                                            </button>
+                                            <!--Carousel Wrapper-->
+                                            <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+                                                <!--Controls-->
+                                                <div class="controls-top">
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                                                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+                                                </div>
+                                                <!--/.Controls-->
+                                                <!--Indicators-->
+                                                <ol class="carousel-indicators">
+                                                {%for f in fotos%}
+                                                    {%if forloop.counter0 == 0%}
+                                                        <li data-target="#multi-item-example" data-slide-to="{{forloop.counter0}}" class="active"></li>
+                                                    {%else%}
+                                                        <li data-target="#multi-item-example" data-slide-to="{{forloop.counter0}}"></li>
+                                                    {%endif%}
+                                                {%endfor%}
+                                                </ol>
+                                                <!--/.Indicators-->
+                                                <!--Slides-->
+                                                <div class="carousel-inner" role="listbox">
+                                                    {%for f in fotos%}
+                                                        {%if forloop.counter0 == 0%}
+                                                            <!--First slide-->
+                                                            <div class="carousel-item active">
+                                                                <div class="col-md-12">
+                                                                    <img class="card-img-top imgCenter" src="{{f.archivo.url}}" alt="Foto {{f.id}}">
+                                                                    <div class="card mb-2">
+                                                                        <a class="btn btn-sm btn-red" href="/deleteFotoSucursal2/{{f.id}}/">Borrar</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--/.First slide-->
+                                                        {%else%}
+                                                            <!--Other slide-->
+                                                            <div class="carousel-item">
+                                                                <div class="col-md-12">
+                                                                    <img class="card-img-top imgCenter" src="{{f.archivo.url}}" alt="Foto {{f.id}}">
+                                                                    <div class="card mb-2">
+                                                                        <a class="btn btn-sm btn-red" href="/deleteFotoSucursal2/{{f.id}}/">Borrar</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--/.Other slide-->
+                                                        {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                <!--/.Slides-->
+                                            </div>
+                                            <!--/.Carousel Wrapper-->
+                                        {%elif sucursal == s and fotos == None%}
+                                            <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addFotoSucursal{{s.id}}">
+                                                Subir foto(s)
+                                            </button>
+                                            <p style="text-align:center">
+                                                Esta sucursal no tiene fotos.
+                                            </p>
+                                        {%endif%}
+                                    {%endfor%}
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="addFotoSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalFoto{{s.id}}">Agregar Fotos Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formAddFotoSucursal" action="/addFotoSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="sucursal" value="{{s.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <div class="file-field">
+                                        <div class="btn btn-primary btn-sm float-left">
+                                            <span>Elija el archivo o archivos</span>
+                                            <input type="file" name="foto" id="foto{{s.id}}" multiple="multiple" accept="image/x-png,image/jpeg" required="required">
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Subir uno o mas archivos">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="addHorarioSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalHorario{{s.id}}">Agregar Horario Corrido Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formAddHorarioSucursal" id="formAddHorarioSucursal{{s.id}}" action="/addHorarioSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="sucursal" value="{{s.id}}">
+                            <input type="hidden" name="numDias" id="numDias{{s.id}}" value="0">
+                            <input type="hidden" name="tipoHorario" id="tipoHorario{{s.id}}" value="1">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Horario</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p><b>Día</b></p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><b>Apertura</b></p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><b>Cierre</b></p>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="lunesCheck{{s.id}}" name="lunesCheck" value="True">
+                                                <label class="form-check-label" for="lunesCheck{{s.id}}">Lunes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesA" id="lunesApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesC" id="lunesCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="martesCheck{{s.id}}" name="martesCheck" value="True">
+                                                <label class="form-check-label" for="martesCheck{{s.id}}">Martes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="martesA" id="martesApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="martesC" id="martesCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="miercolesCheck{{s.id}}" name="miercolesCheck" value="True">
+                                                <label class="form-check-label" for="miercolesCheck{{s.id}}">Miércoles</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesA" id="miercolesApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesC" id="miercolesCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="juevesCheck{{s.id}}" name="juevesCheck" value="True">
+                                                <label class="form-check-label" for="juevesCheck{{s.id}}">Jueves</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesA" id="juevesApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesC" id="juevesCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="viernesCheck{{s.id}}" name="viernesCheck" value="True">
+                                                <label class="form-check-label" for="viernesCheck{{s.id}}">Viernes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesA" id="viernesApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesC" id="viernesCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="sabadoCheck{{s.id}}" name="sabadoCheck" value="True">
+                                                <label class="form-check-label" for="sabadoCheck{{s.id}}">Sábado</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoA" id="sabadoApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoC" id="sabadoCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="domingoCheck{{s.id}}" name="domingoCheck" value="True">
+                                                <label class="form-check-label" for="domingoCheck{{s.id}}">Domingo</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoA" id="domingoApertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoC" id="domingoCierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarHorarioSucursal{{s.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="addHorarioMixtoSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalHorario{{s.id}}">Agregar Horario Mixto Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formAddHorarioSucursal" id="formAddHorarioMixtoSucursal{{s.id}}" action="/addHorarioMixtoSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="sucursal" value="{{s.id}}">
+                            <input type="hidden" name="numDias" id="numDiasMixto{{s.id}}" value="0">
+                            <input type="hidden" name="tipoHorario" id="tipoHorarioMixto{{s.id}}" value="2">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Horario</p>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <p><b>Día</b></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p><b>Apertura</b></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p><b>Cierre</b></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p><b>Apertura</b></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p><b>Cierre</b></p>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="lunesMixtoCheck{{s.id}}" name="lunesCheck" value="True">
+                                                <label class="form-check-label" for="lunesMixtoCheck{{s.id}}">Lunes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesA1" id="lunes1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesC1" id="lunes1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesA2" id="lunes2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="lunesC2" id="lunes2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="martesMixtoCheck{{s.id}}" name="martesCheck" value="True">
+                                                <label class="form-check-label" for="martesMixtoCheck{{s.id}}">Martes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="martesA1" id="martes1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="martesC1" id="martes1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="martesA2" id="martes2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="martesC2" id="martes2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="miercolesMixtoCheck{{s.id}}" name="miercolesCheck" value="True">
+                                                <label class="form-check-label" for="miercolesMixtoCheck{{s.id}}">Miércoles</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesA1" id="miercoles1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesC1" id="miercoles1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesA2" id="miercoles2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="miercolesC2" id="miercoles2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="juevesMixtoCheck{{s.id}}" name="juevesCheck" value="True">
+                                                <label class="form-check-label" for="juevesMixtoCheck{{s.id}}">Jueves</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesA1" id="jueves1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesC1" id="jueves1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesA2" id="jueves2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="juevesC2" id="jueves2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="viernesMixtoCheck{{s.id}}" name="viernesCheck" value="True">
+                                                <label class="form-check-label" for="viernesMixtoCheck{{s.id}}">Viernes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesA1" id="viernes1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesC1" id="viernes1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesA2" id="viernes2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="viernesC2" id="viernes2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="sabadoMixtoCheck{{s.id}}" name="sabadoCheck" value="True">
+                                                <label class="form-check-label" for="sabadoMixtoCheck{{s.id}}">Sábado</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoA1" id="sabado1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoC1" id="sabado1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoA2" id="sabado2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="sabadoC2" id="sabado2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12"></div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="checkbox" class="form-check-input" id="domingoMixtoCheck{{s.id}}" name="domingoCheck" value="True">
+                                                <label class="form-check-label" for="domingoMixtoCheck{{s.id}}">Domingo</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoA1" id="domingo1Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoC1" id="domingo1Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoA2" id="domingo2Apertura{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="md-form">
+                                                <input type="time" name="domingoC2" id="domingo2Cierre{{s.id}}" disabled="disabled">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarHorarioMixtoSucursal{{s.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="editHorarioSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalHorario{{s.id}}">Editar Horario Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditHorarioSucursal" action="/editHorarioSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            {%if sucursalHorario%}
+                                {%for sucursal,horario in sucursalHorario%}
+                                    {%if sucursal == s and not horario == None%}
+                                        <input type="hidden" name="horario" value="{{horario.id}}">
+                                        <input type="hidden" name="numDias" id="numDias{{horario.id}}" value="{{horario.numDias}}">
+                                        <div class="modal-body">
+                                            <div class="md-form">
+                                                <p class="text-modal">Horario</p>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <p><b>Día</b></p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p><b>Apertura</b></p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p><b>Cierre</b></p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <p><b>Editar</b></p>
+                                                    </div>
+                                                    <div class="col-md-12"></div>
+                                                    {%if sucursalRegistrosHorario%}
+                                                        {%for suc,dia,tipo,registros in sucursalRegistrosHorario%}
+                                                            {%if suc == s and tipo == 'Corrido'%}
+                                                                {%if dia == 'Lunes'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.lunes == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="lunesCheck{{horario.id}}" name="lunesCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="lunesCheck{{horario.id}}" name="lunesCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="lunesCheck{{horario.id}}">Lunes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="lunesA" id="lunesEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="lunesC" id="lunesEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Martes'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.martes == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="martesCheck{{horario.id}}" name="martesCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="martesCheck{{horario.id}}" name="martesCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="martesCheck{{horario.id}}">Martes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="martesA" id="martesEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="martesC" id="martesEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Miércoles'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.miercoles == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="miercolesCheck{{horario.id}}" name="miercolesCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="miercolesCheck{{horario.id}}" name="miercolesCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="miercolesCheck{{horario.id}}">Miércoles</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="miercolesA" id="miercolesEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="miercolesC" id="miercolesEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Jueves'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.jueves == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="juevesCheck{{horario.id}}" name="juevesCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="juevesCheck{{horario.id}}" name="juevesCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="juevesCheck{{horario.id}}">Jueves</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="juevesA" id="juevesEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="juevesC" id="juevesEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Viernes'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.viernes == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="viernesCheck{{horario.id}}" name="viernesCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="viernesCheck{{horario.id}}" name="viernesCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="viernesCheck{{horario.id}}">Viernes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="viernesA" id="viernesEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="viernesC" id="viernesEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Sábado'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.sabado == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="sabadoCheck{{horario.id}}" name="sabadoCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="sabadoCheck{{horario.id}}" name="sabadoCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="sabadoCheck{{horario.id}}">Sábado</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="sabadoA" id="sabadoEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="sabadoC" id="sabadoEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Domingo'%}
+                                                                    <div class="col-md-3">
+                                                                        <div class="md-form">
+                                                                            {%if horario.domingo == True%}
+                                                                                <input type="checkbox" class="form-check-input" id="domingoCheck{{horario.id}}" name="domingoCheck" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" class="form-check-input" id="domingoCheck{{horario.id}}" name="domingoCheck" value="True">
+                                                                            {%endif%}
+                                                                            <label class="form-check-label" for="domingoCheck{{horario.id}}">Domingo</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.apertura|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <p>{{registros.cierre|time:'H:i'}}</p>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{registros.id}}">Editar</a>
+                                                                        </div>
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="domingoA" id="domingoEditAddApertura{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="md-form">
+                                                                                <input type="time" name="domingoC" id="domingoEditAddCierre{{s.id}}" disabled="disabled">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3"></div>
+                                                                    {%endif%}
+                                                                {%endif%}
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    {%endif%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarEditarHorario{{s.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="editHorarioMixtoSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog modal-lg">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalHorarioMixto{{s.id}}">Editar Horario Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditHorarioSucursal" action="/editHorarioMixtoSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            {%if sucursalHorario%}
+                                {%for sucursal,horario in sucursalHorario%}
+                                    {%if sucursal == s and not horario == None%}
+                                        <input type="hidden" name="horario" value="{{horario.id}}">
+                                        <input type="hidden" name="numDias" id="numDiasMixto{{horario.id}}" value="{{horario.numDias}}">
+                                        <div class="modal-body">
+                                            <div class="md-form">
+                                                <p class="text-modal">Horario</p>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <p><b>Día</b></p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><p><b>Apertura</b></p></div>
+                                                            <div class="col-md-6"><p><b>Cierre</b></p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <p><b>Editar</b></p>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><p><b>Apertura</b></p></div>
+                                                            <div class="col-md-6"><p><b>Cierre</b></p></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <p><b>Editar</b></p>
+                                                    </div>
+                                                    <div class="col-md-12"></div>
+                                                    {%if sucursalRegistrosHorario%}
+                                                        {%for suc,dia,tipo,registros in sucursalRegistrosHorario%}
+                                                            {%if suc == s and tipo == 'Mixto'%}
+                                                                {%if dia == 'Lunes'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.lunes == True%}
+                                                                                <input type="checkbox" name="lunesCheck" id="lunesCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="lunesCheck" id="lunesCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="lunesCheckMixto{{horario.id}}">Lunes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="lunesA1" id="lunesEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="lunesC1" id="lunesEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="lunesA2" id="lunesEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="lunesC2" id="lunesEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Martes'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.martes == True%}
+                                                                                <input type="checkbox" name="martesCheck" id="martesCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="martesCheck" id="martesCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="martesCheckMixto{{horario.id}}">Martes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="martesA1" id="martesEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="martesC1" id="martesEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="martesA2" id="martesEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="martesC2" id="martesEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Miércoles'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.miercoles == True%}
+                                                                                <input type="checkbox" name="miercolesCheck" id="miercolesCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="miercolesCheck" id="miercolesCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="miercolesCheckMixto{{horario.id}}">Miércoles</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="miercolesA1" id="miercolesEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="miercolesC1" id="miercolesEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="miercolesA2" id="miercolesEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="miercolesC2" id="miercolesEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Jueves'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.jueves == True%}
+                                                                                <input type="checkbox" name="juevesCheck" id="juevesCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="juevesCheck" id="juevesCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="juevesCheckMixto{{horario.id}}">Jueves</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="juevesA1" id="juevesEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="juevesC1" id="juevesEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="juevesA2" id="juevesEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="juevesC2" id="juevesEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Viernes'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.viernes == True%}
+                                                                                <input type="checkbox" name="viernesCheck" id="viernesCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="viernesCheck" id="viernesCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="viernesCheckMixto{{horario.id}}">Viernes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="viernesA1" id="viernesEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="viernesC1" id="viernesEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="viernesA2" id="viernesEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="viernesC2" id="viernesEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Sábado'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.sabado == True%}
+                                                                                <input type="checkbox" name="sabadoCheck" id="sabadoCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="sabadoCheck" id="sabadoCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="sabadoCheckMixto{{horario.id}}">Sábado</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="sabadoA1" id="sabadoEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="sabadoC1" id="sabadoEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="sabadoA2" id="sabadoEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="sabadoC2" id="sabadoEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%elif dia == 'Domingo'%}
+                                                                    <div class="col-md-2">
+                                                                        <div class="md-form">
+                                                                            {%if horario.domingo == True%}
+                                                                                <input type="checkbox" name="domingoCheck" id="domingoCheckMixto{{horario.id}}" value="True" checked="checked">
+                                                                            {%else%}
+                                                                                <input type="checkbox" name="domingoCheck" id="domingoCheckMixto{{horario.id}}" value="True">
+                                                                            {%endif%}
+                                                                            <label for="domingoCheckMixto{{horario.id}}">Domingo</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    {%if registros%}
+                                                                        {%for r in registros%}
+                                                                            <div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">{{r.apertura|time:'H:i'}}</div>
+                                                                                    <div class="col-md-6">{{r.cierre|time:'H:i'}}</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-2">
+                                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editRegistroHorario{{r.id}}">Editar</a>
+                                                                            </div>
+                                                                        {%endfor%}
+                                                                    {%else%}
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="domingoA1" id="domingoEditMixto1AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="domingoC1" id="domingoEditMixto1AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                        <div class="col-md-3">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="domingoA2" id="domingoEditMixto2AddApertura{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="md-form">
+                                                                                        <input type="time" name="domingoC2" id="domingoEditMixto2AddCierre{{s.id}}" disabled="disabled">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2"></div>
+                                                                    {%endif%}
+                                                                {%endif%}
+                                                            {%endif%}
+                                                        {%endfor%}
+                                                    {%endif%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarEditarHorarioMixto{{s.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteHorarioSucursal{{s.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Borrar Horario Sucursal {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea eliminar el horario de la sucursal por completo ?</p>
+                            {%if sucursalHorario%}
+                                {%for sucursal,horario in sucursalHorario%}
+                                    {%if sucursal == s and not horario == None%}
+                                        <a href="/deleteHorarioSucursal2/{{horario.id}}/" class="btn btn-sm btn-red">Si</a>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    {%if clubActividadesT%}
+        {%for cAct in clubActividadesT%}
+            <!-- Modal -->
+            <div class="modal fade" id="actividadHorarios{{cAct.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Horarios Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {%if clubActividadHorarios%}
+                                {%for cActv,horarios,numero in clubActividadHorarios%}
+                                    {%if cActv == cAct and not horarios == None%}
+                                        <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addHorario{{cAct.id}}">Agregrar</button>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="tabla-head">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Hora Inicio</th>
+                                                        <th>Hora Fin</th>
+                                                        <th>Lunes</th>
+                                                        <th>Martes</th>
+                                                        <th>Miércoles</th>
+                                                        <th>Jueves</th>
+                                                        <th>Viernes</th>
+                                                        <th>Sábado</th>
+                                                        <th>Domingo</th>
+                                                        <th>Editar</th>
+                                                        <th>Borrar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tabla-body">
+                                                    {%for h in horarios%}
+                                                        <tr>
+                                                            <td>{{h.id}}</td>
+                                                            <td>{{h.horaInicio|time:'h:i a'}}</td>
+                                                            <td>{{h.horaFin|time:'h:i a'}}</td>
+                                                            <td>
+                                                                {%if h.lunes == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.martes == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.miercoles == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.jueves == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.viernes == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.sabado == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                {%if h.domingo == True%}
+                                                                    <i class="fa fa-check-square green-text"></i>
+                                                                {%else%}
+                                                                    <i class="fa fa-times-circle red-text"></i>
+                                                                {%endif%}
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editActividadHorario{{h.id}}">Editar</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-sm btn-red" data-toggle="modal" data-target="#deleteActividadHorario{{h.id}}">Borrar</a>
+                                                            </td>
+                                                        </tr>
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {%elif cActv == cAct and horarios == None%}
+                                        <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addHorario{{cAct.id}}">Agregrar</button>
+                                        <div class="md-form">
+                                            <p style="text-align:center">
+                                                No hay horarios para esta actividad.
+                                            </p>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="addHorario{{cAct.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{cAct.id}}">Agregar Horario a Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formAddActividadHorario" action="/addActividadHorario2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="actividadClub" value="{{cAct.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p><b>Hora Inicio</b></p>
+                                    <input type="time" name="horaInicio" id="horaInicio{{cAct.id}}" required title="Ingresar en formato 24 hrs">
+                                </div>
+                                <div class="md-form">
+                                    <p><b>Hora Final</b></p>
+                                    <input type="time" name="horaFin" id="horaFin{{cAct.id}}" required title="Ingresar en formato 24 hrs">
+                                </div>
+                                <div class="md form">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="lunes" id="lunes{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="lunes{{cAct.id}}">Lunes</label>
+                                        <input type="checkbox" class="form-check-input" name="martes"  id="martes{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="martes{{cAct.id}}">Martes</label>
+                                        <input type="checkbox" class="form-check-input" name="miercoles"  id="miercoles{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="miercoles{{cAct.id}}">Miércoles</label>
+                                        <input type="checkbox" class="form-check-input" name="jueves" id="jueves{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="jueves{{cAct.id}}">Jueves</label>
+                                        <input type="checkbox" class="form-check-input" name="viernes" id="viernes{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="viernes{{cAct.id}}">Viernes</label>
+                                        <input type="checkbox" class="form-check-input" name="sabado" id="sabado{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="sabado{{cAct.id}}">Sábado</label>
+                                        <input type="checkbox" class="form-check-input" name="domingo" id="domingo{{cAct.id}}" value="True">
+                                        <label class="form-check-label" for="domingo{{cAct.id}}">Domingo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    {%if actividadesHorarios%}
+        {%for actH in actividadesHorarios%}
+            <!-- Modal -->
+            <div class="modal fade" id="editActividadHorario{{actH.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{actH.id}}">Editar Horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditActividadHorario" action="/editActividadHorario2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="actividadHorario" value="{{actH.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p><b>Hora Inicio</b></p>
+                                    <input type="time" name="horaInicio" id="horaInicio{{actH.id}}" value="{{actH.horaInicio|time:'H:i'}}" required title="Ingresar en formato 24 hrs">
+                                </div>
+                                <div class="md-form">
+                                    <p><b>Hora Final</b></p>
+                                    <input type="time" name="horaFin" id="horaFin{{actH.id}}" value="{{actH.horaFin|time:'H:i'}}" required title="Ingresar en formato 24 hrs">
+                                </div>
+                                <div class="md form">
+                                    <div class="form-check">
+                                        {%if actH.lunes == True%}
+                                            <input type="checkbox" class="form-check-input" name="lunes" id="lunes{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="lunes{{actH.id}}">Lunes</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="lunes" id="lunes{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="lunes{{actH.id}}">Lunes</label>
+                                        {%endif%}
+                                        {%if actH.martes == True%}
+                                            <input type="checkbox" class="form-check-input" name="martes"  id="martes{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="martes{{actH.id}}">Martes</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="martes"  id="martes{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="martes{{actH.id}}">Martes</label>
+                                        {%endif%}
+                                        {%if actH.miercoles == True%}
+                                            <input type="checkbox" class="form-check-input" name="miercoles"  id="miercoles{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="miercoles{{actH.id}}">Miércoles</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="miercoles"  id="miercoles{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="miercoles{{actH.id}}">Miércoles</label>
+                                        {%endif%}
+                                        {%if actH.jueves == True%}  
+                                            <input type="checkbox" class="form-check-input" name="jueves" id="jueves{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="jueves{{actH.id}}">Jueves</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="jueves" id="jueves{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="jueves{{actH.id}}">Jueves</label>
+                                        {%endif%}
+                                        {%if actH.viernes == True%}
+                                            <input type="checkbox" class="form-check-input" name="viernes" id="viernes{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="viernes{{actH.id}}">Viernes</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="viernes" id="viernes{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="viernes{{actH.id}}">Viernes</label>
+                                        {%endif%}
+                                        {%if actH.sabado == True%}
+                                            <input type="checkbox" class="form-check-input" name="sabado" id="sabado{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="sabado{{actH.id}}">Sábado</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="sabado" id="sabado{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="sabado{{actH.id}}">Sábado</label>
+                                        {%endif%}
+                                        {%if actH.domingo == True%}
+                                            <input type="checkbox" class="form-check-input" name="domingo" id="domingo{{actH.id}}" value="True" checked>
+                                            <label class="form-check-label" for="domingo{{actH.id}}">Domingo</label>
+                                        {%else%}
+                                            <input type="checkbox" class="form-check-input" name="domingo" id="domingo{{actH.id}}" value="True">
+                                            <label class="form-check-label" for="domingo{{actH.id}}">Domingo</label>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteActividadHorario{{actH.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿Desea eliminar el horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}?</p>
+                            <a href="/deleteActividadHorario2/{{actH.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    {%if registrosH%}
+        {%for r in registrosH%}
+            <!-- Modal -->
+            <div class="modal fade" id="editRegistroHorario{{r.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{actH.id}}">Editar Registro de Horario {{r.id}} de la Sucursal {{r.sucursal.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditRegistroHorario" action="/editRegistroHorario2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="registroHorario" value="{{r.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p>Día</p>
+                                    <input type="text" name="dia" id="diaRH{{r.id}}" value="{{r.dia}}" readonly="readonly">
+                                </div>
+                                <div class="md-form">
+                                    <p>Apertura</p>
+                                    <input type="time" name="apertura" id="aperturaRH{{r.id}}" value="{{r.apertura|time:'H:i'}}" required="required">
+                                </div>
+                                <div class="md-form">
+                                    <p>Cierre</p>
+                                    <input type="time" name="cierre" id="cierre{{r.id}}" value="{{r.cierre|time:'H:i'}}" required="required">
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+{% endblock%}

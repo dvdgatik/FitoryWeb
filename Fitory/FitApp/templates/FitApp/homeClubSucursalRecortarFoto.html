@@ -1,0 +1,38 @@
+{% extends "baseClub2.html" %}
+{% block content %}
+{% load tag_library %}
+{{form.media}}
+{% load cropping %}
+{% load cropping thumbnail %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/homeClub/{{club.id}}/Sucursales/" class="btn btn-sm btn-secondary">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">{{club}}</h4>
+                <h5 class="titulo-prin" style="text-align: center">Recortar Foto/Logo</h5>        
+            </div>
+            <div class="col-lg-4  col-md-4" style="text-align:right;">
+            </div>
+            <div class="col-md-12"><br></div>
+            <div class="col md-12">
+                <form name="recortarFotoSucursal{{sucursal.id}}" id="recortarFotoSucursal{{sucursal.id}}" action="/recortarFotoSucursal2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" name="sucursal" value="{{sucursal.id}}">
+                    <div class="modal-body">
+                        {{form}}
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" id="guardarRecorte{{c.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/image_cropping/js/jquery.Jcrop.min.js"></script>
+    <script type="text/javascript" src="/static/image_cropping/image_cropping.js"></script>
+{% endblock%}

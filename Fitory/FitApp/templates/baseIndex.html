@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Fitory</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/style.css' %}" rel="stylesheet">
+        <style>
+            @font-face {
+                font-family: 'RalewayBold';
+                src: url("{% static 'FitApp/font/RalewayBold.eot' %}");
+                src: url("{% static 'FitApp/font/RalewayBold.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewayBold.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewayBold.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewayBold.svg#RalewayBold'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'RalewayMedium';
+                src: url("{% static 'FitApp/font/RalewayMedium.eot' %}");
+                src: url("{% static 'FitApp/font/RalewayMedium.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewayMedium.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewayMedium.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewayMedium.svg#RalewayMedium'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'RalewaySemiBold';
+                src: url("{% static 'FitApp/font/RalewaySemiBold.eot' %}");
+                src: url("{% static 'FitApp/font/RalewaySemiBold.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.svg#RalewaySemiBold'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            .administracion{
+                width: 100%;
+                height: 100vh;
+            }
+            .btn-logins{
+                color: #000!important;
+                font-family: 'RalewaySemiBold';
+                box-shadow: none!important;
+                background-color: #fff;
+                border: 1.5px solid rgb(55, 189, 194);
+                border-radius: 20px;
+                width: 100%;
+                
+            }
+            .img-logoFitoryv{
+                width: 15%;
+            }
+        </style>
+        <meta name="google-site-verification" content="P8E2H0cEznCG8Y1nCp5mmVa_axqHltOP4r_Afy8F5qI" />
+    </head>
+    <body>
+        <!-- Start your project here-->
+        <!-- Navbar -->
+        <!-- <nav class="navbar navbar-expand-lg nav-princ">
+                <a class="navbar-brand img-cont" href="/"><img src="{% static 'FitApp/img/logoFitory2.png' %}" alt="logoFitory" class="img-logo-nav"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-align-justify"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav ml-auto mt-lg-0 nav-list d-flex align-items-center">
+                
+                
+                </ul>
+               
+            </div>
+        </nav> -->
+        <!-- /Navbar -->
+        {% block content %}
+        {% endblock %}
+        <!-- <footer id="footer" class="page-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-2 d-flex align-items-center text-center">
+                        <a  href="https://www.facebook.com/FitoryGo/" target="_blank">
+                            <img src="{% static 'FitApp/img/iconoFacebook2.png' %}" alt="iconoFacebook" class="iconoFacebook-footer">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-1 col-sm-1 col-1 d-flex align-items-center"></div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-5 d-flex align-items-center">
+                        <a href="/Legal/" class="text-footer">TÉRMINOS Y CONDICIONES</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 d-flex align-items-center">
+                        <a href="#" class="text-footer">AVISO DE PRIVACIDAD</a>
+                    </div>
+                </div>
+            </div>
+        </footer> -->
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+       
+    </body>
+</html>

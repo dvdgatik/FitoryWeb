@@ -1,0 +1,86 @@
+{% extends "baseSucursal.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/homeSucursal/Clientes/" class="btn btn-sm btn-secondary">Atrás</a>
+            </div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">{{cliente}}</h4>     
+                <h5 class="card-title" style="text-align: center">Visitas</h5>   
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-12">
+                {%if visitas%}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Sucursal</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for v in visitas%}
+                                    <tr>
+                                        <td>{{v.id}}</td>
+                                        <td>{{v.sucursal.nombre}}</td>
+                                        <td>{{v.fecha|date:'d-m-Y'}}</td>
+                                        <td>{{v.hora|time:'H:i a'}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <div class="container" style="text-align:center">
+                                    {%if visitas.has_other_pages%}
+                                        <ul class="pagination">
+                                            {% if visitas.number == 1 %}
+                                                <li class="disabled"><span>⇤</span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                            {% endif %}
+                                            {% if visitas.has_previous %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' visitas.previous_page_number %}">&laquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&laquo;</span></li>
+                                            {% endif %}
+                                            {% for i in visitas.paginator|proper_paginate:visitas.number %}
+                                                {% if visitas.number == i %}
+                                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                                {% else %}
+                                                    <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if visitas.has_next %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' visitas.next_page_number %}">&raquo;</a></li>
+                                            {% else %}
+                                                <li class="disabled"><span>&raquo;</span></li>
+                                            {% endif %}
+                                            {% if visitas.number == visitas.paginator.num_pages %}
+                                                <li class="disabled"><span>⇥</span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' visitas.paginator.num_pages %}">⇥</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                {%else%}
+                    <p style="text-align:center">No hay visitas registradas.</p>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+{% endblock%}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Fitory</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/style.css' %}" rel="stylesheet">
+        <style>
+        @font-face {
+            font-family: 'RalewayBold';
+            src: url("{% static 'FitApp/font/RalewayBold.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayBold.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayBold.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayBold.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayBold.svg#RalewayBold'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewayMedium';
+            src: url("{% static 'FitApp/font/RalewayMedium.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayMedium.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayMedium.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayMedium.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayMedium.svg#RalewayMedium'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewaySemiBold';
+            src: url("{% static 'FitApp/font/RalewaySemiBold.eot' %}");
+            src: url("{% static 'FitApp/font/RalewaySemiBold.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewaySemiBold.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewaySemiBold.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewaySemiBold.svg#RalewaySemiBold'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RalewayRegular';
+            src: url("{% static 'FitApp/font/RalewayRegular.eot' %}");
+            src: url("{% static 'FitApp/font/RalewayRegular.eot?#iefix%'}") format('embedded-opentype'),
+                url("{% static 'FitApp/font/RalewayRegular.woff' %}") format('woff'),
+                url("{% static 'FitApp/font/RalewayRegular.ttf' %}") format('truetype'),
+                url("{% static 'FitApp/font/RalewayRegular.svg#RalewayRegular'%}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .raleway-regular{
+            font-family: RalewayRegular;
+        }
+        .raleway-bold {
+            font-family: RalewayBold;
+        }
+        .raleway-semibold {
+            font-family: RalewaySemibold;
+        }
+        .raleway-medium {
+            font-family: RalewayMedium;
+        }            
+        /* nav */
+        .nav-link-margin {
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+        .nav-princ{
+            position: absolute;
+            z-index: 999;
+            width: 100%;
+            box-shadow: none!important;
+        }
+        .img-cont{
+            width: 20%;
+            text-align: center;
+        }
+        .ancho-li>a:hover{
+            border-bottom: 1.3px solid rgb(55, 189, 194);
+        }
+        .img-logo-nav{
+            width: 70%;
+            margin-top: .3rem;
+        }
+        .nav-list > li >a{
+            font-family: 'RalewayMedium';
+            font-size: 0.9rem;
+            color: #000;
+            letter-spacing: 1px;
+        }
+        .nav-list{
+            justify-content: flex-end;
+        }
+        .width-iniciosesion{
+            width: 15%;
+        }
+        .iconoInicioSesion{
+            width: 65%;
+        }
+        /* nav */
+        /* section */
+        .sectionqr{
+            width: 100%;
+            min-height: 100vh;
+            height: auto;
+            position: relative;
+        }
+        .img-cel{
+            width: 350px;
+            margin: auto;
+        }
+        .tit-qr{
+            font-family: 'RalewaySemiBold';
+            letter-spacing: 2px;
+            text-transform:uppercase;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        .text-qr{
+            font-family: 'RalewayRegular';
+            letter-spacing: 2px;
+            text-transform:uppercase;
+        }
+        .icon-store{
+            width: 120px;
+        }
+        .text-qr-b{
+            font-family: 'RalewaySemiBold';
+            letter-spacing: 2px;
+            text-transform:uppercase;
+        }
+        .list-store{
+            padding-left: 0px;
+            display: flex;
+            list-style: none;
+            justify-content: center
+        }
+        .list-store >li {
+            margin: 20px;
+        }
+        /* footer */
+        .iconoFacebook-footer{
+            width: 30%;
+        }
+        .text-footer{
+            color: #fff;
+            font-family: RalewayMedium;
+            font-size: 1rem;
+            margin-top: 0rem;
+        }
+        .text-footer:hover{
+            color: #fff;
+            font-family: RalewayMedium;
+            font-size: 1rem;
+            margin-top: 0rem;
+        }
+        footer.page-footer{
+            background: rgb(39,39,39);
+            margin-top: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        /* footer */
+        @media (min-width:1920px){
+            .iconoFacebook{
+                width: 70px;
+            }
+        }
+        @media (width:2560px){
+            /* .tit-fito{
+                font-family: Raleway-Bold;
+                color: #000;
+                font-size: 4rem;
+                margin-bottom: 5rem;
+            }
+            .text-fito{
+                font-family: Raleway-Medium;
+                color: #fff;
+                font-size: 1.7rem;
+                text-align: justify;
+                margin-bottom: 5rem;
+            }
+            .img-LogoFitory{
+                width: 60%;
+                margin-bottom: 4rem;
+            }
+            .img-BotonGooglePlay{
+                width: 65%;
+            }
+            .img-BotonAppStore{
+                width: 65%;
+            } */
+        }
+        @media(max-width:991px){
+            .ancho-li{
+                width: 100%;
+            }
+            .nav-list{
+                text-align: right;
+            }
+            .width-iniciosesion{
+                width: 75%;
+            }
+            .iconoInicioSesion{
+                width: 6%;
+            }
+            .text-footer{
+                font-size: 0.9rem;
+            }
+            .tit-qr{
+                font-size: 1.7rem; 
+            }
+            .img-cel{
+                width: 300px;
+            }
+        }
+        @media(max-width:767px){
+            .text-qr{
+                font-size: .9rem;
+            } 
+        }
+        @media (max-width: 668px) and (orientation: landscape) { 
+            
+            .text-footer{
+                font-size: 0.8rem;
+            }
+            .tit-qr {
+                font-size: 1.5rem;
+            }
+            .img-cel {
+                width: 150px;
+                margin-top: 00px;
+            }
+            .sectionqr{
+                min-height: 130vh;
+                height: auto;
+            }
+            .text-qr{
+                font-size: .8rem;
+            } 
+            .icon-store{
+                width: 100px;
+            }
+        }
+        @media(max-width:575px){
+            .iconoFacebook{
+                left: 3%;
+                width: 40px;
+            }
+            
+            .iconoFacebook-footer{
+                width: 100%;
+            }
+            .text-footer{
+                font-size: 0.65rem;
+            }
+            .img-logo-nav{
+                width: 100%;
+            }
+            .iconoInicioSesion{
+                width: 10%;
+            }
+            .img-cel {
+                width: 150px;
+                margin-top: 80px;
+            }
+            .icon-store {
+                width: 100px;
+            }
+        }
+        
+        </style>
+        <meta name="google-site-verification" content="P8E2H0cEznCG8Y1nCp5mmVa_axqHltOP4r_Afy8F5qI" />
+    </head>
+    <body>
+        <!-- Start your project here-->
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg nav-princ">
+                <a class="navbar-brand img-cont" href="/"><img src="{% static 'FitApp/img/logoFitory2.png' %}" alt="logoFitory" class="img-logo-nav"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-align-justify"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav ml-auto mt-lg-0 nav-list d-flex align-items-center">                    
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin" href="/Actividades/">ACTIVIDADES</a>
+                    </li>
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin" href="/Paquetes/">PAQUETES</a>
+                    </li>
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin" href="/Clubes/">CLUBES</a>
+                    </li>
+                    {%if request.user.is_authenticated and not user.is_staff%}
+                    <li class="nav-item width-iniciosesion">
+                        <a class="nav-link" href="/PerfilUsuario/"><img src="{% static 'FitApp/img/iconoInicioSesion.png' %}" alt="iconoInicioSesion" class="iconoInicioSesion"></a>
+                    </li>
+                    {%else%}
+                        <li class="nav-item width-iniciosesion">
+                            <a class="nav-link" href="/Iniciar-Sesion/"><img src="{% static 'FitApp/img/iconoInicioSesion.png' %}" alt="iconoInicioSesion" class="iconoInicioSesion"></a>
+                        </li>
+                    {%endif%}
+                
+                </ul>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        {% block content %}
+        {% endblock %}
+        <footer id="footer" class="page-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-2 d-flex align-items-center text-center">
+                        <a  href="https://www.facebook.com/FitoryGo/" target="_blank">
+                            <img src="{% static 'FitApp/img/iconoFacebook2.png' %}" alt="iconoFacebook" class="iconoFacebook-footer">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-1 col-sm-1 col-1 d-flex align-items-center"></div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-5 d-flex align-items-center">
+                        <a href="/Legal/" class="text-footer">TÉRMINOS Y CONDICIONES</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 d-flex align-items-center">
+                        <a href="#" class="text-footer">AVISO DE PRIVACIDAD</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <script>
+            $(document).ready(function(){
+                if( /Android/i.test(navigator.userAgent) ) {
+                    window.location.href = "https://play.google.com/store/apps/details?id=com.dimakers.fitoryapp";
+                }else if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ){
+                    window.location.href = "#";
+                } else{
+
+                }
+            });
+        
+        </script>
+
+</body>
+</html>

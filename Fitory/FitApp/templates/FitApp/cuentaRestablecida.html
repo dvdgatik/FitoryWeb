@@ -1,0 +1,8 @@
+{% extends "baseError.html" %}
+{% block content %}
+{% load staticfiles %}
+	<script type="text/javascript">
+		alert("{{mensaje}}");
+		window.location.href = "/";
+	</script>;
+{% endblock %}

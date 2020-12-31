@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Club</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/style.css' %}" rel="stylesheet">
+        <!-- Style -->
+        <style>
+            @font-face {
+                font-family: 'RalewayBold';
+                src: url("{% static 'FitApp/font/RalewayBold.eot' %}");
+                src: url("{% static 'FitApp/font/RalewayBold.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewayBold.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewayBold.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewayBold.svg#RalewayBold'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'RalewayMedium';
+                src: url("{% static 'FitApp/font/RalewayMedium.eot' %}");
+                src: url("{% static 'FitApp/font/RalewayMedium.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewayMedium.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewayMedium.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewayMedium.svg#RalewayMedium'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'RalewaySemiBold';
+                src: url("{% static 'FitApp/font/RalewaySemiBold.eot' %}");
+                src: url("{% static 'FitApp/font/RalewaySemiBold.eot?#iefix%'}") format('embedded-opentype'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.woff' %}") format('woff'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.ttf' %}") format('truetype'),
+                    url("{% static 'FitApp/font/RalewaySemiBold.svg#RalewaySemiBold'%}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            .dateclass{
+                width:100%;
+            }
+            .dateclass.placeholderclass::before{
+                width:100%;
+                content:attr(placeholder);
+                background-color:transparent;
+                font-size: 13px;
+            }
+            .dateclass.placeholderclass:hover::before{
+                width:0%;
+                content:"";
+                font-size: 13px;
+            }
+            .contenedor{
+                padding-top: 1%;
+            }
+            .tabla-head{
+                background-color: rgb(232, 232, 232);
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 2px;
+                font-size: 1rem;
+            }
+            .tabla-body{
+                text-align: center;
+                font-size: 0.9rem;
+            }
+            .tabla-body td{
+                border-top: 0px;
+                padding: 0px; 
+                padding-bottom: 0rem!important;
+            }
+            .pagination{
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: inline-block;
+                list-style: none;
+                border-radius: .25rem;
+            }
+            .pagination > li{
+                float: left;
+                list-style: outside none none;
+                padding-left: 5px;
+                font-size: 0.9em!important;
+                box-shadow: none;
+                color: #000000;
+            }
+            .pagination > li > a:link{
+                color: #000000;
+            }
+            .pagination > li > a:hover{
+                color: #000000;
+            }
+            .pagination > li > a:active{
+                color: #000000;
+            }
+            .pagination > li > a:visited{
+                color: #000000;
+            }
+            .pagination > li.active{
+                text-decoration: underline;
+            }
+            .lin-red{
+                margin: auto;
+                text-align: center;
+                width: 30%;
+                border-top: 2px solid rgb(233, 24, 34);
+                display: block;
+            }
+            .btn-aceptar{
+                font-family: 'RalewaySemiBold';
+                background: #fff;
+                color: #000!important;
+                box-shadow: none!important;
+                border: 1.5px solid rgb(55, 189, 194);
+                border-radius: 20px;
+                margin-top: 2rem;
+            }
+        </style>
+        {% load cropping %}
+        {% load cropping thumbnail %}
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark black">
+            <a class="navbar-brand" href="/homeClub/">Fitory</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeClub/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeClub/Perfil/">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeClub/{{club.id}}/Sucursales/">Sucursales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeClub/Reservaciones/">Reservaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeClub/Pagos/">Pagos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logoutClub/">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        <!-- Start your project here-->
+        {% block content %}
+        {% endblock %}
+        <!-- /Start your project here-->
+        <div class="modal fade" id="Legal" role="dialog">
+            <div class="modal-dialog" style="margin-top:200px;">
+            <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header back-header">
+                        <h3 class="textoConfirmar">Terminos y Condiciones</h3>
+                    </div>
+                    <div class="modal-body" align="center">
+                        <form action="/checkTerminosClub/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="club" value="{{club.id}}">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="materialChecked2"  name="aceptar" value="True">
+                                <label class="form-check-label" for="materialChecked2">Aceptas nuestros Terminos y Condiciones</label>
+                            </div>
+                            <div class="md-form">
+                                <input type="submit" value="Guardar" id="guardar" class="btn btn-sm btn-black">
+                            </div>
+                        </form>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Cropping -->
+        <script type="text/javascript" src="/static/image_cropping/js/jquery.Jcrop.min.js"></script>
+        <script type="text/javascript" src="/static/image_cropping/image_cropping.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <!-- Initialize -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+                $('.mdb-select').material_select();
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            $('#materialChecked2').change(function(){
+                if($(this).prop("checked")){
+                   
+                    $('#guardar').prop('disabled', false);
+                 
+                }else{
+                    $('#guardar').prop('disabled', true);
+                }
+            });
+        </script>
+    </body>
+</html>

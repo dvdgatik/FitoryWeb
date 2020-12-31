@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="sect-paquetes d-flex align-items-center">  
+    
+    <div class="row d-flex align-items-center cont-paq">
+        <div class="container" id="cont-plan-web">
+            <form action="/PagoDiarioplan/" method="POST" autocomplete="off" style="width:100%;" id="payment-form">
+            {% csrf_token %}
+                <input type="hidden" name="sucursal" value="{{sucursal.id}}">
+                <input type="hidden" name="cliente" value="{{usuario.id}}">
+                <input type="hidden" name="sesiones" value="0" id="requi">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <h4 class="raleway-regular paq-h4">CONTRATAR PLAN</h4>
+                        <div class="suscripcion-d mt-100">
+                            <hr class="line-dark"><a href="/Contratar-plan-mensual/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-regular">PLAN MENSUAL</label></a>
+                        </div>        
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-blue"><a href="/Contratar-plan-diario/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-bold">PLAN DIARIO</label></a>
+                        </div> 
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-dark"><a href="/Contratar-plan-free/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones  raleway-regular">DIAS DE PRUEBA</label></a>
+                        </div> 
+                        <div class="col-lg-8 col-md-12 mt-5">
+                            {%if request.user.is_authenticated and not user.is_staff%}
+                                    <div id="seleccionTarjeta">
+                                        <p class="text-secl-tarj">Seleccionar tarjeta</p>
+                                    
+                                        {%if listaMetodos%}
+                                        <select name="tarjeta" class="browser-default custom-select select-tarj" required id="tajetas">
+                                            <option value="" disabled selected>Tarjetas</option>
+                                            {%for m in listaMetodos%}
+                                                <option value="{{m.id}}" >{{m.brand}}</option>
+                                            {%endfor%}
+                                        </select>
+                                        <div class="md-form text-center">
+                                            <button type="sumbit" name="action" id="pagar" class="btn btn-pagar">
+                                                Pagar
+                                            </button>
+                                        </div>
+                                        {%else%}
+                                            <a href="/Mis-tarjetas/" class="text-addT">Agrega una tarjeta para continuar</a><br><br>
+                                        {%endif%}
+                                    </div> 
+                                    <button type="sumbit" name="action" id="pagar2" class="btn btn-pagar" style="display: none;">
+                                        Pagar
+                                    </button>
+                                   
+                            {%else%}
+                                <div class="md-form text-center">
+                                    <a href="/Iniciar-Sesion/" class="btn btn-pagar">
+                                        Inicia Sesión
+                                    </a>
+                                </div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-1"></div>
+                            <div class="col-lg-8 col-md-10" style="padding-left:0px;">
+                                    <p class="texto-suscripcion-m raleway-regular">
+                                        Ponte una meta alcanzable y reserva las sesiones para éste mes. Para facilitar la medición de tus resultados, el servicio se contratará por mes calendario, tómalo en cuenta al realizar tu reservación.<br><br>
+                                        Vigencia:<br>
+                                        Último dia del mes
+                                    </p>
+            
+                                    <div class="card-precio d-flex">
+                                        <div class="col-lg-5 col-md-6">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked" name="sesionesPrueba" value="4">
+                                                <label class="form-check-label textradio" for="materialUnchecked">Básico: <br><span class="tit-ses">4 Sesiones</span> </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked2" name="sesionesPrueba" value="8">
+                                                <label class="form-check-label textradio" for="materialUnchecked2">Medio: <br><span class="tit-ses">8 Sesiones</span></label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked3" name="sesionesPrueba" value="12">
+                                                <label class="form-check-label textradio" for="materialUnchecked3">Avanzado: <br><span class="tit-ses">12 Sesiones</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7 col-md-6">
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionA{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 1 sesión por semana</span>
+                                            </div>
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionB{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 2 sesión por semana</span>
+                                            </div>
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionC{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 3 sesión por semana</span>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                            </div>
+                            <div class="col-lg-1 col-md-1"></div>
+                        </div>
+                    
+                    </div>      
+                </div>
+            </form>     
+        </div>   
+        <div class="container-fluid" id="cont-plan-mobl">
+            <form action="/PagoDiarioplan/" method="POST" autocomplete="off" style="width:100%;" id="payment-formMobil">
+                {% csrf_token %}
+                <input type="hidden" name="sucursal" value="{{sucursal.id}}">
+                <input type="hidden" name="cliente" value="{{usuario.id}}">
+                <input type="hidden" name="sesiones" value="0" id="requiMobil">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <h4 class="raleway-regular paq-h4">CONTRATAR PLAN</h4>
+                        <div class="suscripcion-d mt-100">
+                            <hr class="line-dark"><a href="/Contratar-plan-mensual/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-regular">SUSCRIPCIÓN MENSUAL</label></a>
+                        </div>        
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-blue"><a href="/Contratar-plan-diario/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-bold" onclick="CambioS()">SUSCRIPCIÓN DIARIO</label></a>
+                        </div>  
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-dark"><a href="/Contratar-plan-free/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones  raleway-regular">DIAS DE PRUEBA</label></a>
+                        </div> 
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-1"></div>
+                            <div class="col-lg-8 col-md-10 mt-5">
+                                    <p class="texto-suscripcion-m raleway-regular">
+                                        Ponte una meta alcanzable y reserva las sesiones para éste mes. Para facilitar la medición de tus resultados, el servicio se contratará por mes calendario, tómalo en cuenta al realizar tu reservación.<br><br>
+                                        Vigencia:<br>
+                                        Último dia del mes
+                                    </p>
+            
+                                    <div class="card-precio d-flex">
+                                        <div class="col-lg-5 col-md-6 col-sm-5 col-4 pad-mb">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUncheckedMobil" name="sesionesPrueba" value="4">
+                                                <label class="form-check-label textradio" for="materialUncheckedMobil">Básico: <br><span class="tit-ses">4 Sesiones</span> </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked2Mobil" name="sesionesPrueba" value="8">
+                                                <label class="form-check-label textradio" for="materialUnchecked2Mobil">Medio: <br><span class="tit-ses">8 Sesiones</span></label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" id="materialUnchecked3Mobil" name="sesionesPrueba" value="12">
+                                                <label class="form-check-label textradio" for="materialUnchecked3Mobil">Avanzado: <br><span class="tit-ses">12 Sesiones</span></label>
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-lg-7 col-md-6 col-sm-7 col-8 pad-mb">
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionAM{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 1 sesión por semana</span>
+                                            </div>
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionBM{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 2 sesión por semana</span>
+                                            </div>
+                                            <div class="mb-3 text-right">
+                                                <span class="text-det-ses" id="precieSesionCM{{sucursal.id}}"></span><br>
+                                                <span  class="text-det-ses">Aprox. 3 sesión por semana</span>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                            </div>
+                            <div class="col-lg-1 col-md-1"></div>
+                            <div class="col-lg-8 col-md-8 mt-3">
+                                {%if request.user.is_authenticated and not user.is_staff%}
+                                    <div id="seleccionTarjetaMobil">
+                                        <p class="text-secl-tarj">Seleccionar tarjeta</p>
+                                    
+                                        {%if listaMetodos%}
+                                        <select name="tarjeta" class="browser-default custom-select select-tarj" required>
+                                            <option value="" disabled selected>Tarjetas</option>
+                                            {%for m in listaMetodos%}
+                                                <option value="{{m.id}}" >{{m.brand}}</option>
+                                            {%endfor%}
+                                        </select>
+                                        <div class="md-form text-center">
+                                            <button type="sumbit" name="action" id="pagarMobil" class="btn btn-pagar">
+                                                Pagar
+                                            </button>
+                                        </div>
+                                        {%else%}
+                                            <a href="/Mis-tarjetas/" class="text-addT">Agrega una tarjeta para continuar</a><br><br>
+                                        {%endif%}
+                                    </div>
+                                    <button type="sumbit" name="action" id="pagar2Mobil" class="btn btn-pagar" style="display: none;">
+                                        Pagar
+                                    </button>
+                                {%else%}
+                                    <div class="md-form text-center">
+                                        <a href="/Iniciar-Sesion/" class="btn btn-pagar">
+                                            Inicia Sesión
+                                        </a>
+                                    </div>
+                                {%endif%}
+                            </div>
+                        </div>
+                        
+                    </div>      
+                </div>
+            </form>  
+        </div>           
+    </div>   
+    
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Hubo algin error intentelo de nuevo mas tarde</p>
+                <a data-dismiss="modal" >Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock%}

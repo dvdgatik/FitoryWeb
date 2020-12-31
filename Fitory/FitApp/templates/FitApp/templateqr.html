@@ -1,0 +1,46 @@
+{% extends "baseqr.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="sectionqr d-flex align-items-center">
+    <div class="container-fluid">
+        <div class="row d-flex align-items-center" style="min-height:100vh;height: auto;">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                <figure class="text-center">
+                    <img src="{% static 'FitApp/img/phoneFitory-min.png' %}" alt="phoneFitory-min" class="img-cel">
+                </figure>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-12 text-center">
+                <h5 class="tit-qr">
+                    ¡Descarga la 
+                    <br>
+                    Aplicación oficial
+                </h5>
+                <p class="text-qr">
+                    Encuentra una actividad para ti. ponte una meta 
+                    y asiste a nuestros clubs
+                </p>
+                <ul class="list-store">
+                    <li>
+                        <a href="https://play.google.com/store/apps/details?id=com.dimakers.fitoryapp">
+                            <igure>
+                                <img src="{% static 'FitApp/img/BotonGooglePlay.png' %}" alt="BotonGooglePlay" class="icon-store">
+                            </figure>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <figure>
+                                <img src="{% static 'FitApp/img/BotonAppStore.png' %}" alt="BotonAppStore" class="icon-store">
+                            </figure>
+                        </a>
+                    </li>
+                </ul>
+                
+                
+                <p class="text-qr-b">FITORY.COM</p>
+            </div>
+        </div>
+    </div>
+</section>
+{%endblock%}

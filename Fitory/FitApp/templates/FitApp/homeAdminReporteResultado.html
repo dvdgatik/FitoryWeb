@@ -1,0 +1,61 @@
+{% extends "baseAdmin3.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="reporteros">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <a href="/homeAdminReportes/" class="btn-atras">
+                    <i class="fa fa-chevron-left color-atras"></i>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 text-center">
+                <h4 class="titulo-prin">Reportes</h4>
+                <h5 class="titulo-sec" style="text-align:center">{{inicioF|date:'d-m-Y'}} al {{finalF|date:'d-m-Y'}}</h5>
+            </div>
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-md-12"><br></div>
+            <div class="col-md-12">
+                {%if arreglo%}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>CLUB</th>
+                                    <th>SUCURSAL</th>
+                                    <th>CLIENTE</th>
+                                    <th>SERVICIO</th>
+                                    <th>TOTAL</th>
+                                    <th>FECHA DE CADUCIDAD</th>
+                                    <th>SESIONES RESTANTES</th>
+                                    <th>ESTATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for a in arreglo%}
+                                    <tr>
+                                        <td>{{a.id}}</td>
+                                        <td>{{a.club}}</td>
+                                        <td>{{a.sucursal}}</td>
+                                        <td>{{a.cliente}}</td>
+                                        <td>{{a.servicio}}</td>
+                                        <td>{{a.total}}</td>
+                                        <td>{{a.fechaCaducidad}}</td>
+                                        <td>{{a.sesionesRestantes}}</td>
+                                        <td>{{a.estatus}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                {%else%}
+                    <div class="col-md-12" style="text-align:center">
+                        <p>Sin resultados.</p>
+                    </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

@@ -1,0 +1,75 @@
+{% extends "baseLoginCliente.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="section-login d-flex align-items-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <form action="/loginCliente/" method="POST" autocomplete="off" class="login-form">
+                    {% csrf_token %}
+                    <div class="md-form">
+                        <h5 class="tit-inc">Inicio Sesión</h5>
+                    </div>
+                    <span>{{message}}</span>
+                    <div class="md-form">
+                        <input type="email" placeholder="Usuario" name="email" required class="input-log">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <input type="password" placeholder="Contraseña" name="password" required class="input-log">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form text-right">
+                        <a href="/RestaurarContrasena/" class="text-olv">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div class="md-form text-center">
+                        <button type="submit" class="btn-sesion" name="action">
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                    <div class="md-form text-center">
+                        <span class="text-olv ">¿No has creado una cuenta?</span>
+                        <br>
+                        <a data-toggle="modal" data-target="#registrarse" class="enlace-registro">Regístrate aqui</a>
+                    </div>
+                    <br>
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                        <a href="javascript:void(0);" onclick="fbLogin()" id="fbLink"><img src="{% static 'FitApp/img/BotonSesionFacebook.png' %}" alt="BotonSesionFacebook" class="img-ses"></a>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                        <a id="sign-in-or-out-button"><img src="{% static 'FitApp/img/BotonSesionGoogle.png' %}" alt="BotonSesionGoogle" class="img-ses"></a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="registrarse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header pred-modal">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">  
+        <h5 class="tit-elj-mod">Elija una opción</h5>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a href="javascript:void(0);" onclick="fbLogin()" id="fbLink"><img src="{% static 'FitApp/img/BotonRegistroFacebook.png' %}" alt="BotonRegistroFacebook" class="img-ses-modal"></a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a id="sign-in-or-out-button"><img src="{% static 'FitApp/img/BotonRegistroGoogle.png' %}" alt="BotonRegistroGoogle" class="img-ses-modal"></a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a href="/Registrarse/"><img src="{% static 'FitApp/img/BotonRegistroCorreo.png' %}" alt="BotonRegistroCorreo" class="img-ses-modal"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

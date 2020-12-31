@@ -1,0 +1,196 @@
+{% extends "baseSucursal.html" %}
+{% block content %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">Clientes</h4>      
+            </div>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs md-tabs" id="myTabMD" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab" aria-controls="home-md" aria-selected="true">Subscripción Mensual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab" aria-controls="profile-md" aria-selected="false">Sesiones</a>
+                    </li>
+                </ul>
+                <div class="tab-content card pt-5" id="myTabContentMD">
+                    <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+                                {%if clientesSub%}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class="tabla-head">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Fecha de Subscripción</th>
+                                                    <th>Fecha de Renovación</th>
+                                                    <th>Enviar Notificación</th>
+                                                    <th>Historial de Visitas</th>
+                                                    <th>Registrar Visita Manual</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tabla-body">
+                                                {%for c in clientesSub%}
+                                                    <tr>
+                                                        <td>{{c.cliente.id}}</td>
+                                                        <td>{{c.cliente.nombre}} {{c.cliente.apellido}}</td>
+                                                        <td>{{c.fechaSubscripcion|date:'d-m-Y'}}</td>
+                                                        <td>{{c.fechaRenovacion|date:'d-m-Y'}}</td>
+                                                        <td>
+                                                            <a href="/homeSucursal/Cliente/{{c.id}}/Notificacion/" class="btn btn-sm btn-primary">Enviar</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/homeSucursal/Cliente/{{c.cliente.id}}/HistorialVisitas/" class="btn btn-sm btn-secondary">Ver</a>
+                                                        </td>
+                                                        <td>
+                                                            {%if clienteVisitaHoy%}
+                                                                {%for cliente,respuesta in clienteVisitaHoy%}
+                                                                    {%if cliente == c.cliente and respuesta == True%}
+                                                                        <a class="btn btn-sm btn-email" data-toggle="tooltip" data-placement="right" title="El cliente ya tiene visita registrada">Registrar</a>
+                                                                    {%elif cliente == c.cliente and respuesta == False%}
+                                                                        {%if clienteSubPuedeVisitar%}
+                                                                            {%for cl,resp in clienteSubPuedeVisitar%}
+                                                                                {%if cl == c.cliente and resp == True%}
+                                                                                    <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#registrarVisitaSubCliente{{c.cliente.id}}">Registrar</a>
+                                                                                {%elif cl == c.cliente and resp == False%}
+                                                                                    <a class="btn btn-sm btn-email" data-toggle="tooltip" data-placement="right" title="El cliente no tiene subscripción activa con este club, no puede registrar visitas.">Registrar</a>
+                                                                                {%endif%}
+                                                                            {%endfor%}
+                                                                        {%endif%}
+                                                                    {%endif%}
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        </td>
+                                                    </tr>
+                                                {%endfor%}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {%else%}
+                                    <p style="text-align: center">
+                                        No hay clientes.
+                                    </p>
+                                {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+                        <div class="container-fluid">
+                            <div class="col-md-12">
+                                {%if clienteSes%}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead class="tabla-head">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nombre</th>
+                                                    <th>Sesiones</th>
+                                                    <th>Sesiones Restantes</th>
+                                                    <th>Caducidad</th>
+                                                    <th>Enviar Notificación</th>
+                                                    <th>Historial de Visitas</th>
+                                                    <th>Registrar Visita Manual</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tabla-body">
+                                                {%for c in clienteSes%}
+                                                    <tr>
+                                                        <td>{{c.cliente.id}}</td>
+                                                        <td>{{c.cliente.nombre}} {{c.cliente.apellido}}</td>
+                                                        <td>{{c.sesiones}}</td>
+                                                        <td>{{c.sesionesRestantes}}</td>
+                                                        <td>{{c.caducidad|date:'d-m-Y'}}</td>
+                                                        <td>
+                                                            <a href="/homeSucursal/Cliente/{{c.id}}/Notificacion/" class="btn btn-sm btn-primary">Enviar</a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/homeSucursal/Cliente/{{c.id}}/HistorialVisitas/" class="btn btn-sm btn-secondary">Enviar</a>
+                                                        </td>
+                                                        <td>
+                                                            {%if clienteVisitaHoy%}
+                                                                {%for cliente,respuesta in clienteVisitaHoy%}
+                                                                    {%if cliente == c.cliente and respuesta == True%}
+                                                                        <a class="btn btn-sm btn-email" data-toggle="tooltip" data-placement="right" title="El cliente ya tiene visita registrada">Registrar</a>
+                                                                    {%elif cliente == c.cliente and respuesta == False%}
+                                                                        {%if clienteSesPuedeVisitar%}
+                                                                            {%for cl,resp in clienteSesPuedeVisitar%}
+                                                                                {%if cl == c.cliente and resp == True%}
+                                                                                    <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#registrarVisitaSesCliente{{c.cliente.id}}">Registrar</a>
+                                                                                {%elif cl == c.cliente and resp == False%}
+                                                                                    <a class="btn btn-sm btn-email" data-toggle="tooltip" data-placement="right" title="El cliente no tiene subscripción activa con este club, no puede registrar visitas.">Registrar</a>
+                                                                                {%endif%}
+                                                                            {%endfor%}
+                                                                        {%endif%}
+                                                                    {%endif%}
+                                                                {%endfor%}
+                                                            {%endif%}
+                                                        </td>
+                                                    </tr>
+                                                {%endfor%}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {%else%}
+                                    <p style="text-align: center">
+                                        No hay clientes.
+                                    </p>
+                                {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%if clientes%}
+        {%for c in clientes%}
+            <!-- Modal -->
+            <div class="modal fade" id="registrarVisitaSubCliente{{c.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Registrar Visita Cliente {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea registrar, de forma manual, una visita para el cliente {{c.nombre}} ?</p>
+                            <a href="/registrarVisitaSub/{{c.id}}/" class="btn btn-sm btn-green">Si</a>
+                            <a class="btn btn-sm btn-red" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="registrarVisitaSesCliente{{c.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Registrar Visita Cliente {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea registrar, de forma manual, una visita para el cliente {{c.nombre}} ?</p>
+                            <a href="/registrarVisitaSes/{{c.id}}/" class="btn btn-sm btn-green">Si</a>
+                            <a class="btn btn-sm btn-red" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+{% endblock%}

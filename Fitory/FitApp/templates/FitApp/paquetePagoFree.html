@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="sect-paquetes d-flex align-items-center">  
+    <form action="/PagPlanFree/" method="POST" autocomplete="off" style="width:100%;" id="payment-form">
+        {% csrf_token %}
+        <input type="hidden" name="sucursal" value="{{sucursal.id}}">
+        <input type="hidden" name="cliente" value="{{usuario.id}}">
+        <div class="row d-flex align-items-center cont-paq">
+            <div class="container" id="cont-plan-web">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <h4 class="raleway-regular paq-h4">CONTRATAR PLAN</h4>
+                        <div class="suscripcion-d mt-100">
+                            <hr class="line-dark"><a href="/Contratar-plan-mensual/{{sucursal.id}}"> <label class="mb-0 ml-15 label-suscripciones raleway-regular">PLAN MENSUAL</label></a>
+                        </div>        
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-dark"><a href="/Contratar-plan-diario/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-regular">PLAN DIARIA</label></a>
+                        </div>  
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-blue"><a href="/Contratar-plan-free/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones  raleway-bold">DIAS DE PRUEBA </label></a>
+                        </div>  
+                             
+                        <div class="col-lg-8 col-md-8 mt-5">
+                            {%if request.user.is_authenticated and not user.is_staff%}
+                                {%if usuario.telefono == "..."%}
+                                    <div class="md-form text-center">
+                                        <a href="/verificacion/" class="btn btn-pagar" style="padding: 10px 20px;">
+                                            Registrar teléfono
+                                        </a>
+                                    </div>
+                                {%else%}
+                                    {%if not suscripcionN or not secionesN%}
+                                        {%if not suscripcionF%}
+                                            <div class="md-form text-center">
+                                                <button type="sumbit" name="action" id="pagar" class="btn btn-pagar">
+                                                    Conseguir
+                                                </button>
+                                            </div>
+                                        {%else%}
+                                            <p class="texto-suscripcion-m raleway-regular">
+                                                Usted ya cuenta con algun plan activo 
+                                            </p>
+                                        {%endif%}
+                                    {%else%}
+                                        <p class="texto-suscripcion-m raleway-regular">
+                                            Usted ya cuenta con algun plan activo 
+                                        </p>
+                                    {%endif%}
+                                {%endif%}
+                            {%else%}
+                                <div class="md-form text-center">
+                                    <a href="/Iniciar-Sesion/" class="btn btn-pagar">
+                                        Inicia Sesión
+                                    </a>
+                                </div>
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-1"></div>
+                            <div class="col-lg-8 col-md-10" style="padding-left:0px;">
+                                <p class="texto-suscripcion-m raleway-regular">
+                                        "Los Clubes afiliados a Fitory están comprometidos a ayudarte a encontrar tu actividad ideal. 
+                                        Para lograrlo te regalan sesiones de Prueba para que visites sus instalaciones".
+                                        <br>
+                                        Sesiones Gratis: {{sucursal.diasPruebas}}
+                                </p>     
+                            </div>
+                            <div class="col-lg-1 col-md-1"></div>
+                        </div>
+                        <div class="lin-neg-text"></div>
+                    </div>      
+                </div>
+            </div> 
+            <div class="container-fluid" id="cont-plan-mobl">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-6">
+                        <h4 class="raleway-regular paq-h4">Contratar Plan</h4>
+                        <div class="suscripcion-d mt-100">
+                            <hr class="line-dark"><a href="/Contratar-plan-mensual/{{sucursal.id}}"> <label class="mb-0 ml-15 label-suscripciones raleway-regular">PLAN MENSUAL</label></a>
+                        </div>        
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-dark"><a href="/Contratar-plan-diario/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-regular">PLAN DIARIO</label></a>
+                        </div>  
+                        <div class="suscripcion-d mt-15">
+                            <hr class="line-blue"><a href="/Contratar-plan-free/{{sucursal.id}}"><label class="mb-0 ml-15 label-suscripciones raleway-bold">DIAS DE PRUEBA</label></a>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 d-flex align-items-center">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-1"></div>
+                            <div class="col-lg-8 col-md-10 mt-5">
+                                <p class="texto-suscripcion-m raleway-regular">
+                                    "Los Clubes afiliados a Fitory están comprometidos a ayudarte a encontrar tu actividad ideal. Para lograrlo te regalan sesiones de Prueba para que visites sus instalaciones".
+                                </p>      
+                            </div>
+                            <div class="col-lg-1 col-md-1"></div>
+                        </div>
+                       
+                    </div>      
+                    <div class="col-lg-8 col-md-8 col-12 mt-4">
+                        {%if request.user.is_authenticated and not user.is_staff%}
+                            {%if usuario.telefono == "..."%}
+                                <div class="md-form text-center">
+                                    <a href="/verificacion/" class="btn btn-pagar" style="padding: 10px 20px;">
+                                        Registrar teléfono
+                                    </a>
+                                </div>
+                            {%else%}
+                                <div class="md-form text-center">
+                                    <button type="sumbit" name="action" id="pagar" class="btn btn-pagar">
+                                        Conseguir
+                                    </button>
+                                </div>
+                            {%endif%}
+                        {%else%}
+                            <div class="md-form text-center">
+                                <a href="/Iniciar-Sesion/" class="btn btn-pagar">
+                                    Inicia Sesión
+                                </a>
+                            </div>
+                        {%endif%}
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </form>
+    
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="text-modal-error">{{error}}</p>
+                <a data-dismiss="modal"  class="btn modal-btn">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock%}

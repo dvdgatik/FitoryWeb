@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Admin</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/styleadmin.css' %}" rel="stylesheet">
+        <!-- Style -->
+        <style>
+            .dateclass{
+                width:100%;
+            }
+            .dateclass.placeholderclass::before{
+                width:100%;
+                content:attr(placeholder);
+                background-color:transparent;
+                font-size: 13px;
+            }
+            .dateclass.placeholderclass:hover::before{
+                width:0%;
+                content:"";
+                font-size: 13px;
+            }
+            input[type=date]{
+                background-color: #fff!important;
+                background:  url("{% static 'FitApp/img/iconoCalendario.png'%}") no-repeat 100% center transparent;
+                background-size: contain;
+                z-index: 999;
+                
+            }
+            input[type="date"]::-webkit-calendar-picker-indicator {  
+                color: rgba(0, 0, 0, 0);
+                background:  url("{% static 'FitApp/img/iconoCalendario.png'%}") no-repeat 100% center transparent;
+                opacity: 0;
+                background-size: contain;
+                width: 15px
+                
+            }
+            input[type=date]::-webkit-outer-spin-button,input[type=date]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            .contenedor{
+                padding-top: 1%;
+            }
+            .tabla-head{
+                background-color: transparent;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 2px;
+                font-size: 1rem;
+                border-radius: 25px;
+                border: 1px solid #000;
+                font-family: RalewayMedium;
+            }
+            .tabla-head >tr >th{
+                border-bottom: none!important;
+            }
+            .tabla-body{
+                text-align: center;
+                font-size: 0.9rem;
+                font-family: RalewayRegular;
+            }
+            .tabla-body td{
+                border-bottom-style: dashed!important;
+                border-bottom: 2px solid #dee2e6;
+                border-top:0px!important; 
+                vertical-align: middle;
+            }
+            .pagination{
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: inline-block;
+                list-style: none;
+                border-radius: .25rem;
+            }
+            .pagination > li{
+                float: left;
+                list-style: outside none none;
+                padding-left: 5px;
+                font-size: 0.9em!important;
+                box-shadow: none;
+                color: #000000;
+            }
+            .pagination > li > a:link{
+                color: #000000;
+            }
+            .pagination > li > a:hover{
+                color: #000000;
+            }
+            .pagination > li > a:active{
+                color: #000000;
+            }
+            .pagination > li > a:visited{
+                color: #000000;
+            }
+            .pagination > li.active{
+                text-decoration: underline;
+            }
+            .lin-red{
+                margin: auto;
+                text-align: center;
+                width: 30%;
+                border-top: 2px solid rgb(233, 24, 34);
+                display: block;
+            }
+            .imgCenter {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
+            .imgfotosSuc{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+            /* sucursal */
+            .border-tabs{
+                border-bottom: 1px solid #000;
+                background-color: transparent;
+                box-shadow: none;
+                margin-left: 0px;
+                margin-right: 0px;
+                padding: 0rem; 
+                margin-top: 50px;
+            }
+            .nav-tabs .nav-link-sucursal.active{
+                border-radius: 2px;
+                border-top: 1px solid;
+                border-left: 1px solid;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                color: #000;
+                font-family: RalewayRegular;
+                -webkit-transition: all 1s;
+                transition: all .5s;
+                text-transform: uppercase;
+                font-size: .85rem;
+                letter-spacing: .1rem;
+            }
+            .nav-tabs .nav-link-sucursal.active:hover{
+                border-radius: 2px;
+                border-top: 1px solid;
+                border-left: 1px solid;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                color: #000;
+                font-family: RalewayRegular;
+                -webkit-transition: all 1s;
+                transition: all .5s;
+                text-transform: uppercase;
+                font-size: .85rem;
+                letter-spacing: .1rem;
+            }
+            .nav-tabs .nav-link-sucursal:hover{
+                border-radius: 2px;
+                border-top: 1px solid;
+                border-left: 1px solid;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                color: #000;
+                font-family: RalewayRegular;
+                border-bottom: 1px solid;
+                text-transform: uppercase;
+                font-size: .85rem;
+                letter-spacing: .1rem;
+            }
+            .nav-tabs .nav-link-sucursal{
+                color: #000!important;
+                border-top: 1px solid;
+                border-left: 1px solid;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                background: rgb(242,242,242);
+                border-bottom: 1px solid;
+                font-family: RalewayRegular;
+                text-transform: uppercase;
+                font-size: .85rem;
+                letter-spacing: .1rem;
+            }
+            .tab-content-sucursal{
+                border-bottom: 1px solid;
+                border-left: 1px solid;
+                border-right: 1px solid;
+                border-top-right-radius: .3rem;
+                margin-top: 20px;
+            }
+            .solo-borde-right{
+                border-right: 1px solid!important;
+            }
+            .switch label input[type=checkbox]:checked+.color-switch{
+                background: rgb(55, 189, 194)!important;
+            }
+            .switch label input[type=checkbox]:checked+.color-switch:after{
+                background: #fff;
+            }
+            .switch label .color-switch:after{
+                width: 15px;
+                height: 15px;
+                top:0px;
+            }
+            .tit-sucr{
+                font-family: RalewaySemiBold;
+                text-transform: uppercase;
+            }
+            .text-suc{
+                color: #000;
+                font-family: RalewayMedium;
+            }
+            .text-cl{
+                color: #6c757d;
+                font-family: RalewayMedium;
+            }
+            .btn-fotos{
+                box-shadow: none;
+                color:#000;
+                font-family: RalewayRegular;
+                border-radius: 15px;
+                border: 1px solid;
+                display: inline-block;
+                padding: .5rem 1.5rem;
+                width: 80%;
+                margin: 5px;
+                text-transform: uppercase;
+                font-size: .9rem;
+                text-align: center;
+            }
+            .btn-save-sucursal{
+                font-family: RalewayRegular;
+                text-transform: uppercase;
+                font-size: .9rem;
+                color: #000!important;
+                box-shadow: none!important;
+                border: 1px solid #000;
+                border-radius: 25px;
+                padding: .6rem 3.3rem;
+                margin: auto;
+                cursor: pointer;
+            }
+            .edit-check[type=checkbox]+label{
+                padding-right: 15px;
+                padding-left: 25px;
+            }
+            .closed-fotos-suc{
+                position: absolute;
+                top:5px;
+                right:5px;
+            }
+        </style>
+        {% load cropping %}
+        {% load cropping thumbnail %}
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-style">
+            <a class="navbar-brand" href="/homeAdmin/"><img src="{% static 'FitApp/img/logoFitory2.png' %}" alt="fitory" class="img-nav"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mt-lg-0 list-nav-style">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeAdmin/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link est" href="/homeAdminEstados/">Estados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ser" href="/homeAdminServicios/">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link actv" href="/homeAdminActividades/">Actividades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link clb" href="/homeAdminClubes/">Clubes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeAdminPagosSucursal/">Pagos Sucursal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cli" href="/homeAdminClientes/">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rp" href="/homeAdminReportes/">Reportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logoutAdmin/">Cerrar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        <!-- Start your project here-->
+        {% block content %}
+        {% endblock %}
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Cropping -->
+        <script type="text/javascript" src="/static/image_cropping/js/jquery.Jcrop.min.js"></script>
+        <script type="text/javascript" src="/static/image_cropping/image_cropping.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <!-- Google Maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpkpY7zQ0N56EReUSqnLdrvD5iFHWqyo8"></script>
+        <!-- Initialize -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+                $('.mdb-select').material_select();
+                $('[data-toggle="tooltip"]').tooltip();
+    
+            });
+        </script>
+        <script>
+        $(document).ready(function() {
+            $("#activate-switch").change(function(){
+                if($(this).prop("checked")){
+              
+                    $("#activate-switch").prop('value', "True");
+                }else{
+                    $("#activate-switch").prop('value', "False");
+
+                }
+            });
+        });
+        </script>
+        <script type="text/javascript">
+            var latF = parseFloat("25.478124");
+            var lngF = parseFloat("-100.944095");
+            var latlng = new google.maps.LatLng(latF, lngF);
+            var mapSettings = {
+                center: latlng,
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                fullscreenControl: false, 
+                mapTypeControl: false
+            }
+            var map = new google.maps.Map($('#mapa').get(0),mapSettings);
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                draggable: true,
+                title: 'Seleccione una ubicación'
+            });
+            google.maps.event.addListener(marker, 'position_changed', function(){
+                getMarkerCoords(marker);
+            });
+            function getMarkerCoords(marker){
+                var markerCoords = marker.getPosition();
+                $('#lat').val( markerCoords.lat() );
+                $('#lng').val( markerCoords.lng() );
+            }
+            $('#myModalSucursal').on('shown.bs.modal', function () {
+                var currentCenter = map.getCenter();
+                google.maps.event.trigger(map, "resize");
+                map.setCenter(currentCenter);
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#estado").change(function(){
+                    if($(this).val()){
+                        var estado_id = $(this).val();
+                        request_url = '/getCiudades/'+ estado_id + '/'
+                        $.ajax({
+                            type:"POST",
+                            url: request_url,
+                            data: {
+                                csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                            success: function(data){
+                                $('#ciudad').prop('required',true);
+                                $('#ciudad').find('option').remove().end().append('<option value="">Elija una opción</option>').val('');
+                                $.each(data, function(key, value){
+                                    $('#ciudad').prop('disabled', false);
+                                    $('#ciudad').append('<option  value="' + key + '">' + value +'</option>');
+                                });
+                            }
+                        })
+                    }else{
+                        $('#ciudad').prop('disabled', true);
+                        $('#ciudad').prop('required',false);
+                    }
+                });
+            });
+        </script>
+        {%if sucursales%}
+                <script type="text/javascript">
+                    $(function(){
+                        initialize(parseFloat("{{sucursales.latitud}}"), parseFloat("{{sucursales.longitud}}"));
+
+                        function initialize(lat,lng){
+                            var latlng{{sucursales.id}} = new google.maps.LatLng(lat, lng);
+                            var mapSettings{{sucursales.id}} = {
+                                center: latlng{{sucursales.id}},
+                                zoom: 15,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                streetViewControl: false,
+                                fullscreenControl: false, 
+                                mapTypeControl: false
+                            }
+                            var map{{sucursales.id}} = new google.maps.Map($('#mapaS{{sucursales.id}}').get(0),mapSettings{{sucursales.id}});
+
+
+                            var marker{{sucursales.id}} = new google.maps.Marker({
+                                position: latlng{{sucursales.id}},
+                                map: map{{sucursales.id}},
+                                draggable: true,
+                                title: 'Seleccione una ubicación'
+                            });
+
+                            google.maps.event.addListener(marker{{sucursales.id}}, 'position_changed', function(){
+                                getMarkerCoords{{sucursales.id}}(marker{{sucursales.id}});
+                            });
+
+                            $('#editSucursal{{sucursales.id}}').on('shown.bs.modal', function () {
+                                var myLatlng{{sucursales.id}} = new google.maps.LatLng(parseFloat("{{sucursales.latitud}}"), parseFloat("{{sucursales.longitud}}"));
+                                google.maps.event.trigger(map{{sucursales.id}}, "resize");
+                                map{{sucursales.id}}.setCenter(myLatlng{{sucursales.id}});
+                            }); 
+                        }
+
+                        function getMarkerCoords{{sucursales.id}}(marker){
+                            var markerCoords{{sucursales.id}} = marker.getPosition();
+                            $('#lat{{sucursales.id}}').val(markerCoords{{sucursales.id}}.lat() );
+                            $('#lng{{sucursales.id}}').val(markerCoords{{sucursales.id}}.lng() );
+                        }
+                    });
+                </script>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#estado{{sucursales.id}}").change(function(){
+                            if($(this).val()){
+                                var estado_id = $(this).val();
+                                request_url = '/getCiudades/'+ estado_id + '/'
+                                $.ajax({
+                                    type:"POST",
+                                    url: request_url,
+                                    data: {
+                                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                                    },
+                                    success: function(data){
+                                        $('#ciudad{{sucursales.id}}').prop('required',true);
+                                        $('#ciudad{{sucursales.id}}').find('option').remove().end().append('<option value="">Elija una opción</option>').val('');
+                                        $.each(data, function(key, value){
+                                            $('#ciudad{{sucursales.id}}').prop('disabled', false);
+                                            $('#ciudad{{sucursales.id}}').append('<option  value="' + key + '">' + value +'</option>');
+                                        });
+                                    }
+                                })
+                            }else{
+                                $('#ciudad{{sucursales.id}}').prop('disabled', true);
+                                $('#ciudad{{sucursales.id}}').prop('required',false);
+                            }
+                        });
+                    });
+                </script>
+        {%endif%}
+        {%if sucursales%}
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#lunesCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#lunesApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#lunesApertura{{sucursales.id}}").prop('required', true);
+                            $("#lunesCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#lunesCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#lunesApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#lunesApertura{{sucursales.id}}").prop('required', false);
+                            $("#lunesCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#lunesCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#martesCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#martesApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#martesApertura{{sucursales.id}}").prop('required', true);
+                            $("#martesCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#martesCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#martesApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#martesApertura{{sucursales.id}}").prop('required', false);
+                            $("#martesCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#martesCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#miercolesCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#miercolesApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#miercolesApertura{{sucursales.id}}").prop('required', true);
+                            $("#miercolesCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#miercolesCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#miercolesApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#miercolesApertura{{sucursales.id}}").prop('required', false);
+                            $("#miercolesCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#miercolesCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#juevesCheck{{s.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#juevesApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#juevesApertura{{sucursales.id}}").prop('required', true);
+                            $("#juevesCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#juevesCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#juevesApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#juevesApertura{{sucursales.id}}").prop('required', false);
+                            $("#juevesCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#juevesCierre{{s.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#viernesCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#viernesApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#viernesApertura{{sucursales.id}}").prop('required', true);
+                            $("#viernesCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#viernesCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#viernesApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#viernesApertura{{sucursales.id}}").prop('required', false);
+                            $("#viernesCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#viernesCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#sabadoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#sabadoApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#sabadoApertura{{sucursales.id}}").prop('required', true);
+                            $("#sabadoCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#sabadoCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#sabadoApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#sabadoApertura{{sucursales.id}}").prop('required', false);
+                            $("#sabadoCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#sabadoCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#domingoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#domingoApertura{{sucursales.id}}").prop('disabled', false);
+                            $("#domingoApertura{{sucursales.id}}").prop('required', true);
+                            $("#domingoCierre{{sucursales.id}}").prop('disabled', false);
+                            $("#domingoCierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#domingoApertura{{sucursales.id}}").prop('disabled', true);
+                            $("#domingoApertura{{sucursales.id}}").prop('required', false);
+                            $("#domingoCierre{{sucursales.id}}").prop('disabled', true);
+                            $("#domingoCierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDias{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDias{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                });
+            </script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#lunesMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#lunes1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#lunes1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#lunes1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#lunes1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#lunes2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#lunes2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#lunes2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#lunes2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#lunes1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#lunes1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#lunes1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#lunes1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#lunes2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#lunes2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#lunes2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#lunes2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#martesMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#martes1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#martes1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#martes1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#martes1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#martes2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#martes2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#martes2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#martes2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#martes1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#martes1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#martes1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#martes1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#martes2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#martes2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#martes2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#martes2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#miercolesMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#miercoles1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#miercoles1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#miercoles1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#miercoles1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#miercoles2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#miercoles2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#miercoles2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#miercoles2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#miercoles1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#miercoles1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#miercoles1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#miercoles1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#miercoles2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#miercoles2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#miercoles2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#miercoles2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#juevesMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#jueves1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#jueves1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#jueves1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#jueves1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#jueves2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#jueves2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#jueves2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#jueves2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#jueves1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#jueves1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#jueves1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#jueves1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#jueves2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#jueves2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#jueves2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#jueves2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#viernesMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#viernes1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#viernes1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#viernes1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#viernes1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#viernes2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#viernes2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#viernes2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#viernes2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#viernes1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#viernes1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#viernes1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#viernes1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#viernes2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#viernes2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#viernes2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#viernes2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#sabadoMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#sabado1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#sabado1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#sabado1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#sabado1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#sabado2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#sabado2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#sabado2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#sabado2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#sabado1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#sabado1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#sabado1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#sabado1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#sabado2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#sabado2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#sabado2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#sabado2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                    $("#domingoMixtoCheck{{sucursales.id}}").change(function(){
+                        if($(this).prop("checked")){
+                            $("#domingo1Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#domingo1Apertura{{sucursales.id}}").prop('required', true);
+                            $("#domingo1Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#domingo1Cierre{{sucursales.id}}").prop('required', true);
+                            $("#domingo2Apertura{{sucursales.id}}").prop('disabled', false);
+                            $("#domingo2Apertura{{sucursales.id}}").prop('required', true);
+                            $("#domingo2Cierre{{sucursales.id}}").prop('disabled', false);
+                            $("#domingo2Cierre{{sucursales.id}}").prop('required', true);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias + 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }else{
+                            $("#domingo1Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#domingo1Apertura{{sucursales.id}}").prop('required', false);
+                            $("#domingo1Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#domingo1Cierre{{sucursales.id}}").prop('required', false);
+                            $("#domingo2Apertura{{sucursales.id}}").prop('disabled', true);
+                            $("#domingo2Apertura{{sucursales.id}}").prop('required', false);
+                            $("#domingo2Cierre{{sucursales.id}}").prop('disabled', true);
+                            $("#domingo2Cierre{{sucursales.id}}").prop('required', false);
+                            var numDias = Number($("#numDiasMixto{{sucursales.id}}").val());
+                            var nuevo = numDias - 1;
+                            $("#numDiasMixto{{sucursales.id}}").val(nuevo);
+                        }
+                    });
+                });
+            </script>
+        {%endif%}
+        {%if sucursalHorario%}
+            {%for sucursal,horario in sucursalHorario%}
+                {%if not horario == None%}
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#lunesCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#lunesEditAddApertura{{sucursales.id}}").length)&&($("#lunesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#lunesEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#lunesEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#lunesEditAddApertura{{sucursales.id}}").length)&&($("#lunesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#lunesEditAddApertura{{sucursales.id}}").val('');
+                                        $("#lunesEditAddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditAddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#lunesEditAddCierre{{sucursales.id}}").val('');
+                                        $("#lunesEditAddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditAddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#martesCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#martesEditAddApertura{{sucursales.id}}").length)&&($("#martesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#martesEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#martesEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#martesEditAddApertura{{susucursales.id}}").length)&&($("#martesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#martesEditAddApertura{{susucursales.id}}").val('');
+                                        $("#martesEditAddApertura{{susucursales.id}}").prop('disabled', true);
+                                        $("#martesEditAddApertura{{susucursales.id}}").prop('required', false);
+                                        $("#martesEditAddCierre{{susucursales.id}}").val('');
+                                        $("#martesEditAddCierre{{susucursales.id}}").prop('disabled', true);
+                                        $("#martesEditAddCierre{{susucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#miercolesCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#miercolesEditAddApertura{{sucursales.id}}").length)&&($("#miercolesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#miercolesEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#miercolesEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#miercolesEditAddApertura{{sucursales.id}}").length)&&($("#miercolesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#miercolesEditAddApertura{{sucursales.id}}").val('');
+                                        $("#miercolesEditAddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditAddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#miercolesEditAddCierre{{sucursales.id}}").val('');
+                                        $("#miercolesEditAddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditAddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#juevesCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#juevesEditAddApertura{{sucursales.id}}").length)&&($("#juevesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#juevesEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#juevesEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#juevesEditAddApertura{{sucursales.id}}").length)&&($("#juevesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#juevesEditAddApertura{{sucursales.id}}").val('');
+                                        $("#juevesEditAddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditAddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#juevesEditAddCierre{{sucursales.id}}").val('');
+                                        $("#juevesEditAddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditAddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#viernesCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#viernesEditAddApertura{{sucursales.id}}").length)&&($("#viernesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#viernesEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#viernesEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#viernesEditAddApertura{{sucursales.id}}").length)&&($("#viernesEditAddCierre{{sucursales.id}}").length)){
+                                        $("#viernesEditAddApertura{{sucursales.id}}").val('');
+                                        $("#viernesEditAddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditAddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#viernesEditAddCierre{{sucursales.id}}").val('');
+                                        $("#viernesEditAddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditAddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#sabadoCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#sabadoEditAddApertura{{sucursales.id}}").length)&&($("#sabadoEditAddCierre{{sucursales.id}}").length)){
+                                        $("#sabadoEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#sabadoEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#sabadoEditAddApertura{{sucursal.id}}").length)&&($("#sabadoEditAddCierre{{sucursal.id}}").length)){
+                                        $("#sabadoEditAddApertura{{sucursal.id}}").val('');
+                                        $("#sabadoEditAddApertura{{sucursal.id}}").prop('disabled', true);
+                                        $("#sabadoEditAddApertura{{sucursal.id}}").prop('required', false);
+                                        $("#sabadoEditAddCierre{{sucursal.id}}").val('');
+                                        $("#sabadoEditAddCierre{{sucursal.id}}").prop('disabled', true);
+                                        $("#sabadoEditAddCierre{{sucursal.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#domingoCheck{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#domingoEditAddApertura{{sucursales.id}}").length)&&($("#domingoEditAddCierre{{sucursales.id}}").length)){
+                                        $("#domingoEditAddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditAddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#domingoEditAddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditAddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDias{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDias{{horario.id}}").val(nuevo);
+                                    if(($("#domingoEditAddApertura{{sucursales.id}}").length)&&($("#domingoEditAddCierre{{sucursales.id}}").length)){
+                                        $("#domingoEditAddApertura{{sucursales.id}}").val('');
+                                        $("#domingoEditAddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditAddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#domingoEditAddCierre{{sucursales.id}}").val('');
+                                        $("#domingoEditAddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditAddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#lunesCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#lunesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#lunesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#lunesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#lunesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#lunesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#lunesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#lunesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#lunesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#lunesEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#lunesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#lunesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#lunesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#lunesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#lunesEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#lunesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#lunesEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#lunesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#lunesEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#lunesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#lunesEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#lunesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#lunesEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#martesCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#martesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#martesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#martesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#martesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#martesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#martesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#martesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#martesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#martesEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#martesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#martesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#martesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#martesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#martesEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#martesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#martesEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#martesEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#martesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#martesEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#martesEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#martesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#martesEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#martesEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#martesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#martesEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#miercolesCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#miercolesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#miercolesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#miercolesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#miercolesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#miercolesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#miercolesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#miercolesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#miercolesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#miercolesEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#miercolesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#miercolesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#miercolesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#miercolesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#miercolesEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#miercolesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#miercolesEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#miercolesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#miercolesEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#miercolesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#miercolesEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#miercolesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#miercolesEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#juevesCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#juevesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#juevesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#juevesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#juevesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#juevesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#juevesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#juevesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#juevesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#juevesEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#juevesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#juevesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#juevesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#juevesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#juevesEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#juevesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditMixto1AddApertura{{sucursal.id}}").prop('required', false);
+                                        $("#juevesEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#juevesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#juevesEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#juevesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#juevesEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#juevesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#juevesEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#viernesCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#viernesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#viernesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#viernesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#viernesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#viernesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#viernesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#viernesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#viernesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#viernesEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#viernesEditMixto1AddApertura{{sucursales.id}}").length)&&($("#viernesEditMixto1AddCierre{{sucursales.id}}").length)&&($("#viernesEditMixto2AddApertura{{sucursales.id}}").length)&&($("#viernesEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#viernesEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#viernesEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#viernesEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#viernesEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#viernesEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#viernesEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#viernesEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#viernesEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#viernesEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#sabadoCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#sabadoEditMixto1AddApertura{{sucursales.id}}").length)&&($("#sabadoEditMixto1AddCierre{{sucursales.id}}").length)&&($("#sabadoEditMixto2AddApertura{{sucursales.id}}").length)&&($("#sabadoEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#sabadoEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#sabadoEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#sabadoEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#sabadoEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#sabadoEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#sabadoEditMixto1AddApertura{{sucursales.id}}").length)&&($("#sabadoEditMixto1AddCierre{{sucursales.id}}").length)&&($("#sabadoEditMixto2AddApertura{{sucursales.id}}").length)&&($("#sabadoEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#sabadoEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#sabadoEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#sabadoEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#sabadoEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#sabadoEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#sabadoEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#sabadoEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#sabadoEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#sabadoEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#sabadoEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#sabadoEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#sabadoEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                            $("#domingoCheckMixto{{horario.id}}").change(function(){
+                                if($(this).prop("checked")){
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias + 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#domingoEditMixto1AddApertura{{sucursales.id}}").length)&&($("#domingoEditMixto1AddCierre{{sucursales.id}}").length)&&($("#domingoEditMixto2AddApertura{{sucursales.id}}").length)&&($("#domingoEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#domingoEditMixto1AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditMixto1AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#domingoEditMixto1AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditMixto1AddCierre{{sucursales.id}}").prop('required', true);
+                                        $("#domingoEditMixto2AddApertura{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditMixto2AddApertura{{sucursales.id}}").prop('required', true);
+                                        $("#domingoEditMixto2AddCierre{{sucursales.id}}").prop('disabled', false);
+                                        $("#domingoEditMixto2AddCierre{{sucursales.id}}").prop('required', true);
+                                    }
+                                }else{
+                                    var numDias = Number($("#numDiasMixto{{horario.id}}").val());
+                                    var nuevo = numDias - 1;
+                                    $("#numDiasMixto{{horario.id}}").val(nuevo);
+                                    if(($("#domingoEditMixto1AddApertura{{sucursales.id}}").length)&&($("#domingoEditMixto1AddCierre{{sucursales.id}}").length)&&($("#domingoEditMixto2AddApertura{{sucursales.id}}").length)&&($("#domingoEditMixto2AddCierre{{sucursales.id}}").length)){
+                                        $("#domingoEditMixto1AddApertura{{sucursales.id}}").val('');
+                                        $("#domingoEditMixto1AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditMixto1AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#domingoEditMixto1AddCierre{{sucursales.id}}").val('');
+                                        $("#domingoEditMixto1AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditMixto1AddCierre{{sucursales.id}}").prop('required', false);
+                                        $("#domingoEditMixto2AddApertura{{sucursales.id}}").val('');
+                                        $("#domingoEditMixto2AddApertura{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditMixto2AddApertura{{sucursales.id}}").prop('required', false);
+                                        $("#domingoEditMixto2AddCierre{{sucursales.id}}").val('');
+                                        $("#domingoEditMixto2AddCierre{{sucursales.id}}").prop('disabled', true);
+                                        $("#domingoEditMixto2AddCierre{{sucursales.id}}").prop('required', false);
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                {%endif%}
+            {%endfor%}
+        {%endif%}
+        {%if usuarios%}
+            {%for u in usuarios%}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('#formEditUsuario{{u.id}}').submit(function(e){
+                            if($('#password{{u.id}}').val() && $('#confirmarPassword{{u.id}}').val()){
+                                var password = $('#password{{u.id}}').val();
+                                var confirmarPassword = $('#confirmarPassword{{u.id}}').val();
+                                if(password != confirmarPassword){
+                                    $('#formEditUsuario{{u.id}}').attr('action', "/editUsuario/").submit();
+                                }else{
+                                    e.preventDefault();
+                                    alert('Debe proporcionar la contraseña actual y una nueva contraseña.');
+                                    $('#password{{u.id}}').val('');
+                                    $('#confirmarPassword{{u.id}}').val('');
+                                }
+                            }else{
+                                $('#formEditUsuario{{u.id}}').attr('action', "/editUsuario/").submit();
+                            }
+                        });
+                    });
+                </script>
+            {%endfor%}
+        {%endif%}
+        <script>
+            function AddCorrido(){
+                document.getElementById("corrido").style.display = "block"; 
+                document.getElementById("mixto").style.display = "none"; 
+            }
+            function AddMixto(){
+                document.getElementById("mixto").style.display = "block"; 
+                document.getElementById("corrido").style.display = "none"; 
+            }
+        </script>
+    </body>
+</html>

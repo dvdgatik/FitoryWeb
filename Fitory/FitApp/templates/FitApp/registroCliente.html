@@ -1,0 +1,77 @@
+{% extends "baseLoginCliente.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="section-login d-flex align-items-center">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-3"></div>
+            <div class="col-lg-4 col-md-6">
+                <form action="/RegistroCliente/" method="POST" autocomplete="off" class="login-form">
+                    {% csrf_token %}
+                    <div class="md-form">
+                        <h5 class="tit-inc top-reg">Registrarse</h5>
+                    </div>
+                    <p>
+                        {{error}}
+                    </p>
+                    <div class="md-form">
+                        <input type="text" placeholder="Nombre (s)" name="nombre" required class="input-log">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" placeholder="Apellidos" name="apellido" required class="input-log">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form d-flex align-items-center justify-content-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="hombre" name="hombre" value="">
+                            <label class="form-check-label" for="hombre">Hombre</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="mujer" name="mujer" value="">
+                            <label class="form-check-label" for="mujer">Mujer</label>
+                        </div>
+                    </div>
+                    <div class="md-form">
+                        <input type="email" placeholder="Correo Electrónico" name="email" required class="input-log-eml">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <input type="password" placeholder="Contraseña" name="password" required class="input-log">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <input type="text" placeholder="Teléfono 10 digitos" name="telefono" class="input-log-2" required minlength="10" maxlength="10">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <select class="browser-default custom-select input-selct-log" name="objetivo" required>
+                            <option disabled selected>Objetivo</option>
+                            <option value="1">Salud</option>
+                            <option value="2">Convivir</option>
+                            <option value="3">Diversión</option>
+                            <option value="4">Verme bien</option>
+                        </select>
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form text-center">
+                        <button type="submit" class="btn btn-sesion" name="action" id="registrarse" disabled>
+                            Registrarme
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-3"></div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

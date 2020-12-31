@@ -1,0 +1,695 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+<style>
+    .list-nav-style >li .clb{
+        border-bottom: 1.5px solid rgb(55, 189, 194);
+    }
+</style>
+<section class="section-cont">
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-lg-4  col-md-4">
+                <h4 class="titulo-prin" style="text-align: center">Clubes</h4>
+            </div>
+            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                <a data-toggle="modal" data-target="#myModalClub">
+                    <img src="{% static 'FitApp/img/iconoAgregar.png' %}" alt="fitory" class="icon-plus">
+                </a>
+                <a href="/excel/clubes/" download="Clubes">
+                    <img src="{% static 'FitApp/img/iconoExcel.png' %}" alt="fitory" class="icon-excel"> 
+                </a>
+            </div>
+            {%if clubes%}
+                <div class="col-md-12" style="padding-top:3%;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Detalles</th>
+                                    <th>Cambiar Contraseña</th>
+                                    <th>Aceptó TyC</th>
+                                    <th>Fecha TyC</th>
+                                    <th>Editar</th>
+                                    <th>Borrar</th>
+                                    <th>Sucursales</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for c in clubes%}
+                                    <tr>
+                                        <td>{{c.id}}</td>
+                                        <td>{{c.nombre}}</td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#detallesClub{{c.id}}" class="btn btn-ver-table">
+                                                Ver
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#cambiarContrasenaClub{{c.id}}" class="btn btn-cambiar">
+                                                Cambiar
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {%if  c.Legal == True%}
+                                                Si
+                                            {%else%}
+                                                No
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            {%if c.fechaLegal%}
+                                                {{c.fechaLegal|date:'d/m/Y'}}
+                                            {%else%}
+                                                -
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#editClub{{c.id}}">
+                                                <i class="fa fa-pencil color-icon"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {%if clubDatos%}
+                                                {%for club,respuesta in clubDatos%}
+                                                    {%if club == c and respuesta == True%}
+                                                        <a data-toggle="tooltip" data-placement="top" title="No se pueden borrar clubes con información relacionada.">
+                                                            <i class="fa fa-times color-icon"></i>
+                                                        </a>
+                                                    {%elif club == c and respuesta == False%}
+                                                        <a data-toggle="modal" data-target="#deleteClub{{c.id}}">
+                                                            <i class="fa fa-times color-icon"></i>
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            <a href="/homeAdminClubes/{{c.id}}/Sucursales/" class="btn btn-ver-table">
+                                                Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="container" style="text-align:center">
+                                {%if clubes.has_other_pages%}
+                                    <ul class="pagination">
+                                        {% if clubes.number == 1 %}
+                                            <li class="disabled"><span>⇤</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                        {% endif %}
+                                        {% if clubes.has_previous %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' clubes.previous_page_number %}">&laquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in clubes.paginator|proper_paginate:clubes.number %}
+                                            {% if clubes.number == i %}
+                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if clubes.has_next %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' clubes.next_page_number %}">&raquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                        {% if clubes.number == clubes.paginator.num_pages %}
+                                            <li class="disabled"><span>⇥</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' clubes.paginator.num_pages %}">⇥</a></li>
+                                        {% endif %}
+                                    </ul>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12" style="text-align: center">
+                    <p>No hay clubes registrados.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+</section>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModalClub" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Club</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddClub" action="/addClub/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <h5 class="sub-tit-modal">Datos Generales</h5>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Fecha de Incorporación</p>
+                            <input type="date" name="fechaIncorporacion" id="fechaIncorporacion" required="required" class="form-modal">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <h5 class="sub-tit-modal">Evaluación</h5>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Código Club</p>
+                            <input type="text" id="codigoClub" name="codigoClub" required="required" class="form-modal" placeholder="Código Club">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Código Representante</p>
+                            <input type="text" id="codigoRepresentante" name="codigoRepresentante" required="required" class="form-modal" placeholder="Código Representante">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <h5 class="sub-tit-modal">Datos Club</h5>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Dirección</p>
+                            <input type="text" id="direccion" name="direccion" required="required" class="form-modal" placeholder="Dirección">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Teléfono</p>
+                            <input type="text" id="telefono" name="telefono" required="required" class="form-modal" placeholder="Teléfono">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Correo electrónico</p>
+                            <input type="text" id="correo" name="correo" required="required" class="form-modal" placeholder="Correo electrónico">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Contraseña</p>
+                            <input type="password" id="password" name="password" required="required" class="form-modal">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal"></p><b>Logo:</b></p>
+                            <div class="file-field">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="btn-archivo">
+                                            <span>Elija un archivo</span>
+                                            <input type="file" id="foto" name="foto" required="required" accept="image/x-png,image/jpeg">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div style="position:relative;">
+                                            <input class="file-path validate form-modal" type="text" placeholder="Elija un archivo">
+                                            <div class="lin-input-der"></div>
+                                            <div class="lin-input-izq"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+    {%if clubes%}
+        {%for c in clubes%}
+            <!-- Modal -->
+            <div class="modal fade" id="detallesClub{{c.id}}" role="dialog">
+                <div class="modal-dialog modal-md">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Detalles Club {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="md-form">
+                                <h5 class="sub-tit-modal">Datos Generales</h5>
+                                <p class="text-modal color-text-modal">
+                                    <span class="bold-text-modal">Nombre: </span>{{c.nombre}} <br>
+                                    <span class="bold-text-modal">Fecha de Incorporación: </span>{{c.fechaIncorporacion|date:'d/m/Y'}}<br>
+                                    <span class="bold-text-modal">RFC: </span> {%if c.RFC == '...'%}No disponible{%else%}{{c.RFC}}{%endif%}<br>
+                                    <span class="bold-text-modal">Banco: </span> {%if c.banco == '...'%}No disponible{%else%}{{c.banco}}{%endif%}<br>
+                                    <span class="bold-text-modal">Tarjetahabiente: </span>{%if c.tarjetahabiente == '...'%}No disponible{%else%}{{c.tarjetahabiente}}{%endif%} <br>
+                                    <span class="bold-text-modal">Nº de Cuenta: </span> {%if c.numCuenta == '...'%}No disponible{%else%}{{c.numCuenta}}{%endif%}<br>
+                                </p>  
+                            </div>
+                            <div class="md-form">
+                                <h5 class="sub-tit-modal">Redes Sociales</h5>
+                                <p class="text-modal">
+                                    <span class="bold-text-modal">Página Web: </span>{%if c.paginaWeb == '...'%}No disponible{%else%}{{c.paginaWeb}}{%endif%}<br>
+                                    <span class="bold-text-modal">Facebook: </span>{%if c.facebook == '...'%}No disponible{%else%}{{c.facebook}}{%endif%}<br>
+                                    <span class="bold-text-modal">Twitter: </span>{%if c.twitter == '...'%}No disponible{%else%}{{c.twitter}}{%endif%}<br>
+                                    <span class="bold-text-modal">Instagram: </span>{%if c.instagram == '...'%}No disponible{%else%}{{c.instagram}}{%endif%}<br>
+                                </p>  
+                            </div>
+                            <div class="md-form">
+                                <h5 class="sub-tit-modal">Evaluacion</h5>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="text-modal">
+                                            <span class="bold-text-modal">Promedio: </span>{{c.evaluacionPromedio}}<br>
+                                            <span class="bold-text-modal">Estatus: </span>{%if c.activado == True%}Activado{%else%}Desactivado{%endif%}<br>
+                                        </p>  
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="text-modal">
+                                            <span class="bold-text-modal">Cód. Club: </span>{%if c.codigoClub == '...'%}No disponible{%else%}{{c.codigoClub}}{%endif%}<br>
+                                            <span class="bold-text-modal">Cód. Representante: </span>{%if c.codigoRepresentante == '...'%}No disponible{%else%}{{c.codigoRepresentante}}{%endif%} <br>
+                                        </p>  
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="md-form">
+                                <h5 class="sub-tit-modal">Datos Club</h5>
+                                <p class="text-modal">
+                                    <span class="bold-text-modal">Dirección: </span>{{c.direccion}}<br>
+                                    <span class="bold-text-modal">Teléfono: </span>{{c.telefono}}<br>
+                                    <span class="bold-text-modal">Correo Electrónico: </span>{{c.correo}}<br>
+                                    <span class="bold-text-modal">Logo Adjunto: </span>{{c.nombre}}<br>
+                                    <span class="bold-text-modal">Logo: </span><br>
+                                    <img src="{{c.foto.url}}" alt="{{c.nombre}}" style="width:75px;">  
+                                </p>  
+                            </div>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="cambiarContrasenaClub{{c.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Contraseña Club {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditClubContrasena" id="formEditClubContrasena{{c.id}}" action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="club" value="{{c.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Contraseña Actual</p>
+                                    <input type="password" id="password{{c.id}}" name="password" class="form-modal" placeholder="Contraseña Actual">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Contraseña Nueva</p>
+                                    <input type="password" id="confirmarPassword{{c.id}}" name="confirmarPassword" class="form-modal" placeholder="Contraseña Nueva">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarContrasena{{c.id}}" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="editClub{{c.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Club {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditClub" action="/editClub/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="club" value="{{c.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <h5 class="sub-tit-modal">Datos Generales</h5>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{c.id}}" name="nombre" required="required" value="{{c.nombre}}" class="form-modal" placeholder="Nombre">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Fecha de Incorporación</p>
+                                    <input type="date" name="fechaIncorporacion" id="fechaIncorporacion{{c.id}}" value="{{c.fechaIncorporacion|date:'Y-m-d'}}" required="required">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">RFC</p>
+                                    <input type="text" id="RFC{{c.id}}" name="RFC" {%if not c.RFC == '...'%}value="{{c.RFC}}"{%endif%} class="form-modal" placeholder="RFC">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Banco</p>
+                                    <input type="text" id="banco{{c.id}}" name="banco" {%if not c.banco == '...'%}value="{{c.banco}}"{%endif%} class="form-modal" placeholder="Banco">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Tarjetahabiente</p>
+                                    <input type="text" id="tarjetahabiente{{c.id}}" name="tarjetahabiente" {%if not c.tarjetahabiente == '...'%}value="{{c.tarjetahabiente}}"{%endif%} class="form-modal" placeholder="Tarjetahabiente">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Nº de cuenta</p>
+                                    <input type="text" id="numCuenta{{c.id}}" name="numCuenta" {%if not c.numCuenta == '...'%}value="{{c.numCuenta}}"{%endif%} class="form-modal" placeholder="Nº de cuenta">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <h5 class="sub-tit-modal">Redes Sociales</h5>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Página Web</p>
+                                    <input type="url" id="paginaWeb{{c.id}}" name="paginaWeb" {%if not c.paginaWeb == '...'%}value="{{c.paginaWeb}}"{%endif%} class="form-modal" placeholder="Página Web">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Facebook</p>
+                                    <input type="url" id="facebook{{c.id}}" name="facebook" {%if not c.facebook == '...'%}value="{{c.facebook}}"{%endif%} class="form-modal" placeholder="Facebook">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Twitter</p>
+                                    <input type="url" id="twitter{{c.id}}" name="twitter" {%if not c.twitter == '...'%}value="{{c.twitter}}"{%endif%} class="form-modal" placeholder="Twitter">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Instagram</p>
+                                    <input type="url" id="instagram{{c.id}}" name="instagram" {%if not c.instagram == '...'%}value="{{c.instagram}}"{%endif%} class="form-modal" placeholder="Instagram">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <h5 class="sub-tit-modal">Evaluación</h5>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Código Club</p>
+                                    <input type="text" id="codigoClub{{c.id}}" name="codigoClub" {%if not c.codigoClub == '...'%}value="{{c.codigoClub}}"{%endif%} class="form-modal" placeholder="Código Club">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Código Representante</p>
+                                    <input type="text" id="codigoRepresentante{{c.id}}" name="codigoRepresentante" {%if not c.codigoRepresentante == '...'%}value="{{c.codigoRepresentante}}"{%endif%} class="form-modal" placeholder="Código Representante">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form text-center">
+                                    <div class="form-inline justify-content-center">
+                                        {%if c.activado == True%}
+                                            <input type="radio" class="form-check-input" id="activado{{c.id}}" name="estatus" value="1" checked="checked">
+                                            <label class="form-check-label" for="activado{{c.id}}">Activado</label>
+                                            <input type="radio" class="form-check-input" id="desactivado{{c.id}}" name="estatus" value="0">
+                                            <label class="form-check-label" for="desactivado{{c.id}}">Desactivado</label>
+                                        {%else%}
+                                            <input type="radio" class="form-check-input" id="activado{{c.id}}" name="estatus" value="1">
+                                            <label class="form-check-label" for="activado{{c.id}}">Activado</label>
+                                            <input type="radio" class="form-check-input" id="desactivado{{c.id}}" name="estatus" value="0" checked="checked">
+                                            <label class="form-check-label" for="desactivado{{c.id}}">Desactivado</label>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                                <div class="md-form">
+                                    <h5 class="sub-tit-modal">Datos Club</h5>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Dirección</p>
+                                    <input type="text" id="direccion{{c.id}}" name="direccion" required="required" value="{{c.direccion}}" class="form-modal" placeholder="Dirección">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Teléfono</p>
+                                    <input type="text" id="telefono{{c.id}}" name="telefono" required="required" value="{{c.telefono}}" class="form-modal" placeholder="Teléfono">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Correo electrónico</p>
+                                    <input type="email" id="correo{{c.id}}" name="correo" required="required" value="{{c.correo}}" class="form-modal" placeholder="Correo electrónico">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">
+                                        Logo actual:
+                                    </p>
+                                    <div class="cont-url">
+                                        <a href="{{c.foto.url}}" target="_blank" class="url-icon">{{c.foto.url}}</a>
+                                        <div class="lin-input-der"></div>
+                                        <div class="lin-input-izq"></div>
+                                    </div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Logo:</p>
+                                    <div class="file-field">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="btn-archivo">
+                                                    <span>Elija un archivo</span>
+                                                    <input type="file" id="foto{{c.id}}" name="foto" accept="image/x-png,image/jpeg">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div style="position:relative;">
+                                                    <input class="file-path validate form-modal" type="text" placeholder="Elija un archivo">
+                                                    <div class="lin-input-der"></div>
+                                                    <div class="lin-input-izq"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md-form"><br></div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteClub{{c.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Club {{c.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿Desea eliminar el club {{c.id}} "{{c.nombre}}"?</p>
+                            <a href="/deleteClub/{{c.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    {%if clubActividadesT%}
+        {%for cAct in clubActividadesT%}
+            <!-- Modal -->
+            <div class="modal fade" id="actividadHorarios{{cAct.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Horarios Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {%if clubActividadHorarios%}
+                                {%for cActv,horarios,numero in clubActividadHorarios%}
+                                    {%if cActv == cAct and not horarios == None%}
+                                        {%if numero < 6%}
+                                            <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addHorario{{cAct.id}}">Agregrar</button>
+                                        {%endif%}
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="tabla-head">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Horario</th>
+                                                        <th>Editar</th>
+                                                        <th>Borrar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tabla-body">
+                                                    {%for h in horarios%}
+                                                        <tr>
+                                                            <td>{{h.id}}</td>
+                                                            <td>{{h.hora}}</td>
+                                                            <td>
+                                                                <a class="btn btn-sm btn-green" data-toggle="modal" data-target="#editActividadHorario{{h.id}}">Editar</a>
+                                                            </td>
+                                                            <td>
+                                                                <a class="btn btn-sm btn-red" data-toggle="modal" data-target="#deleteActividadHorario{{h.id}}">Borrar</a>
+                                                            </td>
+                                                        </tr>
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {%elif cActv == cAct and horarios == None%}
+                                        <button class="btn btn-sm btn-blue" data-toggle="modal" data-target="#addHorario{{cAct.id}}">Agregrar</button>
+                                        <div class="md-form">
+                                            <p style="text-align:center">
+                                                No hay horarios para esta actividad.
+                                            </p>
+                                        </div>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="addHorario{{cAct.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{cAct.id}}">Agregar Horario a Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formAddActividadHorario" action="/addActividadHorario/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="actividadClub" value="{{cAct.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Horario</p>
+                                    <input type="text" id="hora{{cAct.id}}" name="hora" required="required" class="form-modal" placeholder="Horario">
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    {%if actividadesHorarios%}
+        {%for actH in actividadesHorarios%}
+            <!-- Modal -->
+            <div class="modal fade" id="editActividadHorario{{actH.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{actH.id}}">Editar Horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditActividadHorario" action="/editActividadHorario/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="actividadHorario" value="{{actH.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Horario</p>
+                                    <input type="text" id="hora{{actH.id}}" name="hora" value="{{actH.hora}}" required="required" class="form-modal" placeholder="Horario">
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteActividadHorario{{actH.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal">¿Desea eliminar el horario {{actH.id}} de la Actividad {{cAct.actividad.id}} {{cAct.actividad.nombre}}?</p>
+                            <a href="/deleteActividadHorario/{{actH.id}}/" class="btn btn-delete">Si</a>
+                            <a class="btn btn-delete" data-dismiss="modal">No</a>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+{% endblock%}

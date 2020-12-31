@@ -1,0 +1,30 @@
+{% extends "baseIndex.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="administracion d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="text-align:center">
+                <img src="{% static 'FitApp/img/logoFitoryv.png' %}" alt="logoFitoryv" class="img-logoFitoryv">
+            </div>
+            <div class="col-md-1 col-lg-1 col-sm-3 " style="text-align:center"></div>
+            <div class="col-md-10 col-lg-10 col-sm-6 " style="text-align:center;margin-top:2rem;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <a href="/loginAdmin/" class="btn btn-lg btn-logins">Administrador</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <a href="/loginClub/" class="btn btn-lg btn-logins">Club</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <a href="/loginSucursal/" class="btn btn-lg btn-logins">Usuario Sucursal</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-1 col-sm-6 " style="text-align:center"></div>
+        </div>
+    </div>
+</section>
+    
+{% endblock%}

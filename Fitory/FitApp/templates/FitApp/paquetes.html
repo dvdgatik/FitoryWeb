@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="sect-paquetes d-flex align-items-center">  
+    <div class="row d-flex align-items-center cont-paq">
+        <div class="container" id="mensual">
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <h4 class="raleway-regular paq-h4">PAQUETES</h4>
+                    <div class="suscripcion-d mt-100">
+                        <hr class="line-blue"><a onclick="CambioM()"> <label class="mb-0 ml-15 label-suscripciones raleway-bold">PLAN MENSUAL</label></a>
+                    </div>        
+                    <div class="suscripcion-d mt-15">
+                        <hr class="line-dark"><label class="mb-0 ml-15 label-suscripciones raleway-regular" onclick="CambioS()">PLAN DIARIO</label>
+                    </div>        
+                </div>
+                <div class="col-md-4 col-lg-4 text-center">
+                    <img src="{% static 'FitApp/img/fotoSuscMensual.png' %}" class="img-dec-paq" alt="img-suscripcion">
+                </div>
+                <div class="col-md-4 col-lg-4  d-flex align-items-center">
+                    <p class="texto-suscripcion-m raleway-regular">
+                            Ideal para personas de alto rendimiento. Accede de forma ilimitada a los servicios del Club durante un Mes Completo. Para facilitar tu pago el servicio se renovará automáticamente. Puedes cancelar el cobro recurrente en cualquier momento.
+                    </p>
+                    <div class="lin-neg-text"></div>
+                </div>      
+            </div>
+        </div>
+        <div class="container" id="diario" style="display:none;">
+            <div class="row">
+                <div class="col-md-4 col-lg-4">
+                    <h4 class="raleway-regular paq-h4">PAQUETES</h4>
+                    <div class="suscripcion-d mt-100">
+                        <hr class="line-dark"><label class="mb-0 ml-15 label-suscripciones raleway-regular" onclick="CambioM()">PLAN MENSUAL</label>
+                    </div>        
+                    <div class="suscripcion-d mt-15">
+                        <hr class="line-blue"><label class="mb-0 ml-15 label-suscripciones raleway-bold" onclick="CambioS()">PLAN DIARIO</label>
+                    </div>        
+                </div>
+                <div class="col-md-4 col-lg-4 text-center">
+                    <img src="{% static 'FitApp/img/fotoSuscDiaria.png' %}" class="img-dec-paq" alt="img-suscripcion">
+                </div>
+                <div class="col-md-4 col-lg-4  d-flex align-items-center">
+                    <p class="texto-suscripcion-m raleway-regular">
+                        Ponte una meta alcanzable y reserva las sesiones para éste mes. Para facilitar la medición de tus resultados, el servicio se contratará por mes calendario, tómalo en cuenta al realizar tu reservación.<br><br>
+                        Vigencia:<br>
+                        Último día del mes
+                    </p>
+                    <div class="lin-neg-text"></div>
+                </div>      
+            </div>
+        </div>
+             
+    </div>        
+</section>
+{% endblock%}

@@ -1,0 +1,1772 @@
+@font-face {
+    font-family: 'RalewayBold';
+    src: url("../font/RalewayBold.eot");
+    src: url("../font/RalewayBold.eot?#iefix") format('embedded-opentype'),
+        url("../font/RalewayBold.woff") format('woff'),
+        url("../font/RalewayBold.ttf") format('truetype'),
+        url("../font/RalewayBold.svg#RalewayBold") format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RalewayMedium';
+    src: url("../font/RalewayMedium.eot");
+    src: url("../font/RalewayMedium.eot?#iefix") format('embedded-opentype'),
+        url("../font/RalewayMedium.woff") format('woff'),
+        url("../font/RalewayMedium.ttf") format('truetype'),
+        url("../font/RalewayMedium.svg#RalewayMedium") format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RalewaySemiBold';
+    src: url("../font/RalewaySemiBold.eot");
+    src: url("../font/RalewaySemiBold.eot?#iefix") format('embedded-opentype'),
+        url("../font/RalewaySemiBold.woff") format('woff'),
+        url("../font/RalewaySemiBold.ttf") format('truetype'),
+        url("../font/RalewaySemiBold.svg#RalewaySemiBold") format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RalewayRegular';
+    src: url("../font/RalewayRegular.eot");
+    src: url("../font/RalewayRegular.eot?#iefix") format('embedded-opentype'),
+        url("../font/RalewayRegular.woff") format('woff'),
+        url("../font/RalewayRegular.ttf") format('truetype'),
+        url("../font/RalewayRegular.svg#RalewayRegular") format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.raleway-regular{
+    font-family: RalewayRegular;
+}
+.raleway-bold {
+    font-family: RalewayBold;
+}
+.raleway-semibold {
+    font-family: RalewaySemibold;
+}
+.raleway-medium {
+    font-family: RalewayMedium;
+}            
+/* nav */
+.nav-link-margin {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+.ul-perfil{
+    display: none;
+}
+.link-hover {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+.link-hover:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: .2rem solid;
+    transition: all .8s cubic-bezier(.555,.205,.295,.975);
+}
+
+.link-hover:hover:after* {
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.line-hover {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: rgb(55, 189, 194);
+    padding-bottom: 9px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    font-size: 17px;
+}
+.line-hover:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 100%;
+    height: 2px;
+    
+    transition: all 0.2s cubic-bezier(0.555, 0.205, 0.295, 0.975);
+}
+.line-hover:active:after {
+    bottom: 0px;
+}
+  
+.line-hover:hover:after {
+    -webkit-animation: line-hover 0.8s cubic-bezier(.25,.01,.29,1) 0s 1;
+    animation: line-hover 0.8s cubic-bezier(.25,.01,.29,1) 0s 1;
+    background: -webkit-linear-gradient(left, rgb(55, 189, 194) 0%, rgb(55, 189, 194) 100%);
+    background: -moz-linear-gradient(left, rgb(55, 189, 194) 0%, rgb(55, 189, 194) 100%);
+    background: -ms-linear-gradient(left, rgb(55, 189, 194) 0%, rgb(55, 189, 194) 100%);
+    background: -o-linear-gradient(left, rgb(55, 189, 194) 0%, rgb(55, 189, 194) 100%);
+    background: linear-gradient(left, rgb(55, 189, 194) 0%, rgb(55, 189, 194) 100%);
+}
+@-webkit-keyframes line-hover {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    50% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+    50.01% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes line-hover {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+    50% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+    50.01% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+
+@-webkit-keyframes line-hover {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+    50% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%)
+    }
+    50.01% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%)
+    }
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+}
+
+@keyframes line-hover {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+    50% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%)
+    }
+    50.01% {
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%)
+    }
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+}
+.nav-princ{
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    box-shadow: none!important;
+}
+.img-cont{
+    width: 20%;
+    text-align: center;
+}
+/* .ancho-li>a:hover{
+    border-bottom: 1.3px solid rgb(55, 189, 194);
+} */
+.img-logo-nav{
+    width: 70%;
+    margin-top: .3rem;
+}
+.nav-list > li >a{
+    font-family: 'RalewayMedium';
+    font-size: 0.9rem;
+    color: #000;
+    letter-spacing: 1px;
+}
+.nav-list{
+    justify-content: flex-end;
+}
+.width-iniciosesion{
+    width: 15%;
+    display: block
+}
+.iconoInicioSesion{
+    width: 65%;
+}
+/* nav */
+.homeFitory{
+    background: rgb(242, 242, 242);
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    
+}
+.img-fotoHome{
+    width: 55%;
+    margin: auto;
+}
+.col-absolute{
+    position: absolute;
+    width: 100%;
+    right: 0px;
+    bottom: 30px;
+    justify-content: flex-end;
+}
+.tit-prin{    
+    font-family: RalewaySemiBold;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+.tit-prin2{
+    color: rgb(55, 189, 194)
+}
+.iconoFacebook{
+    position: absolute;
+    width: 50px;
+    left: 10%;
+    bottom: 40px;
+}
+.boton {
+    display: block;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: rgb(230,231,232);
+    box-shadow: none;
+    cursor: pointer;
+    border: .1px solid #000;
+}
+.dotted-scrollspy{
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 15px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background: transparent;
+    z-index: 9999;
+    border-radius: 2px 0 0 2px;
+    right: unset;
+}
+.dotted-scrollspy li a span{
+    width: 12px;
+    height: 12px;
+    background-color: rgb(230,231,232);
+    border: 1px solid rgb(39,39,39);
+}
+.dotted-scrollspy li a.active span{
+    background:rgb(55, 189, 194);
+}
+/* actividades */
+.actividades{
+    width: 100%;
+    height: auto;
+    background: rgb(230,231,232);
+    padding-top: 6%;
+    padding-bottom: 6%;
+}
+.img-act{
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+.tit-act{
+    font-family: RalewayRegular;
+    color: #000;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    letter-spacing: 1px;
+}
+.tit-act2{
+    font-family: RalewayBold;
+    color: rgb(55, 189, 194);
+    font-size: 1.5rem;
+}
+.text-act{
+    font-family: RalewayMedium;
+    color: #000;
+    font-size: 0.9rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+/* Aplicacion */
+.aplicacion{
+    width: 100%;
+    height: auto;
+    background-image: linear-gradient(to bottom,rgb(55, 189, 194) 85%, #fff 15%);
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.img-phoneFitory{
+    width: 85%;
+}
+.tit-app{
+    font-family: RalewaySemiBold;
+    color: #000;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    margin-bottom: 2rem;
+}
+.tit-app2{
+    font-family: RalewaySemiBold;
+    color: #fff;
+    text-transform: uppercase;
+}
+.pasos{
+    width: 60%;
+    margin-bottom: 2rem;
+}
+.img-tienda{
+    width: 25%;
+    margin-left:20px;
+    margin-right: 20px;
+}
+/* metas */
+.fot-meta-mob{
+    display: none;
+}
+.fot-meta{
+    display: block;
+}
+.metas{
+    width: 100%;   
+    background: #fff;
+    height: auto;
+    margin-top: 0%;
+    margin-bottom: 5%;
+}
+.img-meta{
+    width: 100%;
+}
+.cont-metas{
+    background: rgb(230,231,232);
+    height: auto;
+}
+.tit-meta{
+    color: #000;
+    font-family: RalewayBold;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+}
+.tit-meta2{
+    color: rgb(55, 189, 194);
+    font-family: RalewayBold;
+    text-transform: uppercase;
+}
+.text-meta{
+    color: #000;
+    font-family: RalewayMedium;
+    letter-spacing: 1px;
+}
+.card-metas{
+    justify-content: center;
+}
+/* dueno */
+.duenos{
+    width: 100%;
+    height: auto;
+}
+.img-afiliados{
+    width: 100%;
+}
+.cont-afilado{
+    margin-bottom: 0rem;
+    position: relative;
+    z-index: 3;
+}
+.tit-afiliate{
+    font-family: RalewaySemiBold;
+    font-size: 2.2rem;  
+    letter-spacing: 1px;
+    margin-bottom: 3.5rem;
+}
+.card-afiliate{
+    position: absolute;
+    top: 33%;
+    left: 10%;
+    z-index: 4;
+    width: 70%;
+}
+.btn-afiliate{
+    background-color: #000;
+    font-family: RalewayMedium;
+    color: #fff!important;
+    font-size: 1.1rem;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius:20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.btn-afiliate:hover{
+    color: #fff;
+}
+.text-input{
+    margin-bottom: 0rem;
+    font-family: RalewayMedium;
+    color: #000;
+}
+.input-text{
+    border: 1px solid rgb(39,39,39);
+    font-family: RalewayMedium;
+    background-color: rgb(230,231,232)!important;
+}
+.btn-afi{
+    background: transparent;
+    color: #000!important;
+    font-family: RalewayMedium;
+    font-size: 1rem;
+    border: 1px solid rgb(55, 189, 194);
+    box-shadow: none!important;
+    margin: auto;
+}
+.modal-title{
+    color: #000!important;
+    font-family: RalewayMedium; 
+}
+/* footer */
+.iconoFacebook-footer{
+    width: 50px;
+}
+.text-footer{
+    color: #fff;
+    font-family: RalewayMedium;
+    font-size: 1rem;
+    margin-top: 0rem;
+}
+.text-footer:hover{
+    color: #fff;
+    font-family: RalewayMedium;
+    font-size: 1rem;
+    margin-top: 0rem;
+}
+footer.page-footer{
+    background: rgb(39,39,39);
+    margin-top: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+/* Actividade-ventanas */
+.disp-web-car{
+    display: block;
+}
+.disp-mobil-car{
+    display: none;
+}
+.actividades-carrousel{
+    width: 100%;
+    height: 100vh;
+}
+.img-flechas{
+    width: 10%;
+}
+.carousel-control-next, .carousel-control-prev{
+    opacity: 1;
+}
+.carousel-control-prev{
+    justify-content:left;
+}
+.carousel-control-next{
+    justify-content:flex-end;
+}
+.act-tit{
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-family: 'RalewaySemiBold';
+}
+.act-text{
+    font-family: 'RalewayMedium';
+    font-size: 1rem;
+    margin-bottom: 3rem;
+}
+.act-text2{
+    font-family: 'RalewayMedium';
+    font-size: 1rem;
+    text-transform: uppercase;
+    padding-top: 5px;
+}
+.img-areas{
+    width: 100%;
+}
+.img-subAreas{
+    width: 80%;
+}
+/* #HomeImg{
+    background: url("{% static 'FitApp/img/fondo.png' %}")no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.tit-fito{
+    font-family: Raleway-Bold;
+    color: #000;
+    font-size: 2.3rem;
+    margin-bottom: 2rem;
+}
+.text-fito{
+    font-family: Raleway-Medium;
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: justify;
+    margin-bottom: 3rem;
+}
+.img-LogoFitory{
+    width: 75%;
+    margin-bottom: 3.5rem;
+}
+.img-BotonGooglePlay{
+    width: 80%;
+}
+.img-BotonAppStore{
+    width: 80%;
+}
+.tit-terminos {
+    position: absolute;
+    bottom: 30px;
+    right: 70px;
+    font-family: Raleway-Bold;
+    border-bottom: 1.5px solid;
+    line-height: 2;
+    font-size: 1rem;
+}
+.tit-terminos >a{
+    color: #000!important;
+}
+.img-mockup{
+    width:100%;
+} */
+/* Actividade-ventanas */
+/*Paquetes*/
+.sect-paquetes{
+    background: #fff;
+    width: 100%;
+    min-height: 85vh;
+    height: auto;
+    position: relative;
+}
+.cont-paq{
+    background-image: linear-gradient(to right, #fff 50%, rgb(242, 242, 242) 50%);
+    min-height: 85vh;
+    height: auto;
+    margin-top: 90px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+}
+.img-dec-paq{
+    width: 90%;
+}
+.paq-h4{
+    margin-top:30px;
+}          
+.line-blue {
+    height: 2px;
+    width: 40px;
+    background:rgb(55, 189, 194);
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-color: rgb(55, 189, 194)!important;
+}
+.line-dark {
+    height: 2px;
+    width: 25px;
+    background:rgb(0, 0, 0);
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+.lin-neg-text{
+    width: 50px;
+    height: 1.1px;
+    background: #000;
+    position: absolute;
+    bottom: 0px;
+    right: 15px;
+}
+.suscripcion-d {
+    display: flex;
+    align-items: center;
+}      
+.mt-100 {
+    margin-top: 100px;
+}   
+.mt-125 {
+    margin-top: 125px;
+}    
+.mt-15 {
+    margin-top: 15px;
+} 
+.ml-15 {
+    margin-left: 15px;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.label-suscripciones {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+}
+.texto-suscripcion-m {
+    text-align: justify;
+    font-size: 1rem;
+    color: rgb(39,39,39);
+}
+.suscripcion-square {
+    width: 50%;
+    height: 50%;
+    background-color: gray;
+}
+.btn-close {
+    font-size: 2rem;
+    vertical-align: middle;
+}
+.text-addT{
+    font-family: RalewayMedium;
+    font-size: 1.1rem;
+    border-bottom: 1px solid;
+    color:#000;
+    padding-bottom: 2px;
+}
+.text-addT:hover{
+    font-family: RalewayMedium;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgb(55, 189, 194);
+    color:rgb(55, 189, 194);
+    padding-bottom: 2px;
+}
+/*Paquetes*/
+/* clubes */
+.bord-clubes{
+    text-align: center;
+    border: 1px solid #000;
+}
+.clubesHeight {
+    background: #fff;
+    width: 100%;                
+    position: relative;
+    min-height: 100vh;   
+    height: auto;    
+    padding-top: 100px;         
+}  
+.tit-clb{
+    letter-spacing: .1rem;
+    font-size: 2.2rem;
+}
+.disen-select{
+    background-color: #fff;
+    border: 1.1px solid #000;
+    border-radius: 10px;
+    width: 100%;
+    font-family: RalewayRegular;
+    letter-spacing: .1rem;
+    height: 2.5rem;
+}
+.search-icon {
+    font-size: 1.2rem !important;
+}   
+.search-btn {
+    background-color: white;
+    border-radius: 5px;
+    color: black !important;                
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    font-family: RalewayRegular;
+    font-size: 1.1rem;
+    height: 2.5rem;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.text-club{
+    font-size: 1rem;
+}
+/* clubes */
+/* detallesclubes */
+.imgSucursal {
+    max-width: 100% !important;
+    height: 300px !important;                
+}   
+.imgSucursal-carrusel{
+    max-width: 100%;
+    height: 300px;  
+    margin:auto;
+}
+.text-sig{
+    padding-right: 10px;
+    font-size:0.9rem;
+    cursor:pointer;
+} 
+.text-sig2{
+    padding-left: 15px;
+    font-size:0.9rem;
+    cursor:pointer;
+} 
+.flechas {
+    width: 27px;
+    margin-right: 20px;
+}
+.flechas2 {
+    width: 27px;
+    margin-left: 15px;
+}
+.tit-det-club{
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tabla-body-det-club{
+    font-family: RalewayMedium;
+    color: #6c757d;
+}
+.tabla-body-det-club > tr >td{
+    border-top: 0px; 
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.sub-det-club{
+    font-size: 1rem;
+    color: #6c757d;
+}
+.serv-a{
+    width: 100%;
+    background: #000;
+    height: 1.1px;
+    margin-bottom: 20px;
+}
+.serv-a2{
+    width: 100%;
+    background: #000;
+    height: 1.1px;
+    margin-top: 20px;
+}
+.text-iconserv{
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-family: RalewayRegular;
+    padding-left: 7px;
+}
+.tit-act-inc{
+    color: #6c757d;
+    font-family: RalewayBold;
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 1rem;
+    padding-top: 50px;
+    letter-spacing: 1px;
+}
+.tit-prin-act {
+    background-color: rgb(230,231,232);
+    color: #6c757d;
+    text-align: center;
+    font-family: RalewaySemibold;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 15px;
+}
+.bord-table-left{
+    border-left: 2px solid rgb(230,231,232);
+}
+.bord-table-right{
+    border-right: 2px solid rgb(230,231,232);
+}
+.table-head-act{
+    text-align: center;
+}
+.table-body-act{
+    text-align: center;
+}
+.table-body-act td{
+    text-align: center;
+    border-top: 0px solid #dee2e6!important;
+}
+.table .table-head-act th{
+    border-bottom: 0px solid #dee2e6!important;
+    border-top: 0px solid #dee2e6!important;
+    font-family: RalewayBold;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+.icon-act{
+    width: 22px;
+    margin-right: 10px;
+}
+.img-flecha-car{
+    width: 18px;
+}
+.widt-control-car-left{
+    width: 20px;
+    left: -20px;
+}
+.widt-control-car-right{
+    width: 20px;
+    right: -20px;
+}
+.ml-5 {
+    margin-left: 15px;
+}   
+.mr-5 {
+    margin-right: 15px;
+}    
+a label {
+    font-family: RalewayMedium;
+    color: black ;         
+    letter-spacing: 0.2rem;   
+}  
+.iconoMaps {
+    width: 30px;
+}          
+hr {
+    border-color: black !important;
+}
+.iconoServicio {
+    width: 20px;
+}
+.iconoActividad {
+    width: 20px;
+    height: 20px;
+}
+.imgSucursal {
+    height: 250px;
+}
+.carousel-inner {
+    margin-bottom:50px !important;
+} 
+.carousel-indicators {
+    bottom:-50px !important;
+}
+.carousel-indicators li {
+    background-color: rgb(230, 231, 232) !important;
+    margin-right: 20px !important;
+}
+.carousel-indicators .active {
+    background-color: rgb(55, 189, 194) !important;
+    margin-right: 20px !important;
+}
+.detalleLabel {
+    font-size: 25px;
+}
+.alignBottom {
+    align-self: flex-end !important;
+}
+.redLine {
+    background: #bd1e2d;
+    color: #bd1e2d;
+    width: 10px;
+    padding: 12px 1px;
+    font-size: 0rem;
+    position: relative;
+    height: 10px;
+    vertical-align: super;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+.botonPlan {
+    width: 80%;                    
+}
+.botonPlan2{
+    width: 35.5%;
+}
+.centerH {
+    display: flex !important;
+    justify-content: center !important;   
+    text-align: center;     
+}
+.centerH2 {
+    display: flex !important;
+    justify-content: center !important;   
+    text-align: center;     
+}
+.fav-enlc{
+    position: absolute;
+    top: 0px;
+    right: 150px;
+
+}
+.img-fav{
+    width: 45px;
+}
+#act-web{
+    display: block;
+}
+#act-mob{
+    display: none;
+}
+.fl-mob{
+    display: none;
+}
+.fl-web{
+    display: block;
+}
+/* detallesclubes */
+/* contratan-plan */
+.select-tarj{
+    border-bottom: 1.5px solid #6c757d!important;
+    border: 0px;
+    margin-bottom: 2.5rem;
+}
+.text-secl-tarj{
+    padding-top: 1.5rem;
+    margin-bottom: .5rem;
+    font-size: 1rem;
+    font-family: RalewaySemiBold;
+}
+.btn-pagar{
+    background-color: #000;
+    color: #fff;
+    padding: 10px 70px;
+    border-radius: 50px;
+    margin: auto;
+    font-family: Ralewayregular;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    font-size: 1rem;
+    box-shadow: none!important;
+}
+.btn-pagar:disabled{
+    cursor: no-drop!important;
+    pointer-events: auto!important;
+}
+.custom-select:focus{
+    box-shadow: none!important;
+}
+.card-precio{
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 3.5rem;
+}
+.text-pago-plan{
+    font-family: RalewaySemiBold;
+    color:#000;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    margin-bottom: 0rem;
+    text-align: center;
+}
+.span-pago-plan{
+    font-family: Ralewayregular;
+    color:#6c757d;
+    margin-left:15px;
+}
+.textradio{
+    font-family: RalewaySemiBold;
+    color:#000;
+    text-transform: uppercase;
+    font-size: 0.8rem!important;
+    letter-spacing: .5px;
+}
+.tit-ses{
+    font-family: RalewaySemiBold;
+    font-size: 0.85rem;
+    text-transform: lowercase;
+    color: #6c757d;
+}
+.text-det-ses{
+    color: #6c757d;
+    font-family: Ralewayregular;
+    font-size: .85rem;
+    text-align: right;
+}
+.form-check{
+    margin-bottom: 1rem;
+    padding-left:0rem;
+}
+[type=radio]:checked+label:after {
+    border-color:rgb(55, 189, 194);
+    background-color:rgb(55, 189, 194);
+    z-index: 0;
+    -webkit-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+    transform: scale(1.02);
+}
+#cont-plan-web{
+    display: block;
+}
+#cont-plan-mobl{
+    display: none;
+}
+.img-store{
+    width: 120px;
+}
+.cont-web{
+    color:rgb(55, 189, 194)!important;
+    cursor: pointer;
+}
+.text-modal-error{
+    font-family: Ralewayregular;
+    text-align: center;
+    color: #000;
+}
+.modal-btn{
+    background-color: #000;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 50px;
+    margin: auto;
+    font-family: Ralewayregular;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    font-size: 0.9rem;
+    box-shadow: none!important;
+}
+.mb-nav{
+    display: none;
+}
+/* contratan-plan */
+@media(min-width:1440px){
+    .pasos {
+        width: 65%;
+        margin-bottom: 2rem;
+    }
+    .iconoFacebook{
+        width: 60px;
+    }
+    .iconoFacebook-footer{
+        width: 60px;
+    }
+    .img-dec-paq{
+        width:100%;
+    }
+    .botonPlan{
+        width: 75%;
+    }
+    .botonPlan2{
+        width: 30.5%;
+    }
+    .centerH{
+        justify-content: flex-end!important;
+        text-align: right;
+    }
+    .centerH2{
+        justify-content: flex-end!important;
+        text-align: left;
+    }
+    .table-width{
+        width: 90%;
+        max-width: 90%;
+    }
+    .serv-a{
+        width: 90%;
+    }
+    .serv-a2{
+        width: 90%;
+    }
+}
+@media (min-width:1920px){
+    .img-logo-nav{
+        width: 63%;
+    }
+    .col-absolute{
+        right: 20px;
+    }
+    .tit-prin{
+        font-size: 1.8rem;
+    }
+    .tit-act{
+        font-size: 1.8rem;
+    }
+    .tit-act2{
+        font-size: 1.8rem;
+    }
+    .pasos{
+        width: 65%;
+    }
+    .img-phoneFitory{
+        width: 90%;
+    }
+    .tit-app{
+        font-size: 2rem;
+    }
+    .text-meta{
+        font-size: 1.1rem;
+    }
+    .text-act{
+        font-size: 1.1rem;
+    }
+    .iconoFacebook{
+        width: 70px;
+    }
+    .botonPlan{
+        width: 50%;
+    }
+    .botonPlan2{
+        width: 23.3%;
+    }
+    .tit-act-inc{
+        font-size: 1.1rem;
+    }
+    .imgSucursal-carrusel {
+        max-width: 100%;
+        height: 350px;
+        margin: auto;
+    }
+    .img-fotoHome{
+        width: 50%;
+    }
+    .text-det-ses{
+        font-size: .9rem;
+    }
+    .tit-ses{
+        font-size: .9rem;
+    }
+}
+@media (min-width:2300px){
+    /* .tit-fito{
+        font-family: Raleway-Bold;
+        color: #000;
+        font-size: 4rem;
+        margin-bottom: 5rem;
+    }
+    .text-fito{
+        font-family: Raleway-Medium;
+        color: #fff;
+        font-size: 1.7rem;
+        text-align: justify;
+        margin-bottom: 5rem;
+    }
+    .img-LogoFitory{
+        width: 60%;
+        margin-bottom: 4rem;
+    }
+    .img-BotonGooglePlay{
+        width: 65%;
+    }
+    .img-BotonAppStore{
+        width: 65%;
+    } */
+    .img-logo-nav{
+        width: 55%;
+    }
+    .img-fotoHome{
+        width: 50%;
+    }
+    .tit-prin {
+        font-size: 2.5rem;
+    }
+    .col-absolute{
+        bottom: 55px;
+        right: 30px;
+    }
+    .img-phoneFitory{
+        width: 92%;
+    }
+    .tit-app{
+        font-size: 2.5rem;
+    }
+    .pasos{
+        width: 70%;
+    }
+    .img-tienda{
+        width: 29%;
+    }
+    .tit-meta{
+        font-size: 2.5rem;
+    }
+    .text-meta{
+        font-size: 1.2rem;
+    }
+    .tit-afiliate{
+        font-size: 2.5rem;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+    .btn-afiliate{
+        margin-left: 30%;
+        margin-right: 30%;  
+    }
+    /* Actividades */
+    .act-tit{
+        font-size: 2.5rem;
+    }
+    .act-text{
+        font-size: 1.2rem;
+    }
+    .act-text2{
+        font-size: 1.1rem;
+    }
+    .texto-suscripcion-m{
+        font-size: 1.2rem;
+    }
+    .img-dec-paq{
+        width: 100%;
+    }
+    /* Club */
+    .tit-club{
+        font-size: 1.5rem;
+    }
+    .text-club{
+        font-size: 1.1rem;
+    }
+    .sub-det-club{
+        font-size: 1.1rem;
+    }
+    .sub-det-club label{
+        font-size: 1.1rem;
+    }
+    .imgSucursal-carrusel{
+        height: 350px;
+    }
+    .cont-paq{
+        min-height: 90vh;
+    }
+    .container{
+        max-width: 1600px;
+    }
+    .search-btn{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .botonPlan{
+        width: 42%;
+    }
+    .botonPlan2{
+        margin-left: 15%;
+    }
+    .centerH{
+        justify-content: flex-end!important;
+        text-align: right;
+    }
+    .centerH2{
+        justify-content: flex-end!important;
+        text-align: left;
+    }
+    .table-width{
+        width: 80%;
+    }
+    .serv-a2{
+        width: 80%;
+    }
+    .serv-a{
+        width: 80%;
+    }
+    .fav-enlc{
+        right: 270px;
+    }
+    .textradio{
+        font-size: 1rem!important;
+    }
+    .tit-ses{
+        font-size: 1rem;
+    }
+    .text-det-ses{
+        font-size: 1rem;
+    }
+}
+@media(max-width:991px){
+    .ul-perfil{
+        display: block;
+        text-transform: uppercase;
+    }
+    .nav-link-margin{
+        margin: 0px;
+    }
+    .nav-princ{
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12)!important;
+        position: relative;
+
+    }
+    .actividades-carrousel{
+        height: 90vh; 
+    }
+    .homeFitory{
+        height: 90vh;
+    }
+    .cont-paq{
+        margin-top:0px; 
+    }
+    .ancho-li{
+        width: 100%;
+    }
+    .nav-list{
+        text-align: right;
+    }
+    .width-iniciosesion{
+        width: 75%;
+        display: none;
+    }
+    .mb-nav{
+        display: block;
+        
+    }
+    .mb-nav>a{
+        text-transform: uppercase;
+    }
+    .iconoInicioSesion{
+        width: 6%;
+    }
+    .img-phoneFitory{
+        width: 95%;
+    }
+    .tit-afiliate{
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+    .card-afiliate{
+        left: 5%;
+    }
+    .text-footer{
+        font-size: 0.9rem;
+    }
+    .text-footer:hover{
+        font-size: 0.9rem;
+    }
+    .img-areas{
+        width: 80%;
+    }
+    .act-tit{
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        font-family: 'RalewaySemiBold';
+    }
+    .act-text2{
+        font-family: 'RalewayMedium';
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        padding-top: 5px;
+    }
+    .act-text{
+        font-family: 'RalewayMedium';
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    .imgSucursal{
+        height: 200px!important;
+        width: 100%;
+    }
+    .tit-clb{
+        font-size: 1.9rem;
+    }
+    .redLine {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .detalleLabel{
+        font-size: 18px;
+    }
+    .botonPlan{
+        margin-bottom: 0rem;
+    }
+    .img-fav{
+        width: 40px;
+    }
+    .img-flecha-car{
+        width: 15px;
+    }
+    .fav-enlc{
+        right: 100px;
+    }
+    .imgSucursal-carrusel{
+        height: 200px;
+        width: 100%;
+        margin:auto;
+    }
+    .centerH{
+        margin-bottom: 0rem;
+    }
+    .centerH2{
+        margin-bottom: 0rem;
+    }
+}
+@media(max-width:767px){
+    .tit-app{
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    .pasos{
+        margin-bottom: 1rem;
+        width: 65%;
+    }
+    .img-tienda{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .tit-meta{
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .text-meta{
+        letter-spacing: 0px;
+        text-align: justify;
+    }
+    .tit-afiliate{
+        font-size: 1.8rem;
+    }
+    .btn-afiliate{
+        font-size: 1rem;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    /* ActVentana */
+    .act-tit{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-family: 'RalewaySemiBold';
+    }
+    .act-text{
+        font-family: 'RalewayMedium';
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    .act-text2{
+        font-family: 'RalewayMedium';
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        padding-top: 5px;
+    }
+    .img-areas{
+        width: 80%;
+    }
+    .img-subAreas{
+        width: 100%;
+    }
+    .imgSucursal-carrusel{
+        height: auto;
+        margin: auto;
+        width: 70%;
+    }
+    .centerH{
+        text-align: center;
+        margin-bottom: 0rem;
+    }
+    .centerH2{
+        text-align: center;
+        margin-bottom: 0rem;
+    }
+    .botonPlan {
+        width: 60%;
+    }
+    .text-center-tabl{
+        text-align: center;
+    }
+    #act-web{
+        display: none;
+    }
+    #act-mob{
+        display: block;
+    }
+    #cont-plan-web{
+        display: none;
+    }
+    #cont-plan-mobl{
+        display: block;
+    }
+
+    .botonPlan2 {
+        width: 27.8%;
+        margin-bottom: 2rem;
+    }
+}
+@media (max-width: 668px) and (orientation: landscape) { 
+    .img-fotoHome{
+        width: 45%;
+    }
+    .col-absolute{
+        bottom: 5px;
+    }
+    .tit-prin { 
+        font-size: 1.3rem; 
+    }
+    .tit-act{
+        font-size: 1.3rem;
+        margin-bottom: 3rem;
+    }
+    .tit-act2{
+        font-size: 1.3rem;
+    }
+    .tit-app{
+        font-size: 1.3rem;
+    }
+    .tit-meta{
+        font-size: 1.3rem;
+    }
+    .tit-afiliate{
+        font-size: 1.6rem;
+        margin-bottom: 2.5rem
+    }
+    .btn-afiliate {
+        font-size: 0.9rem;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    .text-footer{
+        font-size: 0.8rem;
+    }
+    .text-footer:hover{
+        font-size: 0.8rem;
+    }
+    .dotted-scrollspy{
+        left: 0px;
+    }
+    .dotted-scrollspy li{
+        padding: 0 7px;
+    }
+    .actividades-carrousel{
+        height: auto;
+        padding-top: 10%;
+        padding-bottom: 4%;
+    }
+}
+@media(max-width:575px){
+    /* nav */
+    .img-cont{
+        width: 35%;
+    }
+    /* nav */
+    /* home */
+    .homeFitory{
+        height: 80vh;
+    }
+    .img-fotoHome{
+        width: 75%;
+    }
+    .col-absolute{
+        bottom: 50px;
+    }
+    .iconoFacebook{
+        left: 3%;
+        width: 40px;
+        bottom: 65px;
+    }
+    .fot-meta-mob{
+        display: block;
+    }
+    .fot-meta{
+        display: none;
+    }
+    .text-meta{
+        text-align: center;
+    }
+    /* home */
+    .cont-metas{
+        margin: 0px;
+    }
+    .tit-meta{
+        margin-top: 1rem;
+    }
+    .tit-afiliate{
+        font-size: 1rem;
+        margin-bottom: 1.3rem;
+    }
+    .btn-afiliate{
+        font-size: 0.6rem;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .iconoFacebook-footer{
+        width: 100%;
+    }
+    .text-footer{
+        font-size: 0.65rem;
+    }
+    .card-afiliate{
+        left: 2%;
+        top: 30%;
+    }
+    .img-logo-nav{
+        width: 100%;
+    }
+    .iconoInicioSesion{
+        width: 10%;
+    }
+    .tit-prin{
+        font-size: 1.2rem;
+    }
+    .tit-act{
+        font-size: 1.3rem;
+    }
+    .aplicacion{
+        background-image: linear-gradient(to bottom,rgb(55, 189, 194) 100%, #fff 0%);
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    .img-phoneFitory{
+        width: 50%;
+    }
+    .tit-app{
+        font-size: 1.3rem;
+        margin-top: 1rem;
+    }
+    /* ActVentana */
+    .disp-web-car{
+        display: none;
+    }
+    .disp-mobil-car{
+        display: block;
+    }
+    .act-tit{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-family: 'RalewaySemiBold';
+    }
+    .act-text{
+        font-family: 'RalewayMedium';
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    .act-text2{
+        font-family: 'RalewayMedium';
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        padding-top: 5px;
+    }
+    .img-areas{
+        width: 55%;
+        margin-top: 10%;
+        margin-bottom: 5%;
+    }
+    .img-subAreas{
+        width: 100%;
+    }
+    .actividades-carrousel{
+        min-height: 100vh;
+        height: auto;
+        padding-top: 50px;
+        padding-bottom: 4%;
+    }
+    .img-dec-paq{
+        width: 75%;
+        margin-top: 25px;
+        padding-bottom: 25px;
+    }
+    .paq-h4{
+        margin-top:30px;
+    }
+    .imgSucursal{
+        height: 250px !important;
+        width: 100%;
+    }
+    .tit-clb{
+        font-size: 1.7rem;
+    }
+    .tit-club{
+        font-size:1.5rem;
+    }
+    .botonPlan {
+        width: 100%;
+        margin-bottom: 0rem;
+    }
+    .text-sig{
+        padding-right: 0px;
+    }
+    .text-sig2{
+        padding-left:0px;
+    }
+    .img-act{
+        width: 60%;
+    }
+    /* paquetes */
+    .cont-paq{
+        background-image: linear-gradient(to right, #fff 50%, #fff 50%);
+    }
+    .mt-100{
+        margin-top: 50px;
+    }
+    /* clubs */
+    .clubesHeight{
+        padding-top: 0px;
+    }
+    .img-flecha-car{
+        width: 10px;
+    }
+    .widt-control-car-left{
+        left: 0%;
+        top: 30px;
+        bottom: unset;
+    }
+    .widt-control-car-right{
+        right: 0%;
+        top: 30px;
+        bottom: unset;
+    }
+    .text-footer:hover{
+        font-size: 0.65rem;
+    }
+    .tit-prin-act{
+        font-size: 1rem;
+    }
+    .textradio{
+        padding-left: 27px!important;
+        font-size: 0.8rem!important;
+        letter-spacing: 0px;
+    }
+    .pad-mb{
+        padding: 0px;
+    }
+    .fl-mob{
+        display: block;
+        color: #000;
+        font-size: 1.2rem;
+    }
+    .fl-web{
+        display: none;
+    }
+    .fav-enlc{
+        right: 5px;
+    }
+    .tit-det-club{
+        width: 90%;
+    }
+    .lin-neg-text{
+        display: none;
+    }
+    .botonPlan2{
+        width: 43%;
+        margin-bottom: 2rem;
+    }
+    .centerH{
+        margin-bottom: 0rem;
+    }
+    .centerH2{
+        margin-bottom: 0rem;
+    }
+    
+}

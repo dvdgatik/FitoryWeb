@@ -1,0 +1,208 @@
+{% extends "baseClub2.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/homeClub/{{club.id}}/Sucursales/" class="btn btn-sm btn-secondary">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">{{club}}</h4>
+                <h5 class="titulo-prin" style="text-align: center">Sucursal {{sucursal}}</h5>        
+            </div>
+            <div class="col-lg-4  col-md-4" style="text-align:right;">
+                <a data-toggle="modal" data-target="#myModalUsuario" class="btn btn-sm btn-blue">
+                    Agregar
+                </a>
+            </div>
+            {%if usuarios%}
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Editar</th>
+                                    <th>Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for u in usuarios%}
+                                    <tr>
+                                        <td>{{u.id}}</td>
+                                        <td>{{u.nombre}}</td>
+                                        <td>
+                                            <button data-toggle="modal" data-target="#editUsuario{{u.id}}" class="btn btn-sm btn-success">Editar</button>
+                                        </td>
+                                        <td>
+                                            <button data-toggle="modal" data-target="#deleteUsuario{{u.id}}" class="btn btn-sm btn-danger">Borrar</button>
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="container" style="text-align:center">
+                                {%if usuarios.has_other_pages%}
+                                    <ul class="pagination">
+                                        {% if usuarios.number == 1 %}
+                                            <li class="disabled"><span>⇤</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                        {% endif %}
+                                        {% if usuarios.has_previous %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' usuarios.previous_page_number %}">&laquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in usuarios.paginator|proper_paginate:usuarios.number %}
+                                            {% if usuarios.number == i %}
+                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if usuarios.has_next %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' usuarios.next_page_number %}">&raquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                        {% if usuarios.number == usuarios.paginator.num_pages %}
+                                            <li class="disabled"><span>⇥</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' usuarios.paginator.num_pages %}">⇥</a></li>
+                                        {% endif %}
+                                    </ul>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12">
+                    <p style="text-align:center">No hay usuarios registrados.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalUsuario" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddUsuario" action="/addUsuario2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" name="sucursal" value="{{sucursal.id}}">
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Correo electrónico</p>
+                            <input type="text" id="correo" name="correo" required="required" class="form-modal" placeholder="Correo electrónico">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Contraseña</p>
+                            <input type="password" id="password" name="password" required="required" class="form-modal">
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+    {%if usuarios%}
+        {%for u in usuarios%}
+            <!-- Modal -->
+            <div class="modal fade" id="editUsuario{{u.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formEditUsuario{{u.id}}" name="formEditUsuario" action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="usuario" value="{{u.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{u.id}}" name="nombre" required="required" value="{{u.nombre}}" class="form-modal" placeholder="Nombre">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Correo electrónico</p>
+                                    <input type="text" id="correo{{u.id}}" name="correo" required="required" value="{{u.user.email}}" class="form-modal" placeholder="Correo electrónico">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Contraseña Actual</p>
+                                    <input type="password" id="password{{u.id}}" name="password" class="form-modal">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Contraseña Nueva</p>
+                                    <input type="password" id="confirmarPassword{{u.id}}" name="confirmarPassword" class="form-modal">
+                                </div>
+                                <div class="form-check">
+                                    {%if u.activo == True%}
+                                        <input type="checkbox" class="form-check-input" id="activoUsuario{{u.id}}" name="activo" value="True" checked>
+                                        <label class="form-check-label" for="activoUsuario{{u.id}}">Activo</label>
+                                    {%else%}
+                                        <input type="checkbox" class="form-check-input" id="activoUsuario{{u.id}}" name="activo" value="True">
+                                        <label class="form-check-label" for="activoUsuario{{u.id}}">Activo</label>
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" id="guardarUsuario{{u.id}}" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteUsuario{{u.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{s.id}}">Borrar Usuario {{s.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea eliminar usuario(a) {{u.nombre}}?</p>
+                            <a href="/deleteUsuario2/{{u.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+{% endblock%}

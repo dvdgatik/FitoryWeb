@@ -1,0 +1,200 @@
+{% extends "basePerfil.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="perfil">
+    <div class="container">
+        <form action="/EditCliente/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="usuario" value="{{usuario.id}}">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4" id="none-list">
+                    <h5 class="tit-perf">Mi Perfil</h5>
+                    <ul class="list-nav-per">
+                        <li><a href="/PerfilUsuario/" class="enlc-nav enlc-nav-active"><label class="line-dark active-link"></label> Editar mi Perfil</a></li>
+                        <li><a href="/Favoritos/" class="enlc-nav "><label class="line-dark"></label> Mis favoritos</a></li>
+                        <li><a href="/Suscripciones/" class="enlc-nav "><label class="line-dark"></label> Mis Suscripciones</a></li>
+                        <li><a href="/Mis-tarjetas/" class="enlc-nav "><label class="line-dark"></label> Mis Tarjetas</a></li>
+                        <li><a href="/Calendario/" class="enlc-nav "><label class="line-dark"></label> Calendario</a></li>
+                        <li><a onclick="logout(),signOut()" class="enlc-nav "><label class="line-dark"></label> Cerrar Sesión</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-5 col-md-5">
+                    <div class="md-form">
+                        <p class="prin-perfil">Nombre</p>
+                        <input type="text" name="nombre" value="{{usuario.nombre}}" class="input-edit-user">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <p class="prin-perfil">Apellido</p>
+                        <input type="text" name="apellido" value="{{usuario.apellido}}" class="input-edit-user">
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        {%if usuario.telefono == "..."%}
+                        {%else%}
+                            <p class="prin-perfil">Teléfono</p>
+                            <input type="text" name="telefono" value="{{usuario.telefono}}" class="input-edit-user" readonly>
+                            <div class="lin-rg"></div>
+                            <div class="lin-lf"></div>
+                        {%endif%}  
+                    </div>
+                    <div class="md-form">
+                        <p class="prin-perfil">Correo Electrónico</p>
+                        <input type="email" name="correo" value="{{usuario.user}}" class="input-edit-user" readonly>
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <p class="prin-perfil">Ciudad Actual</p>
+                        <select class="browser-default custom-select input-selct-log" name="ciudad">
+                            {%if ciudad%}
+                            <option selected disabled>Ciudad</option>
+                                {%for c in ciudad%}
+                                    
+                                    {%if usuario.ciudad.id == c.id%}
+                                        <option value="{{usuario.ciudad.id}}" selected>{{usuario.ciudad.nombre}}</option>
+                                    {%else%}
+                                        <option value="{{c.id}}">{{c.nombre}}</option>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        </select>
+
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                    <div class="md-form">
+                        <p class="prin-perfil">Objetivo</p>
+                        <select class="browser-default custom-select input-selct-log" name="objetivo">
+                            {%if usuario.salud == True%}
+                                <option value="1" selected>Salud</option>
+                                <option value="2">Convivir</option>
+                                <option value="3">Diversión</option>
+                                <option value="4">Verme bien</option>
+                            {%elif usuario.convivir == True%}
+                                <option value="1">Salud</option>
+                                <option value="2" selected>Convivir</option>
+                                <option value="3">Diversión</option>
+                                <option value="4">Verme bien</option>
+                            {%elif usuario.vermeBien == True%}
+                                <option value="1">Salud</option>
+                                <option value="2">Convivir</option>
+                                <option value="3">Diversión</option>
+                                <option value="4" selected>Verme bien</option>
+                            {%elif usuario.diversion == True%}
+                                <option value="1">Salud</option>
+                                <option value="2">Convivir</option>
+                                <option value="3" selected>Diversión</option>
+                                <option value="4">Verme bien</option>
+                            {%endif%}
+                        </select>
+                        <div class="lin-rg"></div>
+                        <div class="lin-lf"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 cont-img-per">
+                    <figure class="fig-img-per">
+                        <div class="file-field">
+                            <img src="{{usuario.foto.url}}" alt="{{usuario.nombre}}" class="img-per">
+                            <br>
+                            <a class="text-foto"><i class="fa fa-camera"></i> Cambiar foto</a>
+                            <input type="file" id="foto" name="foto" accept="image/x-png,image/jpeg">
+                            <div id="image-holder">
+                            </div>
+                        </div>
+                    </figure>
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-5 col-md-5">
+                    <div class="md-form text-center">
+                        <button type="submit" name="action" class="btn btn-save-perf">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4"></div>
+            </div>
+        </form>
+    </div>
+</section>
+    <!-- Modal -->
+<div class="modal fade" id="objetivoModal"  role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/selectObjetivo/" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                    {% csrf_token %}
+                    <input type="hidden" name="usuario" value="{{usuario.id}}">
+                    <input type="hidden" name="objetivos" id="objetivoUser" value="">
+                    <h5 class="tit-objetivo">Selecciona tu objetivo</h5>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="md-form">
+                                    <a onclick="object()" data-value="1" id="salud">
+                                        <div class="btn-obj" id="a">
+                                            Salud
+                                        </div>
+                                    </a>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="md-form">
+                                <a onclick="object2()" data-value="2" id="convivir">
+                                    <div class="btn-obj" id="b">
+                                            Convivir
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="md-form">
+                                <a onclick="object3()" data-value="4" id="ver">
+                                    <div class="btn-obj" id="c">
+                                        Verme bien
+                                    </div>
+                                </a>
+                               
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="md-form">
+                                <a onclick="object4()" data-value="3" id="diversion">
+                                    <div class="btn-obj" id="d">
+                                        Diversión
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md-form d-flex align-items-center justify-content-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="hombre" name="hombre" value="">
+                            <label class="form-check-label" for="hombre">Hombre</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="mujer" name="mujer" value="">
+                            <label class="form-check-label" for="mujer">Mujer</label>
+                        </div>
+                    </div>
+                    <div class="md-form text-center">
+                         <button type="submit" name="action" class="btn btn-save-perf" id="validar">
+                            Guardar Cambios
+                         </button>
+                    </div>
+
+                </form>      
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

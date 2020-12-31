@@ -1,0 +1,160 @@
+{% extends "basePerfil.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="suscripciones">
+    <div class="container">
+        <div class="row align-items-center con-fav-row">
+            <div class="col-lg-4 col-md-4" id="none-list">
+                <h5 class="tit-perf">Mi Perfil</h5>
+                <ul class="list-nav-per">
+                    <li><a href="/PerfilUsuario/" class="enlc-nav"><label class="line-dark"></label> Editar mi Perfil</a></li>
+                    <li><a href="/Favoritos/" class="enlc-nav"><label class="line-dark"></label> Mis favoritos</a></li>
+                    <li><a href="/Suscripciones/" class="enlc-nav enlc-nav-active"><label class="line-dark active-link"></label> Mis Suscripciones</a></li>
+                    <li><a href="/Mis-tarjetas/" class="enlc-nav "><label class="line-dark"></label> Mis Tarjetas</a></li>
+                    <li><a href="/Calendario/" class="enlc-nav "><label class="line-dark"></label> Calendario</a></li>
+                    <li><a onclick="logout(),signOut()" class="enlc-nav "><label class="line-dark"></label> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-2"></div>
+            <div class="col-lg-5 col-md-6 over-y">
+                <div class="col-12 col-sm-12 text-center cont-mob-cat mb-4">
+                    <h5 class="tit-cat">
+                        Mis suscripciones
+                    </h5>
+                </div>
+                {%if sesiones%}
+                    {%for s in sesiones%}
+                    <div class="card-sub mb-5">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <h5 class="tit-sub">{{s.sucursal}}</h5>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-right">
+                                <a class="text-llegar" href="https://www.google.com/maps/place/{{s.sucursal.latitud}},{{s.sucursal.longitud}}" target="_blank">¿Como llegar?</a>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 text-center  mb-4">
+                                <!-- <p class="text-vigencia">Vigencia: 00/00/0000</p> -->
+                                <p class="tel-tex">Teléfono: {{s.sucursal.telefono}}</p>
+                            </div>   
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-basico">
+                                    {%if s.sesiones == 4%}
+                                    BÁSICO: 
+                                    <br>
+                                    <span class="text-ses">4 Sesiones</span>
+                                    {%elif s.sesiones == 8 %}
+                                    Medio: 
+                                    <br>
+                                    <span class="text-ses">8 Sesiones</span>
+                                    {%elif s.sesiones == 12 %}
+                                    Avansado: 
+                                    <br>
+                                    <span class="text-ses">12 Sesiones</span>
+                                    {%endif%}
+                                    
+                                </p>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-sesion">
+                                    $ {{s.total}} MXN
+                                    <br>
+                                    <span class="text-sesion2"> Sesiones Restantes: {{s.sesionesRestantes}} </span>
+                                </p>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 mb-4 text-center">
+                                <a href="/Plan-Contratado-Diario/{{s.id}}/" class="btn-detalle">Ver Detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                {%endif%}
+                {%if subscripcion%}
+                    {%for s in subscripcion%}
+                    
+                    <div class="card-sub">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <h5 class="tit-sub">{{s.sucursal}}</h5>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-right">
+                                <a class="text-llegar" href="https://www.google.com/maps/place/{{s.sucursal.latitud}},{{s.sucursal.longitud}}" target="_blank">¿Como llegar?</a>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 text-center  mb-4">
+                                <p class="text-vigencia">Vigencia: {{s.fechaRenovacion|date:'d/m/Y'}}</p>
+                                <p class="tel-tex">Teléfono: {{s.sucursal.telefono}}</p>
+                            </div>   
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-basico">
+                                    Mensual: 
+                                </p>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-sesion">
+                                    $ {{s.sucursal.mensualidad}} MXN
+                                </p>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 mb-4 text-center">
+                                <a href="/Plan-Contratado/{{s.id}}/" class="btn-detalle">Ver Detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                {%endif%}
+                {%if subscripcionFree%}
+                    {%for s in subscripcionFree%}
+                    <div class="card-sub">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <h5 class="tit-sub">{{s.sucursal}}</h5>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-right">
+                                <a class="text-llegar" href="https://www.google.com/maps/place/{{s.sucursal.latitud}},{{s.sucursal.longitud}}" target="_blank">¿Como llegar?</a>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 text-center  mb-4">
+                                <p class="text-vigencia">Fecha de inicio: {{s.fechaFin|date:'d/m/Y'}}</p>
+                                <p class="tel-tex">Teléfono: {{s.sucursal.telefono}}</p>
+                            </div>   
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-basico">
+                                    Sesiones: 
+                                </p>
+                            </div>  
+                            <div class="col-lg-6 col-md-6 mb-4 text-center">
+                                <p class="text-sesion">
+                                    {{s.sucursal.diasPruebas}}
+                                </p>
+                            </div>   
+                            <div class="col-lg-12 col-md-12 mb-4 text-center">
+                                <a href="/Plan-Contratado/{{s.id}}/" class="btn-detalle">Ver Detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                {%endif%}
+                <p class="tel-tex">
+                    {%if not sesiones and not subscripcion and not subscripcionFree%}
+                        No hay suscripciones
+                    {%endif%}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="basicExito" tabindex="-1" role="dialog" aria-labelledby="basicExito" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="text-modal">La suscripcion se logro correctamente</p>
+                    <a class="btn btn-addTarjeta" href="/Suscripciones/">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

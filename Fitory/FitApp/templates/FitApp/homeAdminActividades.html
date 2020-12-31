@@ -1,0 +1,253 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+<style>
+.list-nav-style >li .actv{
+    border-bottom: 1.5px solid rgb(55, 189, 194);
+}
+</style>
+<section class="section-cont">
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-lg-4  col-md-4">
+                    <h4 class="titulo-prin" style="text-align: center">Actividades</h4>
+            </div>
+            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                <a data-toggle="modal" data-target="#myModalActividad">
+                    <img src="{% static 'FitApp/img/iconoAgregar.png' %}" alt="fitory" class="icon-plus">
+                </a>
+                <a href="/excel/actividades/" download="Actividades">
+                    <img src="{% static 'FitApp/img/iconoExcel.png' %}" alt="fitory" class="icon-excel"> 
+                </a>
+            </div>
+            {%if actividades%}
+                <div class="col-md-12" style="padding-top:3%;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Icono</th>
+                                    <th>Editar</th>
+                                    <th>Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for a in actividades%}
+                                    <tr>
+                                        <td>{{a.id}}</td>
+                                        <td>{{a.nombre}}</td>
+                                        <td>
+                                            <img src="{{a.icono.url}}" alt="{{a.nombre}}" style="width:25px">
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#editActividad{{a.id}}">
+                                                <i class="fa fa-pencil color-icon"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {%if actividadDatos%}
+                                                {%for actividad,respuesta in actividadDatos%}
+                                                    {%if actividad == a and respuesta == True%}
+                                                        <a data-toggle="tooltip" data-placement="top" title="No se pueden borrar actividades con información relacionada.">
+                                                            <i class="fa fa-times color-icon"></i>
+                                                        </a>
+                                                    {%elif actividad == a and respuesta == False%}
+                                                        <a data-toggle="modal" data-target="#deleteActividad{{a.id}}">
+                                                            <i class="fa fa-times color-icon"></i>
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endif%}
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <div class="container" style="text-align:center">
+                                {%if actividades.has_other_pages%}
+                                    <ul class="pagination">
+                                        {% if actividades.number == 1 %}
+                                            <li class="disabled"><span>⇤</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                        {% endif %}
+                                        {% if actividades.has_previous %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' actividades.previous_page_number %}">&laquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&laquo;</span></li>
+                                        {% endif %}
+                                        {% for i in actividades.paginator|proper_paginate:actividades.number %}
+                                            {% if actividades.number == i %}
+                                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                            {% else %}
+                                                <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if actividades.has_next %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' actividades.next_page_number %}">&raquo;</a></li>
+                                        {% else %}
+                                            <li class="disabled"><span>&raquo;</span></li>
+                                        {% endif %}
+                                        {% if actividades.number == actividades.paginator.num_pages %}
+                                            <li class="disabled"><span>⇥</span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' actividades.paginator.num_pages %}">⇥</a></li>
+                                        {% endif %}
+                                    </ul>
+                                {%endif%}
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12" style="text-align: center">
+                    <p>No hay actividades registradas.</p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+</section>
+    
+    {%if actividades%}
+        {%for a in actividades%}
+            <!-- Modal -->
+            <div class="modal fade" id="editActividad{{a.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{a.id}}">Editar Actividad {{a.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditActividad" action="/editActividad/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="actividad" value="{{a.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{a.id}}" name="nombre" required="required" value="{{a.nombre}}" class="form-modal">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">
+                                        Icono actual:
+                                    </p>
+                                    <div class="cont-url">
+                                        <a href="{{a.icono.url}}" target="_blank" class="url-icon">{{a.icono.url}}</a>
+                                        <div class="lin-input-der"></div>
+                                        <div class="lin-input-izq"></div>
+                                    </div>
+                                </div>
+                                <div class="md-form">
+                                    <div class="file-field">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="btn-archivo">
+                                                    <span>Elija un archivo</span>
+                                                    <input type="file" id="icono{{a.id}}" name="icono" accept="image/x-png,image/jpeg">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div style="position:relative;">
+                                                    <input class="file-path validate form-modal" type="text" placeholder="Elija un archivo">
+                                                    <div class="lin-input-der"></div>
+                                                    <div class="lin-input-izq"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteActividad{{a.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Actividad {{a.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal">¿ Desea eliminar la actividad <br> "{{a.nombre}}" ?</p>
+                            <a href="/deleteActividad/{{a.id}}/" class="btn btn-delete">Si</a>
+                            <a class="btn btn-delete" data-dismiss="modal">No</a>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalActividad" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Actividad</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddActividad" action="/addActividad/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre Servicio">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                        <div class="md-form">
+                            <div class="file-field">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="btn-archivo">
+                                            <span>Elija un archivo</span>
+                                            <input type="file" id="icono{{a.id}}" name="icono" accept="image/x-png,image/jpeg">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div style="position:relative;">
+                                            <input class="file-path validate form-modal" type="text" placeholder="Elija un archivo">
+                                            <div class="lin-input-der"></div>
+                                            <div class="lin-input-izq"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+{% endblock%}

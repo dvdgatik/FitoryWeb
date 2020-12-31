@@ -1,0 +1,28 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load staticfiles %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 offset-4">
+                <div class="col-md-12">
+                    <br>
+                </div>
+                <div class="col-md-12" style="text-align:center">
+                    <h2 class="black-text">
+                        Bienvenido<br>{{request.user.username}}
+                    </h2>
+                </div>
+                <div class="col-md-12" style="text-align:center">
+                    <p>
+                        <b>Login Admin:</b><br>
+                        https://www.fitory.com/loginAdmin/<br>
+                        <b>Login Club:</b><br>
+                        https://www.fitory.com/loginClub/<br>
+                        <b>Login Usuario Sucursal:</b><br>
+                        https://www.fitory.com/loginSucursal/
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

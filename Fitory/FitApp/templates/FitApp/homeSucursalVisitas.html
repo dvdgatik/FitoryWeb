@@ -1,0 +1,40 @@
+{% extends "baseSucursal.html" %}
+{% block content %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">Visitas<br>{{today|date:'d-m-Y'}}</h4>       
+            </div>
+            <div class="col-md-12">
+                {%if visitas%}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for v in visitas%}
+                                    <tr>
+                                        <td>{{v.id}}</td>
+                                        <td>{{v.cliente.nombre}} {{v.cliente.apellido}}</td>
+                                        <td>{{v.hora|time:'H:i'}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                {%else%}
+                    <p style="text-align:center">
+                        No hay visitas registradas el día de hoy.
+                    </p>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+{% endblock%}

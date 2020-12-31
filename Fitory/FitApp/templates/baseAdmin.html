@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+        <title>Admin</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/styleadmin.css' %}" rel="stylesheet">
+        <!-- Style -->
+        <style>
+            /* navegacion */
+            .navbar-style{
+                background-color: rgb(242,242,242);
+                box-shadow: none;
+            }
+            .img-nav{
+                width: 170px;
+            }
+            .list-nav-style >li a{
+                font-family: RalewayRegular;
+                text-transform: uppercase;
+                color: #000!important;
+                font-size: 0.9rem;
+                padding-bottom: 7px;       
+            }
+            .list-nav-style >li a:hover{
+                border-bottom: 1.5px solid rgb(55, 189, 194);
+            }
+            /* navegacion */
+            .dateclass{
+                width:100%;
+            }
+            .dateclass.placeholderclass::before{
+                width:100%;
+                content:attr(placeholder);
+                background-color:transparent;
+                font-size: 13px;
+            }
+            .dateclass.placeholderclass:hover::before{
+                width:0%;
+                content:"";
+                font-size: 13px;
+            }
+            input[type=date]{
+                background-color: #fff!important;
+                background:  url("{% static 'FitApp/img/iconoCalendario.png'%}") no-repeat 100% center transparent;
+                background-size: contain;
+                z-index: 999;
+                
+            }
+            input[type="date"]::-webkit-calendar-picker-indicator {  
+                color: rgba(0, 0, 0, 0);
+                background:  url("{% static 'FitApp/img/iconoCalendario.png'%}") no-repeat 100% center transparent;
+                opacity: 0;
+                background-size: contain;
+                width: 15px
+                
+            }
+            input[type=date]::-webkit-outer-spin-button,input[type=date]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            .contenedor{
+                padding-top: 1%;
+            }
+            .tabla-head{
+                background-color: transparent;
+                text-transform: uppercase;
+                text-align: center;
+                letter-spacing: 2px;
+                font-size: 1rem;
+                border-radius: 25px;
+                border: 1px solid #000;
+                font-family: RalewayMedium;
+            }
+            .tabla-head >tr >th{
+                border-bottom: none!important;
+            }
+            .tabla-body{
+                text-align: center;
+                font-size: 0.9rem;
+                font-family: RalewayRegular;
+            }
+            .tabla-body td{
+                border-bottom-style: dashed!important;
+                border-bottom: 2px solid #dee2e6;
+                border-top:0px!important; 
+                vertical-align: middle;
+            }
+            .pagination{
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: inline-block;
+                list-style: none;
+                border-radius: .25rem;
+            }
+            .pagination > li{
+                float: left;
+                list-style: outside none none;
+                padding-left: 5px;
+                font-size: 0.9em!important;
+                box-shadow: none;
+                color: #000000;
+            }
+            .pagination > li > a:link{
+                color: #000000;
+            }
+            .pagination > li > a:hover{
+                color: #000000;
+            }
+            .pagination > li > a:active{
+                color: #000000;
+            }
+            .pagination > li > a:visited{
+                color: #000000;
+            }
+            .pagination > li.active{
+                text-decoration: underline;
+            }
+            .lin-red{
+                margin: auto;
+                text-align: center;
+                width: 30%;
+                border-top: 2px solid rgb(233, 24, 34);
+                display: block;
+                
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-style">
+            <a class="navbar-brand" href="/homeAdmin/"><img src="{% static 'FitApp/img/logoFitory2.png' %}" alt="fitory" class="img-nav"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mt-lg-0 list-nav-style">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeAdmin/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link est" href="/homeAdminEstados/">Estados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ser" href="/homeAdminServicios/">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link actv" href="/homeAdminActividades/">Actividades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link clb" href="/homeAdminClubes/">Clubes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/homeAdminPagosSucursal/">Pagos Sucursal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link cli" href="/homeAdminClientes/">Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rp" href="/homeAdminReportes/">Reportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logoutAdmin/">Cerrar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        <!-- Start your project here-->
+        {% block content %}
+        {% endblock %}
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <!-- Initialize -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+                $('.mdb-select').material_select();
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#confirmar").click(function(){
+                    if($(this).is(':checked')){
+                        $('#guardar').prop('disabled', false);
+                    }else{
+                        $('#guardar').prop('disabled', true);
+                    }
+                });
+                $("#sucursal").change(function(){
+                    var element = $(this).find('option:selected');
+                    var saldo = element.attr("data-saldo");
+                    $("#pagar").attr({
+                        "min":1,
+                        "max":saldo
+                    });
+                });
+            });
+        </script>
+        {%if clubes%}
+            {%for c in clubes%}
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('#formEditClubContrasena{{c.id}}').submit(function(e){
+                            if($('#password{{c.id}}').val() && $('#confirmarPassword{{c.id}}').val()){
+                                var password = $('#password{{c.id}}').val();
+                                var confirmarPassword = $('#confirmarPassword{{c.id}}').val();
+                                if(password != confirmarPassword){
+                                    $('#formEditClubContrasena{{c.id}}').attr('action', "/editClubContrasena/").submit();
+                                }else{
+                                    e.preventDefault();
+                                    alert('Debe proporcionar la contraseña actual y una nueva contraseña.');
+                                    $('#password{{c.id}}').val('');
+                                    $('#confirmarPassword{{c.id}}').val('');
+                                }
+                            }
+                        });
+                    });
+                </script>
+            {%endfor%}
+        {%endif%}
+    </body>
+</html>

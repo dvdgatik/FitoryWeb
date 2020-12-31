@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<!-- <div id="botones-fix">
+        <a href="#primer" class="boton active" id="btn1"></a><br>
+        <a href="#segundo" class="boton" id="btn2"></a><br>
+        <a href="#tercero" class="boton" id="btn3"></a><br>
+        <a href="#cuarto" class="boton" id="btn4"></a><br>
+        <a href="#quinto" class="boton" id="btn5"></a><br>
+    </div> -->
+<!-- Scrollspy -->
+<div class="dotted-scrollspy">
+    <ul class="nav smooth-scroll clearfix d-none d-sm-flex flex-column">
+        <li class="nav-item"><a class="nav-link" href="#one"><span></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#two"><span></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#three"><span></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#four"><span></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#five"><span></span></a></li>
+    </ul>
+</div>
+<section class="homeFitory d-flex align-items-center" id="one">
+    <img src="{% static 'FitApp/img/fotoHome.png' %}" alt="fotoHome" class="img-fotoHome">
+    <div class="col-lg-12 col-md-12 col-absolute d-flex">
+        <h5 class="tit-prin">
+            Encuentra la actividad <br> <span class="tit-prin2">Ideal</span> para ti
+        </h5>
+    </div>
+    <a href="https://www.facebook.com/FitoryGo/" target="_blank">
+        <img src="{% static 'FitApp/img/iconoFacebook.png' %}" alt="iconoFacebook" class="iconoFacebook">
+    </a>
+    
+</section>
+<section class="actividades d-flex align-items-center" id="two">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <h6 class="tit-act">
+                    ¿ CUÁL ACTIVIDAD <span class="tit-act2">TE MUEVE</span> ?
+                </h6>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <a href="/Actividades/#Funcional" id="Funcional">
+                    <img src="{% static 'FitApp/img/iconoFuncional.png' %}" alt="iconoFuncional" class="img-act">
+                    <p class="text-act">Funcional</p>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <a href="/Actividades/#Combate" id="Combate">
+                    <img src="{% static 'FitApp/img/iconoCombate.png' %}" alt="iconoCombate" class="img-act">
+                    <p class="text-act">Combate</p>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <a href="/Actividades/#Baile" id="Baile">
+                    <img src="{% static 'FitApp/img/iconoBaile.png' %}" alt="iconoBaile" class="img-act">
+                    <p class="text-act">Baile</p>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <a href="/Actividades/#Yoga" id="Yoga">
+                    <img src="{% static 'FitApp/img/iconoYoga.png' %}" alt="iconoYoga" class="img-act">
+                    <p class="text-act">Yoga</p>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <img src="{% static 'FitApp/img/iconoDeportes.png' %}" alt="iconoDeportes" class="img-act">
+                <p class="text-act">Deporte</p>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6 text-center">
+                <a href="/Actividades/#Gimnasio" id="Gimnasio">
+                    <img src="{% static 'FitApp/img/iconoGimnasio.png' %}" alt="iconoGimnasio" class="img-act">
+                    <p class="text-act">Gimnasio</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="aplicacion" id="three">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-6 col-sm-6 col-12">
+                <img src="{% static 'FitApp/img/phoneFitory-min.png' %}" alt="phoneFitory" class="img-phoneFitory">
+            </div>
+            <div class="col-lg-6 col-md-6 col-6 col-sm-6 col-12">
+                <h5 class="tit-app">
+                    ¡Es muy sencillo<br>
+                    <span class="tit-app2">
+                        Reservar!
+                    </span> 
+                </h5>
+                <img src="{% static 'FitApp/img/pasos.png' %}" alt="pasos" class="pasos">
+                <div class="col-lg-12 col-md-12"></div>
+                <a href="https://play.google.com/store/apps/details?id=com.dimakers.fitoryapp" target="_blank">
+                    <img src="{% static 'FitApp/img/BotonGooglePlay.png' %}" alt="BotonGooglePlay" class="img-tienda">
+                </a>
+                <a>
+                    <img src="{% static 'FitApp/img/BotonAppStore.png' %}" alt="BotonAppStore" class="img-tienda" title="Próximamente" disabled>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="metas" id="four">
+    <div class="container">
+        <div class="row d-flex align-items-center cont-metas">
+            <div class="col-lg-7 col-md-7 col-sm-6  col-12 fot-meta-mob" style="padding-right:0px;padding-left: 0px;">
+                <img src="{% static 'FitApp/img/fotoMeta-min.jpg' %}" alt="img-meta" class="img-meta">
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6 col-12 d-flex card-metas">
+                <div class="cont-card-meta">
+                    <h5 class="tit-meta">
+                        ¡Tú decides<br>
+                        <span class="tit-meta2">La Meta!</span>
+                    </h5>
+                    <p class="text-meta">
+                        Fija un objetivo mensual o diario <br>que se ajuste a tu horario y <br>mantén una vida saludable
+                    </p>
+                </div>  
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-6 fot-meta" style="padding-right:0px;padding-left: 0px;">
+                <img src="{% static 'FitApp/img/fotoMeta-min.jpg' %}" alt="img-meta" class="img-meta">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="duenos" id="five">
+    <figure class="cont-afilado">
+        <img src="{% static 'FitApp/img/fotoAfiliacion-min.jpg' %}" alt="fotoAfiliacion" class="img-afiliados"> 
+        <div class="col-lg-7 col-md-7 col-sm-8 col-12 card-afiliate">
+            <h5 class="tit-afiliate">
+                ¿Eres dueño de un club o <br>
+                representas uno?
+            </h5>
+            <a class="btn-afiliate"  data-toggle="modal" data-target="#Mymodal">
+                Afíliate
+            </a>
+        </div>
+    </figure>
+</section>
+<!-- <div id="HomeImg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-lg-2"></div>
+            <div class="col-md-8 col-lg-8 d-flex align-items-center col-12" style="height:100vh;">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12 pag-cent">
+                        <img src="{% static 'FitApp/img/mockup.png' %}" alt="mockup" class="img-mockup">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 pag-cent">
+                        <img src="{% static 'FitApp/img/LogoFitory.png' %}" alt="LogoFitory" class="img-LogoFitory">
+                        <h4 class="tit-fito">Cumple tu meta <br>desde HOY!</h4>
+                        <p class="text-fito">
+                            Descarga nuestra aplicación, paga solo los días que<br> vayas, conoce nuestros planes y 
+                            elige el que más te<br> convenga.
+                        </p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 text-center col-6">
+                                <a href="#">
+                                    <img src="{% static 'FitApp/img/BotonGooglePlay.png' %}" alt="BotonGooglePlay" class="img-BotonGooglePlay">
+                                </a>
+                            </div>
+                            <div class="col-lg-6 col-md-6 text-center col-6">
+                                <a href="#">
+                                    <img src="{% static 'FitApp/img/BotonAppStore.png' %}" alt="BotonAppStore" class="img-BotonAppStore">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2"></div>
+        </div>
+    </div>
+    <h4 class="tit-terminos"> <a href="/Legal/">TÉRMINOS Y CONDICIONES</a> </h4>
+</div> -->
+<div class="modal fade" id="Mymodal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Afíliate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>  
+            <div class="modal-body">
+                <form action="/correoContacto/" method="post" enctype="multipart/form-data" autocomplete="off">
+                        {% csrf_token %}
+                    <div class="md-form">
+                        <p class="text-input">Nombre Completo</p>
+                        <input type="text" name="nombre" class="input-text">
+                    </div>
+                    <div class="md-form">
+                        <p class="text-input">Nombre Club/Gimnasio</p>
+                        <input type="text" name="club" class="input-text" >
+                    </div>
+                    <div class="md-form">
+                        <p class="text-input">Teléfono</p>
+                        <input type="text" name="telefono" class="input-text" >
+                    </div>
+                    <div class="md-form">
+                        <p class="text-input">Email</p>
+                        <input type="email" name="correo" class="input-text" >
+                    </div>
+                    <div class="md-form">
+                        <p class="text-input">Comentarios</p>
+                        <input type="text" name="Comentarios" class="input-text" >
+                    </div>
+                    <div class="md-form text-center">
+                        <button type="submit" class="btn btn-afi">
+                            Enviar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-mobile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="text-modal-mobil raleway-regular">
+            Obten una mejor experiencia de navegación<br>
+
+            <span class="text-modal-mobil2 raleway-regular">Descarga nuestra aplicación y disfruta de una cómoda vista e interacción con el contenido.<br><a data-dismiss="modal" class="cont-web raleway-medium">>> Continuar en Web.</a> </span>   
+        </p>
+          <div class="text-center">
+            <a href="https://play.google.com/store/apps/details?id=com.dimakers.fitoryapp" target="_blank"><img src="{% static 'FitApp/img/BotonGooglePlay.png' %}" alt="BotonAppGPlay" class="img-store"></a>
+            <!-- <a href="https://itunes.apple.com/us/app/saraperos-app/id1458808571?l=es&ls=1&mt=8" target="_blank"><img src="{% static 'FitApp/img/BotonAppStore.png' %}" alt="BotonAppIOS" class="img-store"></a>  -->
+          </div>   
+       
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock%}

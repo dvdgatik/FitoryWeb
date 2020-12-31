@@ -1,0 +1,35 @@
+{% extends "baseExtra.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="section-login d-flex align-items-center">
+    <div class="container">
+            <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="cardLogin rgba-white-strong animated fadeIn">
+                    <form class="col-sm-12" action="/recuperarContrasenaPte1/" method="post" autocomplete="off" style="background: #fff;">
+                        {% csrf_token %}
+                    <div class="md-form" style="text-align:center">
+                            <p class="textoBienvenido gris1">
+                                Favor de ingresar tu dirección email, <br>
+                                recibirás las instrucciones para poder restablecer tu cuenta. 
+                            </p>
+                    </div>
+                    <div class="md-form">
+                        <input id="email" type="email" required="required" name="email" class="validate inputUsername" placeholder="Email">
+                    </div>
+                    <div class="md-form mb-0">
+                        <div class="col-md-12" style="text-align:center">
+                            <button type="submit" name="action" class="btn btn-lg btn-entrar">
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock%}

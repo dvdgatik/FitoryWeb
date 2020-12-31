@@ -1,0 +1,187 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load tag_library %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-lg-4 col-md-4"></div>
+            <div class="col-lg-4  col-md-4">
+                    <h4 class="titulo-prin" style="text-align: center">Pagos a sucursales ({{pagosT|length}})</h4>
+            </div>
+            <div class="col-lg-4 col-md-4" style="text-align:right;">
+                <a href="/homeAdminPagosSucursal/Excel/" class="btn btn-sm btn-black" download="Reporte_Pagos_Sucursales">
+                    Excel
+                </a>
+                <a data-toggle="modal" data-target="#myModalPago" class="btn btn-sm btn-blue">
+                    Agregar
+                </a>
+            </div>
+            {%if pagos%}
+                <div class="col-md-12" style="padding-top:3%;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Club</th>
+                                    <th>Sucursal</th>
+                                    <th>Cantidad</th>
+                                    <th>Fecha</th>
+                                    <th>Nº Rastreo</th>
+                                    <th>Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for p in pagos%}
+                                    <tr>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.sucursal.club.nombre}}</td>
+                                        <td>{{p.sucursal.nombre}}</td>
+                                        <td>${{p.pagar}}</td>
+                                        <td>{{p.fecha|date:'d-m-Y'}}</td>
+                                        <td>{{p.numRastreo}}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-red" data-toggle="modal" data-target="#deletePago{{p.id}}">Borrar</button>
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {%else%}
+                <div>
+                    <p style="text-align:center">No hay pagos a sucursales registrados</p>
+                </div>
+            {%endif%}
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="container" style="text-align:center">
+                            {%if pagos.has_other_pages%}
+                                <ul class="pagination">
+                                    {% if pagos.number == 1 %}
+                                        <li class="disabled"><span>⇤</span></li>
+                                    {% else %}
+                                        <li><a class="page-link" href="?{% url_replace request 'page' 1 %}">⇤</a></li>
+                                    {% endif %}
+                                    {% if pagos.has_previous %}
+                                        <li><a class="page-link" href="?{% url_replace request 'page' pagos.previous_page_number %}">&laquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&laquo;</span></li>
+                                    {% endif %}
+                                    {% for i in pagos.paginator|proper_paginate:pagos.number %}
+                                        {% if pagos.number == i %}
+                                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                        {% else %}
+                                            <li><a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if pagos.has_next %}
+                                        <li><a class="page-link" href="?{% url_replace request 'page' pagos.next_page_number %}">&raquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&raquo;</span></li>
+                                    {% endif %}
+                                    {% if pagos.number == pagos.paginator.num_pages %}
+                                        <li class="disabled"><span>⇥</span></li>
+                                    {% else %}
+                                        <li><a class="page-link" href="?{% url_replace request 'page' pagos.paginator.num_pages %}">⇥</a></li>
+                                    {% endif %}
+                                </ul>
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%if pagos%}
+        {%for p in pagos%}
+            <!-- Modal -->
+            <div class="modal fade" id="deletePago{{p.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Pago {{p.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿Desea eliminar el pago {{p.id}} a la sucursal {{p.sucursal.nombre}}?</p>
+                            <a href="/deletePagoSucursal/{{p.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalPago" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registrar pago a sucursal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddPagoSucursal" action="/addPagoSucursal/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p>Sucursal</p>
+                            <select name="sucursal" id="sucursal" class="mdb-select md-form">
+                                <option value="" disabled selected>Elija una opción</option>
+                                {%if sucursales%}
+                                    {%for s in sucursales%}
+                                        {%if s.saldo > 0%}
+                                            <option value="{{s.id}}" data-saldo="{{s.saldo}}">{{s.club.nombre}} - {{s.nombre}} (${{s.saldo}})</option>
+                                        {%else%}
+                                            <option value="{{s.id}}" disabled="disabled" data-saldo="{{s.saldo}}">{{s.club.nombre}} - {{s.nombre}} (${{s.saldo}})</option>
+                                        {%endif%}
+                                    {%endfor%}
+                                {%endif%}
+                            </select>
+                        </div>
+                        <div class="md-form">
+                            <p>Cantidad</p>
+                            <input type="number" name="pagar" id="pagar" required="required" step="any">
+                        </div>
+                        <div class="md-form">
+                            <p>Fecha</p>
+                            <input type="date" name="fecha" id="fecha" required="required">
+                        </div>
+                        <div class="md-form">
+                            <p>Nº de Rastreo</p>
+                            <input type="text" name="numRastreo" id="numRastreo">
+                        </div>
+                        <div class="md-form">
+                            {%if sucursales%}
+                                <input type="checkbox" class="form-check-input" id="confirmar" name="confirmar" value="True">
+                            {%else%}
+                                <input type="checkbox" class="form-check-input" id="confirmar" name="confirmar" value="True" disabled="disabled">
+                            {%endif%}
+                            <label class="form-check-label" for="confirmar">Confirmar</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        {%if sucursales%}
+                            <button type="submit" name="action" id="guardar" class="btn btn-sm btn-blue" disabled="disabled">GUARDAR</button>
+                        {%else%}
+                            <button type="submit" name="action" id="guardar" class="btn btn-sm btn-grey" disabled="disabled">GUARDAR</button>
+                        {%endif%}
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+{% endblock%}

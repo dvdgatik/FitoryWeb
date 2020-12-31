@@ -1,0 +1,38 @@
+{% extends "baseExtra.html" %}
+{% block content %}
+{% load staticfiles %}
+<section class="section-login d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="cardLogin rgba-white-strong animated fadeIn">
+                    <form class="col-sm-12" action="/recuperarContrasenaPte2/" method="post" autocomplete="off" style="background: #fff;">
+                        {% csrf_token %}
+                        <input type="hidden" name="incidenciaID" value="{{incidencia.id}}">
+                        <div class="md-form" style="text-align:center">
+                            <p class="textoBienvenido gris1">
+                                Ingresa la clave de seguridad que se te envió por correo, junto con la nueva contraseña.
+                            </p>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" name="token" id="token" required="required" class="validate inputUsername" placeholder="Clave de seguridad">
+                        </div>
+                        <div class="md-form">
+                            <input id="password" type="password" required="required" name="password" class="validate inputUsername" placeholder="Contraseña">
+                        </div>
+                        <div class="md-form mb-0">
+                            <div class="col-md-12" style="text-align:center">
+                                <button type="submit" name="action" class="btn btn-lg btn-entrar">
+                                    Enviar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock%}

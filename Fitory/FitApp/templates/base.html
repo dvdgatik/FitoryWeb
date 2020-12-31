@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Fitory</title>
+        {% load staticfiles %}
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'FitApp/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{% static 'FitApp/css/mdb.min.css' %}" rel="stylesheet">
+        <!-- Your custom styles (optional) -->
+        <link href="{% static 'FitApp/css/stylesHomes.css' %}" rel="stylesheet">
+        <meta name="google-site-verification" content="4NecOjfe-5NJbV_rBoXzoZDdqRnaxVB47sChQ5gJkOM" />
+    </head>
+    <body>
+        <!-- Start your project here-->
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg nav-princ">
+                <a class="navbar-brand img-cont" href="/"><img src="{% static 'FitApp/img/logoFitory2.png' %}" alt="logoFitory" class="img-logo-nav"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-align-justify"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav ml-auto mt-lg-0 nav-list d-flex align-items-center">                    
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin line-hover" href="/Actividades/">ACTIVIDADES</a>
+                    </li>
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin line-hover" href="/Paquetes/">PAQUETES</a>
+                    </li>
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link nav-link-margin line-hover" href="/Clubes/">CLUBES</a>
+                    </li>
+                    {%if request.user.is_authenticated and not user.is_staff%}
+                    <li class="nav-item ancho-li">
+                        <a class="nav-link line-hover" href="/PerfilUsuario/">MI PERFIL</a>
+                    </li>
+                    <li class="nav-item ancho-li ul-perfil">
+                        <a class="nav-link nav-link-margin" href="/Favoritos/">Mis favoritos</a>
+                    </li>
+                    <li class="nav-item ancho-li ul-perfil">
+                        <a class="nav-link nav-link-margin" href="/Suscripciones/">Mis Suscripciones</a>
+                    </li>
+                    <li class="nav-item ancho-li ul-perfil">
+                        <a class="nav-link nav-link-margin" href="/Mis-tarjetas/">Mis Tarjetas</a>
+                    </li>
+                    <li class="nav-item ancho-li ul-perfil">
+                        <a class="nav-link nav-link-margin" href="/Calendario/">Calendario</a>
+                    </li>
+                    <li class="nav-item ancho-li ul-perfil">
+                        <a class="nav-link nav-link-margin" onclick="logout(),signOut()">Cerrar Sesión</a>
+                    </li>
+                    {%else%}
+                        <li class="nav-item width-iniciosesion">
+                            <a class="nav-link" href="/Iniciar-Sesion/"><img src="{% static 'FitApp/img/iconoInicioSesion.png' %}" alt="iconoInicioSesion" class="iconoInicioSesion"></a>
+                        </li>
+                        <li class="nav-item ancho-li mb-nav">
+                            <a class="nav-link nav-link-margin line-hover" href="/Iniciar-Sesion/">Iniciar Sesión</a>
+                        </li>
+                    {%endif%}
+                
+                </ul>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        {% block content %}
+        {% endblock %}
+        <footer id="footer" class="page-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-2 d-flex align-items-center justify-content-center">
+                        <a  href="https://www.facebook.com/FitoryGo/" target="_blank">
+                            <img src="{% static 'FitApp/img/iconoFacebook2.png' %}" alt="iconoFacebook" class="iconoFacebook-footer">
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-1 col-sm-1 col-1 d-flex align-items-center"></div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-5 d-flex align-items-center">
+                        <a href="/Legal/" class="text-footer" id="term">TÉRMINOS Y CONDICIONES</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-4 d-flex align-items-center">
+                        <a href="/Avisos-Privacidad/" class="text-footer" id="avi">AVISO DE PRIVACIDAD</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /Start your project here-->
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'FitApp/js/jquery-3.2.1.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'FitApp/js/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'FitApp/js/mdb.min.js' %}"></script>
+        <script src="https://afernandezgarcia.com/codepen/carousel/js/touchswipe.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.mdb-select').material_select();
+                $('body').scrollspy({
+                    target: '.dotted-scrollspy'
+                });
+                $('#btnEstado').hover(function() {
+
+                });
+                $('.carousel').carousel({
+                    interval: false
+                })
+            });
+            // $('#estadoSelect li').on('click', function(){                   
+            //     var estado_id=$(this).val();
+            //     var estado_name=$(this).text();
+            //     $("#estadoSelect").text(estado_name);                             
+            //     $.ajax({
+            //         'url' : request_url = '/getCiudades/' + estado_id + '/',
+            //         'type' : 'POST',
+            //         'data' : {
+            //             csrfmiddlewaretoken: '{{ csrf_token }}'
+            //         },
+            //         'success' : function(data) {              
+            //             alert('Data: '+JSON.stringify(data));
+            //         },
+            //         'error' : function(request,error)
+            //         {
+            //             alert("Request: "+JSON.stringify(request));
+            //         }
+            //     });
+            // });                        
+        </script>
+        {%if respuesta%}
+        <script>
+            alert("{{respuesta}}");
+            window.location.href = "/";
+        </script>
+        {%endif%}
+        <script>
+            function CambioM() {
+                document.getElementById("mensual").style.display = "block";
+                document.getElementById("diario").style.display  = "none";
+            }
+            function CambioS() {
+                document.getElementById("diario").style.display  = "block";
+                document.getElementById("mensual").style.display  = "none";
+            }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+              $('select[name=estado]').change(function(){
+                estado_id = $(this).val();
+                request_url = '/getCiudadesWeb/' + estado_id + '/';
+                $.ajax({
+                  type:"POST",
+                  url: request_url,
+                  data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  success: function(data){
+                    $('#ciudad').find('option').remove().end();
+                    $.each(data, function(key, value){
+                      $('select[name=ciudad]').prop('disabled', false);
+                      $('select[name=ciudad]').append('<option  value="' + key + '">' + value +'</option>');
+                    });
+                  }
+                })
+              })
+            });
+        </script>
+        <!-- <script type="text/javascript">
+            $(document).ready(function(){
+              $('select[name=ciudad]').change(function(){
+                ciudad_id = $(this).val();
+                request_url = '/getEstadoWeb/' + ciudad_id + '/';
+                $.ajax({
+                  type:"POST",
+                  url: request_url,
+                  data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+                  success: function(data){
+                    $('#estado').find('option').remove().end();
+                    $.each(data, function(key, value){
+                      $('select[name=estado]').prop('disabled', false);
+                      $('select[name=estado]').append('<option  value="' + key + '">' + value +'</option>');
+                    });
+                    
+                  }
+                })
+              })
+            });
+        </script> -->
+        <script>
+            {%if request.user.is_authenticated and not user.is_staff%}
+                    {%if favoritos%}
+                        {%for f in favoritos%}
+                            $("#corazonDel{{f.id}}" ).click(function() {
+                                {%if sucursal%}
+                                var favoritos_id = {{f.id}};
+                                var sucursal_id = {{sucursal.id}};
+                                request_url = '/getFavoritosDelete/' + sucursal_id + '/' + favoritos_id + '/';
+                                location.href =  request_url;
+                                {%endif%}
+                            });
+                        {%endfor%}
+                    {%else%}
+                        $("#corazonAdd{{sucursal.id}}" ).click(function() {
+                            {%if sucursal%}
+                            var sucursal_id = {{sucursal.id}};
+                            
+                            var usuario_id = {{usuario.id}};
+                            request_url = '/getFavoritos/' + sucursal_id + '/' + usuario_id + '/';
+                            location.href =  request_url;
+                            {%endif%}
+                        });
+                    {%endif%}
+            {%else%}
+                $("#corazonUser{{sucursal.id}}" ).click(function() {
+                    alert("Inicia Sesion para agregar a favoritos")
+                });
+            {%endif%}
+        </script>
+        <script>
+            
+            $(document).ready(function(){
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                    $('#modal-mobile').modal('toggle');
+                    $('#term').attr('href', "{% static 'FitApp/pdf/FitoryTYCClub.pdf' %}")
+                    $('#term').attr('download', "FitoryTYCClub")
+                    $('#avi').attr('href', "{% static 'FitApp/pdf/AvisodePrivacidad.pdf' %}")
+                    $('#avi').attr('download', "AvisodePrivacidad")
+                } 
+            });
+        </script>
+        {%if error%}
+        <script>
+            $(document).ready(function(){
+                $('#basicExampleModal').modal('toggle');
+            });
+        </script>
+        {%endif%}
+        {%if errorTarjeta%}
+        <script>
+            alert("{{errorTarjeta}}");
+            return false;
+        </script>
+         {%endif%}
+        <script>
+                // sesion = $("#materialUnchecked").val()
+                $("#materialUnchecked").change(function(){
+                    if($("#materialUnchecked").prop("checked")){
+                        var valueSelect = $("#materialUnchecked").val()
+                        var sesion = $("#requi").val(valueSelect)
+                        var form = $("#payment-form").attr('action','/PagoDiarioplan/')
+                        document.getElementById("pagar2").style.display = "none";
+                        document.getElementById("seleccionTarjeta").style.display = "block";
+                    }else{
+                       
+                    }
+                });
+
+                $("#materialUnchecked2").change(function(){
+                    if($("#materialUnchecked2").prop("checked")){
+                        var valueSelect = $("#materialUnchecked2").val()
+                        var sesion = $("#requi").val(valueSelect)
+                        var form = $("#payment-form").attr('action','/PagoDiarioplan/')
+                        document.getElementById("pagar2").style.display = "none";
+                        document.getElementById("seleccionTarjeta").style.display = "block";
+                    }else{
+                       
+                    }
+                });
+
+                $("#materialUnchecked3").change(function(){
+                    if($("#materialUnchecked3").prop("checked")){
+                        var valueSelect = $("#materialUnchecked3").val()
+                        var sesion = $("#requi").val(valueSelect)
+                        var form = $("#payment-form").attr('action','/PagoDiarioplan/')
+                        document.getElementById("pagar2").style.display = "none";
+                        document.getElementById("seleccionTarjeta").style.display = "block";
+                    }else{
+                       
+                    }
+                });
+                $("#materialUnchecked4").change(function(){
+                    if($("#materialUnchecked4").prop("checked")){
+                        var valueSelect = $("#materialUnchecked4").val()
+                        var sesion = $("#requi").val(valueSelect)
+                        var form = $("#payment-form").attr('action','/PagPlanFree/')
+                        document.getElementById("pagar2").style.display = "block";
+                        document.getElementById("seleccionTarjeta").style.display = "none";
+                    }else{
+                        document.getElementById("pagar2").style.display = "none";
+                    }
+                });
+        </script>
+        <script>
+            $("#payment-form").submit(function(){
+                // $("#pagar").prop("disabled", true);
+                sesion = $("#requi").val()
+                if(sesion == 0){
+                    alert("seleccione una sesiones")
+                    return false;
+                }else{
+                    $("#pagar").prop("disabled", true);
+                    $("#pagar2").prop("disabled", true);
+                    return true;
+                }
+            });
+            
+        </script>
+        <script>
+            $("#payment-formMobil").submit(function(){
+                // $("#pagar").prop("disabled", true);
+                sesion = $("#requi").val()
+                if(sesion == 0){
+                    alert("seleccione una sesiones")
+                    return false;
+                }else{
+                    $("#pagarMobil").prop("disabled", true);
+                    $("#pagar2Mobil").prop("disabled", true);
+                    return true;
+                }
+            });
+            
+        </script>
+        <script>
+            // sesion = $("#materialUnchecked").val()
+            $("#materialUncheckedMobil").change(function(){
+                if($("#materialUncheckedMobil").prop("checked")){
+                    var valueSelect = $("#materialUncheckedMobil").val()
+                    var sesion = $("#requiMobil").val(valueSelect)
+                    var form = $("#payment-formMobil").attr('action','/PagoDiarioplan/')
+                    document.getElementById("pagar2Mobil").style.display = "none";
+                    document.getElementById("seleccionTarjetaMobil").style.display = "block";
+                }else{
+                   
+                }
+            });
+
+            $("#materialUnchecked2Mobil").change(function(){
+                if($("#materialUnchecked2Mobil").prop("checked")){
+                    var valueSelect = $("#materialUnchecked2Mobil").val()
+                    var sesion = $("#requiMobil").val(valueSelect)
+                    var form = $("#payment-formMobil").attr('action','/PagoDiarioplan/')
+                    document.getElementById("pagar2Mobil").style.display = "none";
+                    document.getElementById("seleccionTarjetaMobil").style.display = "block";
+                }else{
+                   
+                }
+            });
+
+            $("#materialUnchecked3Mobil").change(function(){
+                if($("#materialUnchecked3Mobil").prop("checked")){
+                    var valueSelect = $("#materialUnchecked3Mobil").val()
+                    var sesion = $("#requiMobil").val(valueSelect)
+                    var form = $("#payment-formMobil").attr('action','/PagoDiarioplan/')
+                    document.getElementById("pagar2Mobil").style.display = "none";
+                    document.getElementById("seleccionTarjetaMobil").style.display = "block";
+                }else{
+                   
+                }
+            });
+            $("#materialUnchecked4Mobil").change(function(){
+                if($("#materialUnchecked4Mobil").prop("checked")){
+                    var valueSelect = $("#materialUnchecked4Mobil").val()
+                    var sesion = $("#requi").val(valueSelect)
+                    var form = $("#payment-formMobil").attr('action','/PagPlanFree/')
+                    document.getElementById("pagar2Mobil").style.display = "block";
+                    document.getElementById("seleccionTarjetaMobil").style.display = "none";
+                }else{
+                    document.getElementById("pagar2Mobil").style.display = "none";
+                }
+            });
+        </script>
+        <script>
+            var URLactual = window.location;
+            if (URLactual == "https://fitory.com/Actividades/#Combate"){
+                 $("#comb").addClass("active")
+            }else if (URLactual == "https://fitory.com/Actividades/#Funcional"){
+                 $("#func").addClass("active")
+            } else if (URLactual == "https://fitory.com/Actividades/#Baile"){
+                 $("#bail").addClass("active")
+            }else if (URLactual == "https://fitory.com/Actividades/#Yoga"){
+                 $("#yoga").addClass("active")
+            }else if (URLactual == "https://fitory.com/Actividades/#Gimnasio"){
+                 $("#gym").addClass("active")
+            }else if(URLactual == "https://fitory.com/Actividades/"){
+                $("#comb").addClass("active")  
+            }
+         </script>
+         <script>
+            var URLactual = window.location;
+            if (URLactual == "https://www.fitory.com/Actividades/#Combate"){
+                 $("#comb").addClass("active")
+            }else if (URLactual == "https://www.fitory.com/Actividades/#Funcional"){
+                 $("#func").addClass("active")
+            } else if (URLactual == "https://www.fitory.com/Actividades/#Baile"){
+                 $("#bail").addClass("active")
+            }else if (URLactual == "https://www.fitory.com/Actividades/#Yoga"){
+                 $("#yoga").addClass("active")
+            }else if (URLactual == "https://www.fitory.com/Actividades/#Gimnasio"){
+                 $("#gym").addClass("active")
+            }else if (URLactual == "https://www.fitory.com/Actividades/"){
+                $("#comb").addClass("active")
+            }
+         </script>
+         <script>
+            var URLactual = window.location;
+            if (URLactual == "http://127.0.0.1:8000/Actividades/#Combate"){
+                 $("#comb").addClass("active")
+            }else if (URLactual == "http://127.0.0.1:8000/Actividades/#Funcional"){
+                 $("#func").addClass("active")
+            } else if (URLactual == "http://127.0.0.1:8000/Actividades/#Baile"){
+                 $("#bail").addClass("active")
+            }else if (URLactual == "http://127.0.0.1:8000/Actividades/#Yoga"){
+                 $("#yoga").addClass("active")
+            }else if (URLactual == "http://127.0.0.1:8000/Actividades/#Gimnasio"){
+                 $("#gym").addClass("active")
+            }else if (URLactual == "http://127.0.0.1:8000/Actividades/"){
+                $("#comb").addClass("active")
+            }
+         </script>
+        
+         {%if sucursal%}
+         <script>
+            var precioNuevo = 0;
+            var dia  =  {{sucursal.dia}}
+            var quincePorciento = dia * 15 / 100;
+            var diaMasCincoPCT =  dia + quincePorciento
+            var sesion1 = 4
+            var sesion2 = 8
+            var sesion3 = 12
+            var resultado1 = sesion1 * diaMasCincoPCT;
+            var resultado2 = sesion2 * diaMasCincoPCT;
+            var resultado3  = sesion3 * diaMasCincoPCT;
+            $("#precieSesionA{{sucursal.id}}").text(("$" +resultado1.toFixed(2) + " MXN"));
+            $("#precieSesionB{{sucursal.id}}").text(("$" +resultado2.toFixed(2) + " MXN"));
+            $("#precieSesionC{{sucursal.id}}").text(("$" +resultado3.toFixed(2) + " MXN"));
+            $("#precieSesionAM{{sucursal.id}}").text(("$" +resultado1.toFixed(2) + " MXN"));
+            $("#precieSesionBM{{sucursal.id}}").text(("$" +resultado2.toFixed(2) + " MXN"));
+            $("#precieSesionCM{{sucursal.id}}").text(("$" +resultado3.toFixed(2) + " MXN"));
+         </script>
+         {%endif%}
+         {%if not swipe == False%}
+         <script type="text/javascript">
+            $(document).ready(function() {  
+
+                //Enable swiping...
+                $(".carousel-inner").swipe( {
+                    //Generic swipe handler for all directions
+                    swipeLeft:function(event, direction, distance, duration, fingerCount) {
+                    $(this).parent().carousel('next'); 
+                    },
+                    swipeRight: function() {
+                    $(this).parent().carousel('prev'); 
+                    },
+                    //Default is 75px, set to 0 for demo so any distance triggers swipe
+                    threshold:0
+                });
+            });
+        </script>
+        {%endif%}
+        <script>
+            window.fbAsyncInit = function() {
+                // FB JavaScript SDK configuration and setup
+                FB.init({
+                    appId      : '2232574700399840', // FB App ID
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v3.2' // use graph api version 2.8
+                });
+                
+                // Check whether the user already logged in
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        //display user data
+                        getFbUserData();
+                    }
+                });
+            };
+            
+            // Load the JavaScript SDK asynchronously
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/es_ES/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+            
+            // Facebook login with JavaScript SDK
+            function fbLogin() {
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        // Get and display the user profile data
+                        
+                    } else {
+                        
+                    }
+                }, {scope: 'email'});
+            }
+            
+            // Fetch the user profile data from facebook
+            function getFbUserData(){
+                FB.api('/me', {locale: 'es_ES', fields: 'id,first_name,last_name,email,link,gender,locale,picture'},
+                function (response) {
+
+        
+                });
+            }
+            
+            // Logout from facebook
+            function logout(){
+                FB.logout(function(response){
+                
+                
+                });
+                location.href = "/LogoutPerfil/";
+            }
+            </script>
+            <script>
+                // function onSignIn(googleUser) {
+                //     var profile = googleUser.getBasicProfile();
+                //     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                //     console.log('Name: ' + profile.getName());
+                //     console.log('Image URL: ' + profile.getImageUrl());
+                //     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+                // }
+                // function signOut() {
+                //     var auth2 = gapi.auth2.getAuthInstance();
+                //     auth2.signOut().then(function () {
+                //     console.log('User signed out.');
+                //     });
+                // }
+                var GoogleAuth;
+                var SCOPE = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+                // var request = gapi.client.drive.about.get({'fields': 'user'});
+                function handleClientLoad() {
+                    // Load the API's client and auth2 modules.
+                    // Call the initClient function after the modules load.
+                    gapi.load('client:auth2', initClient);
+                }
+                
+                function initClient() {
+                    // Retrieve the discovery document for version 3 of Google Drive API.
+                    // In practice, your app can retrieve one or more discovery documents.
+                    var discoveryUrl = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+        
+                    // Initialize the gapi.client object, which app uses to make API requests.
+                    // Get API key and client ID from API Console.
+                    // 'scope' field specifies space-delimited list of access scopes.
+                    gapi.client.init({
+                        'apiKey': 'AIzaSyBpkpY7zQ0N56EReUSqnLdrvD5iFHWqyo8',
+                        'discoveryDocs': [discoveryUrl],
+                        'clientId': '437431816927-j2n5nuc6fr56d2dklujaujj1n46ehqjp.apps.googleusercontent.com',
+                        'scope': SCOPE
+                    }).then(function () {
+                    GoogleAuth = gapi.auth2.getAuthInstance();
+                    // s072m_Ycy7M5EbKCtiRxkIz5
+                    // Listen for sign-in state changes.
+                    GoogleAuth.isSignedIn.listen(updateSigninStatus);
+        
+                    // Handle initial sign-in state. (Determine if user is already signed in.)
+                    var user = GoogleAuth.currentUser.get();
+                    setSigninStatus();
+        
+                    // Call handleAuthClick function when user clicks on
+                    //      "Sign In/Authorize" button.
+                        $('#sign-in-or-out-button').click(function() {
+                            handleAuthClick();
+                            
+                        }); 
+                        $('#revoke-access-button').click(function() {
+                            revokeAccess();
+                        }); 
+                    });
+                }
+                
+                // request.execute(function(response) {
+                //     console.log(response);
+                // });
+                function handleAuthClick() {
+                    if (GoogleAuth.isSignedIn.get()) {
+                    // User is authorized and has clicked 'Sign out' button.
+                    GoogleAuth.signOut();
+                    } else {
+                    // User is not signed in. Start Google auth flow.
+                    GoogleAuth.signIn();
+                        
+                    }
+                    // var user = GoogleAuth.currentUser.get();
+                    // idGoogle = user.getId();
+                    // request_url = '/consultaGoogle/';
+                    // if(user){
+                    //     $.ajax({
+                    //     type:"POST",
+                    //     url: request_url,
+                    //     data: {
+                    //         csrfmiddlewaretoken: '{{ csrf_token }}',
+                    //         idGoogle: idGoogle,
+                    //     },
+                    //     success: function(data){
+                    //             if(data.Resultado == 1){
+                                    
+                    //                 location.href = "/PerfilUsuario/";
+                    //             }else{
+                    //                 location.href = "/Registrarse/";
+                    //             }
+                    //         }
+                    //     });
+                    // }
+                   
+                }
+        
+                function revokeAccess() {
+                    GoogleAuth.disconnect();
+                }
+        
+                function setSigninStatus(isSignedIn) {
+                    var user = GoogleAuth.currentUser.get();
+                    var isAuthorized = user.hasGrantedScopes(SCOPE);
+                    var profile = GoogleAuth.currentUser.get().getBasicProfile();
+                    console.log(user.getId())
+                        // console.log('ID: ' + profile.getId());
+                        // console.log('Full Name: ' + profile.getName());
+                        // console.log('Given Name: ' + profile.getGivenName());
+                        // console.log('Family Name: ' + profile.getFamilyName());
+                        // console.log('Image URL: ' + profile.getImageUrl());
+                        // console.log('Email: ' + profile.getEmail());
+                    if (isAuthorized) {
+                        // $('#').html('Sign out');
+                        // $('#revoke-access-button').css('display', 'inline-block');
+                        // $('#auth-status').html('You are currently signed in and have granted ' +
+                        //     'access to this app.');
+                        // document.getElementById('username').value = profile.getName();
+                        // document.getElementById('correo').value = profile.getEmail();
+                        // document.getElementById('google').value = profile.getId() ;
+                        var idGoogle = profile.getId();
+                        var correo =  profile.getEmail();
+                        var nombre = profile.getGivenName();
+                        var apellido = profile.getFamilyName();
+                        console.log(profile)
+                        
+                    
+                    } else {
+                    // $('#').html('Sign In/Authorize');
+                    // $('#revoke-access-button').css('display', 'none');
+                    // $('#auth-status').html('' +
+                    //     '');
+                    }
+                }
+        
+                function updateSigninStatus(isSignedIn) {
+                    setSigninStatus();
+                    if (isSignedIn) {
+                        isAuthorized = true;
+                        if (currentApiRequest) {
+                        sendAuthorizedApiRequest(currentApiRequest);
+                        }
+                    } else {
+                        isAuthorized = false;
+                    }
+                }
+                function signOut() {
+                    var auth2 = gapi.auth2.getAuthInstance();
+                    auth2.signOut().then(function () {
+                        console.log('User signed out.');
+                    });
+                    location.href = "/LogoutPerfil/";
+                }
+            </script>
+</body>
+</html>

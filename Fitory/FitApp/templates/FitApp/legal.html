@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section style="padding-top:12%;">
+    <div class="col-lg-12 col-md-12 text-center">
+        <embed src="{% static 'FitApp/pdf/FitoryTYCClub.pdf' %}" width="90%" height="800px" alt="pdf">
+    </div>
+    <div class="col-lg-12 col-md-12 text-center">
+        <embed src="{% static 'FitApp/pdf/FitoryTYCUsuarios.pdf' %}"  width="90%" height="800px" alt="pdf">
+    </div>
+</section>
+
+
+{% endblock%}

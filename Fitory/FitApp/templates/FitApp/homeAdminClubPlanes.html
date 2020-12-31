@@ -1,0 +1,192 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load staticfiles %}
+    <div class="container contenedor">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/homeAdminClubes/" class="btn btn-sm btn-secondary">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-md-4">
+                <h4 class="titulo-sec" style="text-align: center">{{club}}</h4>
+                <h5 class="titulo-prin" style="text-align: center">Planes ({{planes|length}})</h5>        
+            </div>
+            <div class="col-lg-4  col-md-4" style="text-align:right;">
+                <a data-toggle="modal" data-target="#myModalPlan" class="btn btn-sm btn-blue">
+                    Agregar
+                </a>
+            </div>
+            {%if planes%}
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="tabla-head">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Plan</th>
+                                    <th>Precio</th>
+                                    <th>Tipo</th>
+                                    <th>Editar</th>
+                                    <th>Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tabla-body">
+                                {%for p in planes%}
+                                    <tr>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.nombre}}</td>
+                                        <td>${{p.precio}}</td>
+                                        <td>
+                                            {%if p.mensual == True and p.dia == False%}
+                                                Por mes
+                                            {%elif p.mensual == False and p.dia == True%}
+                                                Por día
+                                            {%endif%}
+                                        </td>
+                                        <td>
+                                            <a data-toggle="modal" data-target="#editPlan{{p.id}}" class="btn btn-sm btn-green">
+                                                Editar
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {%if planDatos%}
+                                                {%for plan,respuesta in planDatos%}
+                                                    {%if plan == p and respuesta == True%}
+                                                        <a data-toggle="tooltip" data-placement="top" title="No se pueden borrar planes con subscripciones." class="btn btn-sm btn-email">
+                                                            Borrar
+                                                        </a>
+                                                    {%elif plan == p and respuesta == False%}
+                                                        <a data-toggle="modal" data-target="#deletePlan{{p.id}}" class="btn btn-sm btn-red">
+                                                            Borrar
+                                                        </a>
+                                                    {%endif%}
+                                                {%endfor%}
+                                            {%endif%}
+                                        </td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {%else%}
+                <div class="col-md-12">
+                    <p style="text-align:center">
+                        No hay planes registrados.
+                    </p>
+                </div>
+            {%endif%}
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalPlan" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddPlan" action="/addPlan/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="hidden" name="club" value="{{club.id}}">
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre">
+                        </div>
+                        <div class="md-form">
+                            <p class="text-modal">Precio</p>
+                            <input type="number" id="precio" name="precio" step="any" min="1" required="required" class="form-modal" placeholder="Precio">
+                        </div>
+                        <div class="md-form">
+                            <p>Tipo de plan</p>
+                            <select class="browser-default custom-select" name="tipo" id="tipo" required="required">
+                                <option value="" disabled selected>Elija una opción</option>
+                                <option value="1">Por Mes</option>
+                                <option value="2">Por Día</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+    {%if planes%}
+        {%for p in planes%}
+            <!-- Modal -->
+            <div class="modal fade" id="editPlan{{p.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Plan {{p.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditPlan" action="/editPlan/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="plan" value="{{p.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{p.id}}" name="nombre" value="{{p.nombre}}" required="required" class="form-modal" placeholder="Nombre">
+                                </div>
+                                <div class="md-form">
+                                    <p class="text-modal">Precio</p>
+                                    <input type="number" id="precio{{p.id}}" name="precio" step="any" min="1" value="{{p.precio}}" required="required" class="form-modal" placeholder="Precio">
+                                </div>
+                                <div class="md-form">
+                                    <p>Tipo de plan</p>
+                                    <select class="browser-default custom-select" name="tipo" id="tipo" disabled="disabled">
+                                        <option value="" disabled>Elija una opción</option>
+                                        {%if p.mensual == True and p.dia == False%}
+                                            <option value="1" selected="selected">Por Mes</option>
+                                            <option value="2">Por Día</option>
+                                        {%elif p.mensual == False and p.dia == True%}
+                                            <option value="1">Por Mes</option>
+                                            <option value="2" selected="selected">Por Día</option>
+                                        {%endif%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border:0px">
+                                <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deletePlan{{p.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Plan {{p.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" style="margin-bottom:1.5rem;">¿ Desea eliminar el plan <br> "{{p.nombre}}" ?</p>
+                            <a href="/deletePlan/{{p.id}}/" class="btn btn-sm btn-red">Si</a>
+                            <a class="btn btn-sm btn-green" data-dismiss="modal">No</a>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+{% endblock%}

@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="actividades-carrousel d-flex align-items-center">
+    <div class="container">
+        <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+            <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item" id="func">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <div class="disp-mobil-car">
+                                <h5 class="act-tit ">Funcional</h5>
+                                <p class="act-text ">Ejercitarás cada parte de tu cuerpo en divertidas clases grupales.</p>
+                            </div>
+                            <img src="{% static 'FitApp/img/fotoFuncional.png' %}" alt="fotoFuncional" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 disp-web-car">
+                                    <h5 class="act-tit">Funcional</h5>
+                                    <p class="act-text">Ejercitarás cada parte de tu cuerpo en divertidas clases grupales.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/funcional.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Funcional</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/jumping.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Jumping</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/crossfit.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Crossfit</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/fitball.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Fitball</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/barre.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Barre</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/step.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Step</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-item" id="comb">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <div class="disp-mobil-car">
+                                <h5 class="act-tit">Combate</h5>
+                                <p class="act-text">Aprende técnicas de combate y defensa personal.</p>
+                            </div>
+                            <img src="{% static 'FitApp/img/fotoCombate.png' %}" alt="fotoCombate" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 disp-web-car">
+                                    <h5 class="act-tit">Combate</h5>
+                                    <p class="act-text">Aprende técnicas de combate y defensa personal.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/box.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Box</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/mma.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Mma</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/muaiThai.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Muay thai</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/jiuJitsu.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Jiu jitsu</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-item" id="bail">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <div class="disp-mobil-car">
+                                <h5 class="act-tit">Baile</h5>
+                                <p class="act-text">Siente el ritmo de la música mientras quemas calorías.</p>
+                            </div>
+                            <img src="{% static 'FitApp/img/fotoBailar.png' %}" alt="fotoCombate" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 disp-web-car">
+                                    <h5 class="act-tit">Baile</h5>
+                                    <p class="act-text">Siente el ritmo de la música mientras quemas calorías.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/pole.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Pole</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/zumba.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Zumba</p>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+                <div class="carousel-item" id="yoga">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <div class="disp-mobil-car">
+                                <h5 class="act-tit">Yoga</h5>
+                                <p class="act-text">Fortalece tu cuerpo y tu mente realizando múltiples posturas.</p>     
+                            </div>
+                            <img src="{% static 'FitApp/img/fotoMeditacion.png' %}" alt="fotoMeditacion" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 disp-web-car">
+                                    <h5 class="act-tit">Yoga</h5>
+                                    <p class="act-text">Fortalece tu cuerpo y tu mente realizando múltiples posturas.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/yoga.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Yoga</p>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+                <!-- <div class="carousel-item">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <img src="{% static 'FitApp/img/fotoDeportes.png' %}" alt="fotoDeportes" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h5 class="act-tit">Deportes</h5>
+                                    <p class="act-text">mejora tu rendimiento en esa actividad que siempre te ha gustado.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/futbol.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Futbol</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/baseball.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Baseball</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/tennis.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Tennis</p>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div> -->
+                <div class="carousel-item" id="gym">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 text-center">
+                            <div class="disp-mobil-car">
+                                <h5 class="act-tit">Gimnasio</h5>
+                                <p class="act-text">Sigue una rutina utilizando pesas y diversos aparatos.</p>
+                            </div>
+                            <img src="{% static 'FitApp/img/fotoGimnasio.png' %}" alt="fotoGimnasio" class="img-areas">
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6 col-12 disp-web-car">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h5 class="act-tit">Gimnasio</h5>
+                                    <p class="act-text">Sigue una rutina utilizando pesas y diversos aparatos.</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/gimnasio.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Gimnasio</p>
+                                </div>
+                                <div class="cicle-act col-lg-4 col-md-4 col-sm-4 col-3 text-center">
+                                    <img src="{% static 'FitApp/img/spinning.png' %}" alt="areas-sec" class="img-subAreas">
+                                    <p class="act-text2">Spinning</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+            </div>
+            
+
+        <!--Controls-->
+            <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+                <img src="{% static 'FitApp/img/flechaIzq.png' %}" alt="flechaIzq" class="img-flechas">
+            </a>
+            <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+               <img src="{% static 'FitApp/img/flechaDer.png' %}" alt="flechaDer" class="img-flechas">
+            </a>
+        <!--/.Controls-->
+        </div>
+    </div>
+    <!--Carousel Wrapper-->
+    
+  <!--/.Carousel Wrapper-->
+</section>
+
+{% endblock%}

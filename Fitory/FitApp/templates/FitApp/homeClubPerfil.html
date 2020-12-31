@@ -1,0 +1,175 @@
+{% extends "baseClub.html" %}
+{% block content %}
+{{form.media}}
+{% load staticfiles %}
+    <div class="container-fluid contenedor">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-block">
+                    <h4 class="card-title" style="text-align:center">Información de Perfil</h4>
+                </div>
+            </div>
+            <div class="col-md-12"><br></div>
+            <div class="col-md-6" style="text-align:center">
+                <button class="btn btn-sm btn-green" data-toggle="modal" data-target="#editClub{{club.id}}">Editar Perfil</button>
+            </div>
+            <div class="col-md-6" style="text-align:center">
+                <button class="btn btn-sm btn-cyan" data-toggle="modal" data-target="#recortarFotoClub{{club.id}}">Recortar Foto</button>
+            </div>
+            <div class="col-md-12"><br></div>
+            <div class="col-md-12">
+                <div class="card card-block">
+                    <div class="row">
+                        <div class="col-md-6"><p><b>Nombre: </b><br>{{club.nombre}}</p></div>
+                        <div class="col-md-6"><p><b>Fecha de Incorporación: </b><br>{{club.fechaIncorporacion|date:'d-m-Y'}}</p></div>
+                        <div class="col-md-3"><p><b>RFC: </b><br>{%if club.RFC == '...'%}No disponible{%else%}{{club.RFC}}{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Banco: </b><br>{%if club.banco == '...'%}No disponible{%else%}{{club.banco}}{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Tarjetahabiente: </b><br>{%if club.tarjetahabiente == '...'%}No disponible{%else%}{{club.tarjetahabiente}}{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Nº de Cuenta: </b><br>{%if club.numCuenta == '...'%}No disponible{%else%}{{club.numCuenta}}{%endif%}</p></div>
+                        <div class="col-md-6"><p><b>Página Web: </b><br>{%if club.paginaWeb == '...'%}No disponible{%else%}{{club.paginaWeb}}{%endif%}</p></div>
+                        <div class="col-md-6"><p><b>Facebook: </b><br>{%if club.facebook == '...'%}No disponible{%else%}{{club.facebook}}{%endif%}</p></div>
+                        <div class="col-md-6"><p><b>Instagram: </b><br>{%if club.instagram == '...'%}No disponible{%else%}{{club.instagram}}{%endif%}</p></div>
+                        <div class="col-md-6"><p><b>Twitter: </b><br>{%if club.twitter == '...'%}No disponible{%else%}{{club.twitter}}{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Evaluación Promedio: </b><br>{{club.evaluacionPromedio}}</p></div>
+                        <div class="col-md-3"><p><b>Estatus: </b><br>{%if club.activado == True%}Activado{%else%}Desactivado{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Código Club: </b><br>{%if club.codigoClub == '...'%}No disponible{%else%}{{club.codigoClub}}{%endif%}</p></div>
+                        <div class="col-md-3"><p><b>Código Representante: </b><br>{%if club.codigoRepresentante == '...'%}No disponible{%else%}{{club.codigoRepresentante}}{%endif%}</p></div>
+                        <div class="col-md-12"><p><b>Dirección: </b><br>{{club.direccion}}</p></div>
+                        <div class="col-md-6"><p><b>Teléfono: </b><br>{{club.telefono}}</p></div>
+                        <div class="col-md-6"><p><b>Correo Electrónico: </b><br>{{club.correo}}</p></div>
+                        <div class="col-md-6"><p><b>Logo: </b><br><img src="{{club.foto.url}}" alt="{{club.nombre}}" style="width:50%"></p></div>
+                        <div class="col-md-6"><p><b>Foto Recortada: </b><br><img src="{{club.cropURL}}" alt="{{c.nombre}}" style="width:50%"></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%if club%}
+        <!-- Modal -->
+        <div class="modal fade" id="editClub{{club.id}}" role="dialog">
+            <div class="modal-dialog">    
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Club {{club.id}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form name="formEditClub" action="/editClub2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                        {% csrf_token %}
+                        <input type="hidden" name="club" value="{{club.id}}">
+                        <div class="modal-body">
+                            <div class="md-form">
+                                <p class="text-modal">Nombre</p>
+                                <input type="text" id="nombre{{club.id}}" name="nombre" required="required" value="{{club.nombre}}" class="form-modal" placeholder="Nombre">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">RFC</p>
+                                <input type="text" id="RFC{{club.id}}" name="RFC" {%if not club.RFC == '...'%}value="{{club.RFC}}"{%endif%} class="form-modal" placeholder="RFC">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Banco</p>
+                                <input type="text" id="banco{{club.id}}" name="banco" {%if not club.banco == '...'%}value="{{club.banco}}"{%endif%} class="form-modal" placeholder="Banco">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Tarjetahabiente</p>
+                                <input type="text" id="tarjetahabiente{{club.id}}" name="tarjetahabiente" {%if not club.tarjetahabiente == '...'%}value="{{club.tarjetahabiente}}"{%endif%} class="form-modal" placeholder="Tarjetahabiente">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Nº de cuenta</p>
+                                <input type="text" id="numCuenta{{club.id}}" name="numCuenta" {%if not club.numCuenta == '...'%}value="{{club.numCuenta}}"{%endif%} class="form-modal" placeholder="Nº de cuenta">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Página Web</p>
+                                <input type="url" id="paginaWeb{{club.id}}" name="paginaWeb" {%if not club.paginaWeb == '...'%}value="{{club.paginaWeb}}"{%endif%} class="form-modal" placeholder="Página Web">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Facebook</p>
+                                <input type="url" id="facebook{{club.id}}" name="facebook" {%if not club.facebook == '...'%}value="{{club.facebook}}"{%endif%} class="form-modal" placeholder="Facebook">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Instagram</p>
+                                <input type="url" id="instagram{{club.id}}" name="instagram" {%if not club.instagram == '...'%}value="{{club.instagram}}"{%endif%} class="form-modal" placeholder="Instagram">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Twitter</p>
+                                <input type="url" id="twitter{{club.id}}" name="twitter" {%if not club.twitter == '...'%}value="{{club.twitter}}"{%endif%} class="form-modal" placeholder="Twitter">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Código Club</p>
+                                <input type="text" id="codigoClub{{club.id}}" name="codigoClub" {%if not club.codigoClub == '...'%}value="{{club.codigoClub}}"{%endif%} class="form-modal" placeholder="Código Club">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Código Representante</p>
+                                <input type="text" id="codigoRepresentante{{club.id}}" name="codigoRepresentante" {%if not club.codigoRepresentante == '...'%}value="{{club.codigoRepresentante}}"{%endif%} class="form-modal" placeholder="Código Representante">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Dirección</p>
+                                <input type="text" id="direccion{{club.id}}" name="direccion" required="required" value="{{club.direccion}}" class="form-modal" placeholder="Dirección">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Teléfono</p>
+                                <input type="text" id="telefono{{club.id}}" name="telefono" required="required" value="{{club.telefono}}" class="form-modal" placeholder="Teléfono">
+                            </div>
+                            <div class="md-form">
+                                <p class="text-modal">Correo electrónico</p>
+                                <input type="email" id="correo{{club.id}}" name="correo" required="required" value="{{club.correo}}" class="form-modal" placeholder="Correo electrónico">
+                            </div>
+                            <div class="md-form">
+                                <p>
+                                    Logo actual: <br>
+                                    <a href="{{club.foto.url}}" target="_blank">
+                                        {{club.foto.url}}
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="md-form">
+                                <p><b>Logo</b></p>
+                                <div class="file-field">
+                                    <div class="btn btn-lg btn-blue">
+                                        <span>Elija un archivo</span>
+                                        <input type="file" id="foto{{club.id}}" name="foto" accept="image/x-png,image/jpeg">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" placeholder="Elija un archivo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md-form"><br></div>
+                        </div>
+                        <div class="modal-footer" style="border:0px">
+                            <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                        </div>
+                    </form>
+                </div>      
+            </div>
+        </div>
+        <!--Fin modal-->
+        <!-- Modal -->
+        <div class="modal fade" id="recortarFotoClub{{club.id}}" role="dialog">
+            <div class="modal-dialog">    
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Club {{club.id}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form name="formRecortarFotoClub" action="/recortarFotoClub2/" method="post" enctype="multipart/form-data" autocomplete="off">
+                        {% csrf_token %}
+                        <input type="hidden" name="club" value="{{club.id}}">
+                        <div class="modal-body">
+                            {{form}}
+                        </div>
+                        <div class="modal-footer" style="border:0px">
+                            <button type="submit" name="action" class="btn btn-sm btn-blue">GUARDAR</button>
+                        </div>
+                    </form>
+                </div>      
+            </div>
+        </div>
+        <!--Fin modal-->
+    {%endif%}
+{% endblock%}

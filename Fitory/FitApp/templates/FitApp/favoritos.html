@@ -1,0 +1,41 @@
+{% extends "basePerfil.html" %}
+{% block content %}
+{% load staticfiles %}
+
+<section class="Favoritos">
+    <div class="container">
+        <div class="row align-items-center con-fav-row">
+            <div class="col-lg-4 col-md-4" id="none-list">
+                <h5 class="tit-perf">Mi Perfil</h5>
+                <ul class="list-nav-per">
+                    <li><a href="/PerfilUsuario/" class="enlc-nav"><label class="line-dark"></label> Editar mi Perfil</a></li>
+                    <li><a href="/Favoritos/" class="enlc-nav enlc-nav-active"><label class="line-dark active-link"></label> Mis favoritos</a></li>
+                    <li><a href="/Suscripciones/" class="enlc-nav "><label class="line-dark"></label> Mis Suscripciones</a></li>
+                    <li><a href="/Mis-tarjetas/" class="enlc-nav "><label class="line-dark"></label> Mis Tarjetas</a></li>
+                    <li><a href="/Calendario/" class="enlc-nav "><label class="line-dark"></label> Calendario</a></li>
+                    <li><a onclick="logout(),signOut()" class="enlc-nav "><label class="line-dark"></label> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 over-y">
+                <div class="row">
+                    <div class="col-12 col-sm-12 text-center cont-mob-cat mb-4">
+                        <h5 class="tit-cat">
+                            Mis Favoritos
+                        </h5>
+                    </div>
+                    {%if favoritos%}
+                        {%for f in favoritos%}
+                            <div class="col-lg-4 col-md-6 col-sm-4 mb-3">
+                                <a href="/Clubes/{{f.sucursal.id}}/">
+                                    <img src="{{f.sucursal.logo.url}}" alt="{{f.sucursal.nombre}}" class="img-fav">
+                                </a>
+                            </div>
+                        {%endfor%}
+                    {%endif%}        
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

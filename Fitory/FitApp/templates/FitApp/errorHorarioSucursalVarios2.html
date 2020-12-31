@@ -1,0 +1,16 @@
+{% extends "baseError.html" %}
+{% block content %}
+{% load staticfiles %}
+	<script type="text/javascript">
+		var error = "{{error}}";
+        var errores = "{{errores|safe}}";
+        var listaE = '';
+        if(errores.length>0){
+            for(i=0;i<errores.length;i++){
+                listaE += errores[i] + '\n';
+            }
+        }
+        alert(error+ '\n'+listaE);
+		window.location.href = "/homeClub/{{club.id}}/Sucursales/";
+	</script>;
+{% endblock %}

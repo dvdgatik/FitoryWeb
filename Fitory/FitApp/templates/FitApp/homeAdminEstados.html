@@ -1,0 +1,173 @@
+{% extends "baseAdmin.html" %}
+{% block content %}
+{% load staticfiles %}
+<style>
+    .lin-red{
+        margin: auto;
+        text-align: center;
+        width: 30%;
+        border-top: 2px solid rgb(233, 24, 34);
+        display: block;
+    }
+    .list-nav-style >li .est{
+        border-bottom: 1.5px solid rgb(55, 189, 194);
+    }
+</style>
+<section class="section-cont">
+        <div class="container contenedor">
+            <div class="row">
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4  col-md-4">
+                        <h4 class="titulo-prin" style="text-align: center">Estados</h4>
+                </div>
+                <div class="col-lg-4 col-md-4" style="text-align:right;">
+                    {%if numEstados >= 0 and numEstados < 33%}
+                        <a data-toggle="modal" data-target="#myModalEstado">
+                            <img src="{% static 'FitApp/img/iconoAgregar.png' %}" alt="fitory" class="icon-plus">
+                        </a>
+                        <a href="/excel/estados/" download="Estados">
+                            <img src="{% static 'FitApp/img/iconoExcel.png' %}" alt="fitory" class="icon-excel">
+                        </a>
+                    {%endif%}
+                </div>
+                {%if estados%}
+                    <div class="col-md-12" style="padding-top:3%;">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="tabla-head">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Estado</th>
+                                        <th>Ciudades</th>
+                                        <th>Editar</th>
+                                        <th>Borrar</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody class="tabla-body">
+                                    {%for e in estados%}
+                                        <tr>
+                                            <td>{{e.id}}</td>
+                                            <td>{{e.nombre}}</td>
+                                            <td>
+                                                <a href="/homeAdminEstados/{{e.id}}/" class=""><i class="fa fa-angle-double-right color-icon"></i></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" data-target="#editEstado{{e.id}}" class="">
+                                                    <i class="fa fa-pencil color-icon"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {%if estadoDatos%}
+                                                    {%for estado,respuesta in estadoDatos%}
+                                                        {%if estado == e and respuesta == True%}
+                                                            <a data-toggle="tooltip" data-placement="top" title="No se pueden borrar estados con información relacionada." class="">
+                                                                <i class="fa fa-times color-icon"></i>
+                                                            </a>
+                                                        {%elif estado == e and respuesta == False%}
+                                                            <a data-toggle="modal" data-target="#deleteEstado{{e.id}}" class="">
+                                                                <i class="fa fa-times color-icon"></i>
+                                                            </a>
+                                                        {%endif%}
+                                                    {%endfor%}
+                                                {%endif%}
+                                            </td>
+                                        </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {%else%}
+                    <div class="col-md-12" style="text-align: center">
+                        <p>No hay estados registrados.</p>
+                    </div>
+                {%endif%}
+            </div>
+        </div>
+    </section>
+    
+    {%if estados%}
+        {%for e in estados%}
+            <!-- Modal -->
+            <div class="modal fade" id="editEstado{{e.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Estado {{e.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form name="formEditEstado" action="/editEstado/" method="post" enctype="multipart/form-data" autocomplete="off">
+                            {% csrf_token %}
+                            <input type="hidden" name="estado" value="{{e.id}}">
+                            <div class="modal-body">
+                                <div class="md-form">
+                                    <p class="text-modal">Nombre</p>
+                                    <input type="text" id="nombre{{e.id}}" name="nombre" required="required" value="{{e.nombre}}" class="form-modal">
+                                    <div class="lin-input-der"></div>
+                                    <div class="lin-input-izq"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer text-center">
+                                <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                            </div>
+                        </form>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+            <!-- Modal -->
+            <div class="modal fade" id="deleteEstado{{e.id}}" role="dialog">
+                <div class="modal-dialog">    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Borrar Estado {{e.id}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <p class="text-modal" >¿ Desea eliminar el estado de {{e.nombre}} ?</p>
+                            <a href="/deleteEstado/{{e.id}}/" class="btn btn-delete">Si</a>
+                            <a class="btn btn-delete" data-dismiss="modal">No</a>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+            <!--Fin modal-->
+        {%endfor%}
+    {%endif%}
+    <!-- Modal -->
+    <div class="modal fade" id="myModalEstado" role="dialog">
+        <div class="modal-dialog">    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Estado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="formAddEstado" action="/addEstado/" method="post" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="md-form">
+                            <p class="text-modal">Nombre</p>
+                            <input type="text" id="nombre" name="nombre" required="required" class="form-modal" placeholder="Nombre Estado">
+                            <div class="lin-input-der"></div>
+                            <div class="lin-input-izq"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:0px">
+                        <button type="submit" name="action" class="btn btn-save">GUARDAR</button>
+                    </div>
+                </form>
+            </div>      
+        </div>
+    </div>
+    <!--Fin modal-->
+{% endblock%}
